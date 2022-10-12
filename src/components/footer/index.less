@@ -1,0 +1,44 @@
+.ssv-footer{
+    display: flex;
+    background: #171822;
+    margin: auto;
+    width: 100%;
+    padding: 40px 270px;
+    &-left{
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        flex:1;
+        .ssv-footer-logo{
+            .logo_img{
+            width: 50px;
+            }
+            .logo_text{
+            margin-left: 10px;
+            }
+        }
+        .ssv-footer-icons{
+            display: flex;
+            align-items: center;
+            column-gap: 40px;
+        }
+    }
+    &-right{
+        display: flex;
+        justify-content: end;
+        flex: 1;
+        .ssv-footer-router{
+        display: flex;
+        flex-direction: column;
+        row-gap: 12px;
+        width: fit-content;
+            a{
+            color: #898a92; 
+            } 
+            .active{
+            color: #fff;
+            font-weight: 700;
+            }
+        }
+    }
+}

@@ -1,5 +1,11 @@
 /** @format */
+import "@/pages/style.less";
+import NoData from "@/components/noData";
 
 export default () => {
-  return <div>2222</div>;
+  return (
+    <div className='ssv-content'>
+      <NoData />
+    </div>
+  );
 };
