@@ -25,7 +25,9 @@ function App() {
       <Layout className='ssv-page'>
         <Header />
         <Content>
-          <Router />
+          <div className='ssv-content'>
+            <Router />
+          </div>
         </Content>
         <Footer />
       </Layout>

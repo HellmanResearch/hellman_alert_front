@@ -19,8 +19,6 @@ export default () => {
     shallowEqual
   );
 
-  console.log("----2", account);
-
   const dispatch = useDispatch();
   useEffect(() => {
     if (login) {
