@@ -12,3 +12,5 @@ export const linkList: Record<string, string> = {
   Subscribe: "subscribe",
   Alerts: "alerts",
 };
+
+export const defaultUrl = 'http://192.168.19.22:8000/api/v1/'

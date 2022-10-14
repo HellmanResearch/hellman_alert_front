@@ -10,7 +10,7 @@ import Login from "../login";
 import "./index.less";
 import { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { rootState } from "@/store/type";
+import { rootState } from "@/type";
 
 export default () => {
   const login = localStorage.getItem("login");
