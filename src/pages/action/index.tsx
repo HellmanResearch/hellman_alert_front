@@ -1,6 +1,8 @@
 /** @format */
 
 import { getSvg } from "@/svgTypes";
+import { useState } from "react";
+import Detail from "./Detail";
 import "./index.less";
 
 const listAction = [
@@ -21,14 +23,30 @@ const listAction = [
   },
 ];
 
-export default () => {
+export default ({
+  onChange,
+}: {
+  onChange: (type: string, values: any) => void;
+}) => {
+  const [detail, setDetail] = useState({});
+  const handleClick = (item: Record<string, any>) => {
+    setDetail({ ...item, open: true });
+  };
+
+  const handleChange = (type: string, value: any) => {
+    onChange(type, value);
+    setDetail({ open: false });
+  };
   return (
     <div className='action-card'>
       <h3 className='title'> Action</h3>
       <div className='action-card-content'>
         {listAction.map((item) => {
           return (
-            <div className='action-card-content-item'>
+            <div
+              key={item.title}
+              className='action-card-content-item'
+              onClick={() => handleClick(item)}>
               <span className='img-svg'>{item.icon}</span>
               <p className='item-text'>
                 <span className='title'>{item.title}</span>
@@ -38,6 +56,7 @@ export default () => {
           );
         })}
       </div>
+      <Detail data={detail} onChange={handleChange} />
     </div>
   );
 };

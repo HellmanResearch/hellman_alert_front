@@ -12,12 +12,18 @@ interface PROPS {
     show: boolean;
     detail?: Record<string, any>;
   };
-  onChange: (type: boolean) => void;
+  onChange: (type: string, value: any) => void;
 }
 
 export default (props: PROPS) => {
   const { data, onChange } = props;
   const { detail } = data;
+
+  const onFinish = (values: any) => {
+    if (values) {
+      onChange("conditions", values);
+    }
+  };
 
   const renderChildren = (data: any) => {
     const options =
@@ -33,42 +39,31 @@ export default (props: PROPS) => {
       case "CHOICE":
         return (
           <Checkbox.Group
-            className='item-content'
+            className='item-checkbox'
             options={options}></Checkbox.Group>
         );
       case "SELECT":
         return (
           <Select
             //open={true}
-            className='item-content item-select default-border'
+            className='item-select default-border'
             popupClassName='item-select-wrap'
             options={options}></Select>
         );
       case "INPUT":
-        return <Input className='item-content item-input default-border' />;
+        return <Input className='item-input default-border' />;
       default:
         return null;
     }
   };
 
-  useEffect(() => {
-    console.log("====325", detail);
-  }, [detail]);
-
   return (
     <Modal
       title=''
       open={data.show}
-      wrapClassName='sbuscribe-detail'
-      footer={
-        <>
-          <div className='default-border default-btn-border '>
-            <span className='text'>change</span>
-          </div>
-          <Button className='default-btn'>confirm</Button>
-        </>
-      }
-      onCancel={() => onChange(false)}>
+      wrapClassName='ssv-modal sbuscribe-detail'
+      footer={null}
+      onCancel={() => onChange("show", false)}>
       <div className='sbuscribe-detail-card'>
         <h3 className='header'>
           {getSvg("metric_logo")}
@@ -81,17 +76,33 @@ export default (props: PROPS) => {
           </span>
         </p>
         {detail && (
-          <Form layout='vertical' className='sbuscribe-detail-card-content'>
+          <Form
+            onFinish={onFinish}
+            layout='vertical'
+            className='from-content sbuscribe-detail-card-content'>
             {Object.keys(detail.fields_attr || {}).map((title: string) => {
               return (
                 <Form.Item
                   name={title}
+                  key={title}
                   label={<span className='item-label'>{title}</span>}
                   rules={[{ required: true }]}>
                   {renderChildren(detail?.fields_attr[title])}
                 </Form.Item>
               );
             })}
+            <Form.Item className='from-btns' wrapperCol={{ span: 24 }}>
+              <div className='default-border default-btn-border '>
+                <span className='text'>change</span>
+              </div>
+              <Button
+                className='default-btn'
+                type='primary'
+                htmlType='submit'
+                onClick={onFinish}>
+                confirm
+              </Button>
+            </Form.Item>
           </Form>
         )}
       </div>

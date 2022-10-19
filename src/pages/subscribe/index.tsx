@@ -11,6 +11,7 @@ import "./index.less";
 import Detail from "./Detail";
 import React from "react";
 import { Button, Input } from "antd";
+import { isKeyObject } from "util/types";
 export default React.memo(() => {
   const [groups, setGroups] = useState([]);
   const [detail, setDetail] = useState<{
@@ -19,6 +20,9 @@ export default React.memo(() => {
   }>({
     show: false,
   });
+  const [inputValue, setInputValue] = useState("");
+
+  const [subscribeData, setSubscribeDate] = useState({});
   const login = localStorage.getItem("login");
 
   useEffect(() => {
@@ -28,8 +32,38 @@ export default React.memo(() => {
     });
   }, []);
 
-  const handleChange = () => {
+  const handleChange = (type: string, value: Record<string, any>) => {
+    console.log("=====234", type, value);
+    switch (type) {
+      case "conditions":
+        setSubscribeDate({ ...subscribeData, conditions: value });
+        break;
+      case "action":
+        const key = Object.keys(value)[0];
+        const actionObj = {
+          notification_type: key,
+          notification_address: value[key],
+        };
+        setSubscribeDate({ ...subscribeData, ...actionObj });
+        break;
+      default:
+        break;
+    }
     setDetail({ show: false, detail: undefined });
+  };
+
+  const handleCreate = () => {
+    const payload = {
+      ...subscribeData,
+      name: inputValue,
+      metric: 0,
+      user: 0,
+    };
+    axios
+      .post(`${defaultUrl}alerting/subscribes`, { ...payload })
+      .then((res) => {
+        console.log("========345436", res);
+      });
   };
 
   const handleClick = (item: any) => {
@@ -70,9 +104,15 @@ export default React.memo(() => {
         </div>
       </div>
       <Detail data={detail} onChange={handleChange} />
-      <Action />
-      <Input className='subscribe-label' placeholder='User Defined Label' />
-      <Button className='default-btn subscribe-btn'>Create</Button>
+      <Action onChange={handleChange} />
+      <Input
+        className='subscribe-label'
+        onChange={(e) => setInputValue(e.target.value)}
+        placeholder='User Defined Label'
+      />
+      <Button className='default-btn subscribe-btn' onClick={handleCreate}>
+        Create
+      </Button>
     </div>
   );
 });
