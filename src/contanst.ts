@@ -13,4 +13,5 @@ export const linkList: Record<string, string> = {
   Alerts: "alerts",
 };
 
-export const defaultUrl = 'http://192.168.19.22:8000/api/v1/'
+export const defaultUrl = 'http://192.168.19.22:8000/api/v1/';
+export const tokenUrl =`http://192.168.19.22:8000`

@@ -61,6 +61,3 @@ export default () => {
     </>
   );
 };
-function useDispath() {
-  throw new Error("Function not implemented.");
-}

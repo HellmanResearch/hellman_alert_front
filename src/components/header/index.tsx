@@ -3,7 +3,7 @@
 import { Button } from "antd";
 import { Header } from "antd/lib/layout/layout";
 import { NavLink } from "react-router-dom";
-import { linkList, listLinkType } from "@/contanst";
+import { defaultUrl, linkList, listLinkType } from "@/contanst";
 import logo from "@/assets/images/logo.webp";
 import { getSvg } from "@/svgTypes";
 import Login from "../login";
@@ -11,6 +11,7 @@ import "./index.less";
 import { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { rootState } from "@/type";
+import axios from "axios";
 
 export default () => {
   const login = localStorage.getItem("login");
@@ -20,12 +21,29 @@ export default () => {
   );
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (login) {
       // 链接钱包
       window.ethereum
         .request({ method: "eth_requestAccounts" })
         .then((res: any) => {
+          axios
+            .get(
+              `${defaultUrl}users/users/signature-content?public_key=${res[0]}`
+            )
+            .then((response) => {
+              //login
+              if (response.data.signature_content) {
+                axios
+                  .get(
+                    `${defaultUrl}users/users/login-signature?public_key=${res[0]}&signature=${response.data.signature_content}`
+                  )
+                  .then((result) => {
+                    console.log("===========34653", response);
+                  });
+              }
+            });
           dispatch({
             type: "user/login",
             payload: {
@@ -61,7 +79,7 @@ export default () => {
         })}
       </div>
       {login ? (
-        <div className='wallet-logged'>
+        <div className='wallet-logged default-border'>
           <span className='icon'>{getSvg("wallect_Metamask")}</span>
           <span className='text'>{`${String(account).slice(0, 6)}...${String(
             account

@@ -6,10 +6,11 @@ import { metric_groups } from "@/varible";
 import { useEffect, useState } from "react";
 import { defaultUrl } from "@/contanst";
 import axios from "axios";
-
+import Action from "../action";
 import "./index.less";
 import Detail from "./Detail";
 import React from "react";
+import { Button, Input } from "antd";
 export default React.memo(() => {
   const [groups, setGroups] = useState([]);
   const [detail, setDetail] = useState<{
@@ -23,7 +24,7 @@ export default React.memo(() => {
   useEffect(() => {
     axios.get(`${defaultUrl}engine/metric-groups`).then((res) => {
       setGroups(res.data);
-      setDetail({ show: true, detail: res.data[0] });
+      // setDetail({ show: true, detail: res.data[0].metrics[0] });
     });
   }, []);
 
@@ -69,6 +70,9 @@ export default React.memo(() => {
         </div>
       </div>
       <Detail data={detail} onChange={handleChange} />
+      <Action />
+      <Input className='subscribe-label' placeholder='User Defined Label' />
+      <Button className='default-btn subscribe-btn'>Create</Button>
     </div>
   );
 });
