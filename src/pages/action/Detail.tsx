@@ -2,7 +2,7 @@
 
 import { Button, Form, Input, Modal } from "antd";
 import { icons } from "antd/lib/image/PreviewGroup";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const FormList = [{ name: "email", label: "Email address", require: true }];
 
@@ -15,6 +15,9 @@ export default (props: any) => {
       props.onChange("action", values);
     }
   };
+
+  //useEffect(() => { },[da])
+
   return (
     <Modal
       title=''
@@ -34,7 +37,11 @@ export default (props: any) => {
             <span style={{ color: "#1BA5F8" }}>{address}</span>
           </span>
         </div>
-        <Form layout='vertical' className='from-content' onFinish={onFinish}>
+        <Form
+          layout='vertical'
+          initialValues={props.dataSource}
+          className='from-content'
+          onFinish={onFinish}>
           {FormList.map((item) => {
             return (
               <Form.Item

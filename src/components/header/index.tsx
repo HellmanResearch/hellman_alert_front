@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { rootState } from "@/type";
 import axios from "axios";
+import { Buffer } from "buffer";
 
 export default () => {
   const login = localStorage.getItem("login");
@@ -27,22 +28,29 @@ export default () => {
       // 链接钱包
       window.ethereum
         .request({ method: "eth_requestAccounts" })
-        .then((res: any) => {
+        .then(async (res: any) => {
           axios
             .get(
               `${defaultUrl}users/users/signature-content?public_key=${res[0]}`
             )
-            .then((response) => {
-              //login
-              if (response.data.signature_content) {
-                axios
-                  .get(
-                    `${defaultUrl}users/users/login-signature?public_key=${res[0]}&signature=${response.data.signature_content}`
-                  )
-                  .then((result) => {
-                    console.log("===========34653", response);
-                  });
-              }
+            .then(async (response) => {
+              const from = res[0];
+              //   const sign = await window.ethereum.request({
+              //     method: "personal_sign",
+              //     params: [response.data.signature_content, from],
+              //   });
+              //   console.log("==sign==3", sign, JSON.stringify(sign));
+
+              //   //login
+              //   if (sign) {
+              //     axios
+              //       .get(
+              //         `${defaultUrl}users/users/login-signature?public_key=${res[0]}&signature=${sign}`
+              //       )
+              //       .then((result) => {
+              //         console.log("===========34653", response);
+              //       });
+              //   }
             });
           dispatch({
             type: "user/login",

@@ -1,30 +1,12 @@
 /** @format */
+import { defaultUrl } from "@/contanst";
 import "@/pages/style.less";
+import { getSvg } from "@/svgTypes";
 import { Button } from "antd";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import "./index.less";
-
-const listType = [
-  {
-    title: "label",
-    dataIndex: "label",
-    width: "20%",
-  },
-  {
-    title: "Metric",
-    dataIndex: "metric",
-    width: "20%",
-  },
-  {
-    title: "Action",
-    dataIndex: "action",
-    width: "20%",
-  },
-  {
-    title: "",
-    dataIndex: "edit",
-    width: "40%",
-  },
-];
 
 const objTest = {
   label: "Hellman operator",
@@ -33,12 +15,59 @@ const objTest = {
 };
 
 export default () => {
-  const data: any[] = [];
-  for (let i = 0; i < 10; i++) {
-    const obj = { ...objTest };
-    obj.label = objTest.label + i;
-    data.push(obj);
-  }
+  const listType = [
+    {
+      title: "label",
+      dataIndex: "name",
+      width: "25%",
+    },
+    {
+      title: "Metric",
+      dataIndex: "metric",
+      width: "15%",
+    },
+    {
+      title: "Action",
+      dataIndex: "notification_type",
+      width: "20%",
+    },
+    {
+      title: "",
+      dataIndex: "edit",
+      width: "40%",
+      render: (Record: any) => {
+        return (
+          <div className='edit'>
+            <span
+              className='default-border edit-btn'
+              onClick={() => handleClick("update", Record)}>
+              {getSvg("update_svg")}
+              <span className='text'>update</span>
+            </span>
+            <span className='default-border edit-btn'>
+              {getSvg("delete_svg")}
+              <span className='text'>remove</span>
+            </span>
+          </div>
+        );
+      },
+    },
+  ];
+
+  const [data, setData] = useState([]);
+  const Navigate = useNavigate();
+  useEffect(() => {
+    axios.get(`${defaultUrl}alerting/subscribes`).then((res) => {
+      console.log("-===3", res);
+      setData(res.data);
+    });
+  }, []);
+
+  const handleClick = (type: string, Record: any) => {
+    if (type === "update") {
+      Navigate(`/subscribe/${Record.id}`);
+    }
+  };
   return (
     <div className='ssv-main'>
       <div className='ssv-main-header'>
@@ -63,9 +92,12 @@ export default () => {
             return (
               <li key={index} className='data-content-item'>
                 {listType.map((item) => {
+                  const children = item.render
+                    ? item.render(itemData)
+                    : itemData[item.dataIndex];
                   return (
-                    <span style={{ width: item.width }}>
-                      {itemData[item.dataIndex]}
+                    <span style={{ width: item.width }} key={item.dataIndex}>
+                      {children}
                     </span>
                   );
                 })}

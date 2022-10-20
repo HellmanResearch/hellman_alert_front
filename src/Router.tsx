@@ -6,6 +6,8 @@ import Metrics from "@/pages/metrics";
 import Subscribe from "@/pages/subscribe";
 import { rootState } from "./type";
 import NoData from "@/components/noData";
+import Alert from "@/pages/alert";
+import { Suspense } from "react";
 
 export default () => {
   const account = useSelector(
@@ -13,14 +15,16 @@ export default () => {
     shallowEqual
   );
 
-  if (!account) {
-    return <NoData />;
-  }
+  //   if (!account) {
+  //     return <NoData />;
+  //   }
   return (
-    <Switch>
-      <Route path='/metrics' element={<Metrics />} />
-      <Route path='/subscribe' element={<Subscribe />} />
-      <Route path='/*' element={<Metrics />} />
-    </Switch>
+    <Suspense fallback={<div></div>}>
+      <Switch>
+        <Route path='/metrics' element={<Metrics />} />
+        <Route path='/subscribe' element={<Subscribe />} />
+        <Route path='/alerts' element={<Alert />} />
+      </Switch>
+    </Suspense>
   );
 };

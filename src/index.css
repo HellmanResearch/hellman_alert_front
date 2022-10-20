@@ -31,6 +31,7 @@ body {
 
 .ssv-page{
    width: 100%;
+   min-height: 100%;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

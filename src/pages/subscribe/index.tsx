@@ -12,6 +12,7 @@ import Detail from "./Detail";
 import React from "react";
 import { Button, Input } from "antd";
 import { isKeyObject } from "util/types";
+import { useParams } from "react-router";
 export default React.memo(() => {
   const [groups, setGroups] = useState([]);
   const [detail, setDetail] = useState<{
@@ -21,11 +22,38 @@ export default React.memo(() => {
     show: false,
   });
   const [inputValue, setInputValue] = useState("");
+  const params = useParams();
 
-  const [subscribeData, setSubscribeDate] = useState({});
+  const [subscribeData, setSubscribeDate] = useState<Record<string, any>>({});
   const login = localStorage.getItem("login");
 
   useEffect(() => {
+    if (params.id) {
+      axios
+        .get(`${defaultUrl}alerting/subscribes/${params.id}`)
+        .then((res: any) => {
+          const {
+            notification_type,
+            metric,
+            user,
+            name,
+            notification_address,
+            conditions,
+          } = res.data;
+          const data = {
+            action: {
+              [notification_type]: notification_address,
+            },
+            conditions,
+            name,
+            metric,
+            user,
+          };
+          setInputValue(name);
+          setSubscribeDate(data);
+        });
+    }
+
     axios.get(`${defaultUrl}engine/metric-groups`).then((res) => {
       setGroups(res.data);
       // setDetail({ show: true, detail: res.data[0].metrics[0] });
@@ -67,6 +95,7 @@ export default React.memo(() => {
   };
 
   const handleClick = (item: any) => {
+    console.log("----3", item);
     setDetail({ show: true, detail: item });
   };
 
@@ -103,9 +132,17 @@ export default React.memo(() => {
           })}
         </div>
       </div>
-      <Detail data={detail} onChange={handleChange} />
-      <Action onChange={handleChange} />
+      <Detail
+        data={detail}
+        onChange={handleChange}
+        dataSource={(subscribeData && subscribeData?.conditions) || {}}
+      />
+      <Action
+        onChange={handleChange}
+        dataSource={(subscribeData && subscribeData?.conditions) || {}}
+      />
       <Input
+        value={inputValue}
         className='subscribe-label'
         onChange={(e) => setInputValue(e.target.value)}
         placeholder='User Defined Label'

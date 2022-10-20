@@ -7,27 +7,30 @@ import Footer from "@/components/footer";
 import Router from "./Router";
 import "./index.less";
 import { useEffect } from "react";
+import React from "react";
 
 const { Content } = Layout;
 
 function App() {
+  // useEffect(() => {
+  //   window.ethereum.on("accountsChanged", function (accounts: any) {
+  //     console.log("====3", accounts);
+  //     // Time to reload your interface with accounts[0]!
+  //   });
+  //   window.ethereum.on("connect", (connectInfo: any) => {
+  //     console.log("--connectInfo--3");
+  //   });
+  // }, []);
   useEffect(() => {
-    window.ethereum.on("accountsChanged", function (accounts: any) {
-      console.log("====3", accounts);
-      // Time to reload your interface with accounts[0]!
-    });
-    window.ethereum.on("connect", (connectInfo: any) => {
-      console.log("--connectInfo--3");
-    });
+    console.log("----3");
   }, []);
+  console.log("----34render5");
   return (
     <BrowserRouter>
       <Layout className='ssv-page'>
         <Header />
         <Content>
-          <div className='ssv-content'>
-            <Router />
-          </div>
+          <Router />
         </Content>
         <Footer />
       </Layout>
@@ -35,4 +38,4 @@ function App() {
   );
 }
 
-export default App;
+export default React.memo(App);

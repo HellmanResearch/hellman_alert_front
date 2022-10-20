@@ -25,7 +25,9 @@ const listAction = [
 
 export default ({
   onChange,
+  dataSource,
 }: {
+  dataSource: Record<string, any>;
   onChange: (type: string, values: any) => void;
 }) => {
   const [detail, setDetail] = useState({});
@@ -56,7 +58,7 @@ export default ({
           );
         })}
       </div>
-      <Detail data={detail} onChange={handleChange} />
+      <Detail data={detail} onChange={handleChange} dataSource />
     </div>
   );
 };
