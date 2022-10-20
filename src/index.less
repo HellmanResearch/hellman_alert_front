@@ -67,7 +67,19 @@
             font-weight: 700;
             color: #ffffff;
             }
-            .item-select{
+            .item-select.ant-select-status-success{
+            border-radius: 6px;
+            border: 2px solid transparent;
+                .ant-select-selector{
+                border: 1px solid transparent !important;
+                background-color: #2E304C !important;
+                box-shadow: none !important; 
+                color: #fff;
+                }
+                
+            }
+            .item-select:not(.ant-select-status-success){
+                color: #fff;
                 .ant-select-selector{
                     border: 1px solid #949fae;
                     background-color: #2E304C !important;
@@ -86,10 +98,21 @@
                 }
             }
             }
-            .item-input{
-               border: 1px solid  #949fae;
-               background: transparent;
+            .show-input{
+                border:2px solid transparent;
+            
+            }
+                .item-input:not(.ant-input-status-success){
+               border: 1px solid #949fae;
+               background: #2e304c;
                color: #fff;
+                }
+            .ant-input-status-success{
+                border: 2px solid #949fae;
+                border-radius: 6px;
+                background: #2e304c;
+                 color: #fff;
+
             }
             .item-checkbox{
                 color: #fff;

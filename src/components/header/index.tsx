@@ -12,8 +12,11 @@ import { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { rootState } from "@/type";
 import axios from "axios";
-import { Buffer } from "buffer";
+import Web3 from "web3";
 
+const web3 = new Web3(
+  Web3.givenProvider || "ws://some.local-or-remote.node:8546"
+);
 export default () => {
   const login = localStorage.getItem("login");
   const account = useSelector(
@@ -34,23 +37,25 @@ export default () => {
               `${defaultUrl}users/users/signature-content?public_key=${res[0]}`
             )
             .then(async (response) => {
+              console.log("====45", response);
               const from = res[0];
-              //   const sign = await window.ethereum.request({
-              //     method: "personal_sign",
-              //     params: [response.data.signature_content, from],
-              //   });
-              //   console.log("==sign==3", sign, JSON.stringify(sign));
+              const sign = await web3.eth.personal.sign(
+                response.data.signature_content,
+                from,
+                "test password!"
+              );
+              console.log("==sign==3", sign, JSON.stringify(sign));
 
-              //   //login
-              //   if (sign) {
-              //     axios
-              //       .get(
-              //         `${defaultUrl}users/users/login-signature?public_key=${res[0]}&signature=${sign}`
-              //       )
-              //       .then((result) => {
-              //         console.log("===========34653", response);
-              //       });
-              //   }
+              //login
+              if (sign) {
+                axios
+                  .get(
+                    `${defaultUrl}users/users/login-signature?public_key=${res[0]}&signature=${sign}`
+                  )
+                  .then((result) => {
+                    console.log("===========34653", response);
+                  });
+              }
             });
           dispatch({
             type: "user/login",

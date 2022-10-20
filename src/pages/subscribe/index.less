@@ -1,14 +1,19 @@
 .ssv-subscribe{
+     max-width: 1006px;
+     width: 100%;
+     margin: auto;
     .title{
         font-size: 36px;
         font-family: Helvetica-Bold;
         font-weight: 700;
         color: #fff;
+        margin-top: 30px;
     }
     &-card{
-        width: 1006px;
+        position: relative;
+       width: 100%;
         background: #161725;
-        height: 518px;
+        max-height: 518px;
         overflow: auto;
         border-radius: 40px;
         padding: 34px 30px;
@@ -18,6 +23,17 @@
         font-weight: 700;
         color: #1ba5f8;
         margin-bottom: 40px;
+        }
+        .title-text{
+            font-size: 36px;
+            font-family:  Helvetica-Bold;
+            font-weight: 700;
+            color: #fff;
+        }
+        .card-icons{
+            position: absolute;
+            top: 48px;
+            right: 30px;
         }
         &-item{
             .metric_groups{

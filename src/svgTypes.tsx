@@ -409,6 +409,37 @@ const delete_svg = (
   </svg>
 );
 
+const right_arrow = (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='36px'
+    height='36px'
+    viewBox='0 0 36 36'
+    version='1.1'>
+    <title>形状</title>
+    <defs>
+      <linearGradient x1='0%' y1='0%' x2='100%' y2='0%' id='linearGradient-1'>
+        <stop stop-color='#D027FA' offset='0%' />
+        <stop stop-color='#1BA5F8' offset='100%' />
+      </linearGradient>
+    </defs>
+    <g id='页面-2' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
+      <g
+        id='切图'
+        transform='translate(-568.000000, -178.000000)'
+        fill='url(#linearGradient-1)'
+        fillRule='nonzero'>
+        <g id='编组-13' transform='translate(568.000000, 178.000000)'>
+          <path
+            d='M18,0 C8.05864075,0 0,8.05869752 0,18 C0,27.9413025 8.05864075,36 18,36 C27.9409387,36 36,27.9413025 36,18 C36,8.05869752 27.941149,0 18,0 Z M25.5860739,15.3420797 L17.0765715,23.5975683 L17.0765715,23.5967627 C16.8192774,23.8465201 16.4652891,24 16.0720384,24 C15.6804585,24 15.3250083,23.8449087 15.0683407,23.5967627 L9.41476149,18.1055243 C9.15830272,17.8577811 9,17.5153718 9,17.1369088 C9,16.3775658 9.63592585,15.7634446 10.4182504,15.7634446 C10.8106657,15.7634446 11.1654894,15.9177302 11.4227835,16.1666819 L16.0720384,20.6832622 L23.5780519,13.4020288 C23.8347195,13.1532785 24.191005,13 24.5823761,13 C25.3649095,13 26,13.6143226 26,14.3718529 C26,14.7509201 25.8416973,15.0939337 25.5860739,15.3420797 Z'
+            id='形状'
+          />
+        </g>
+      </g>
+    </g>
+  </svg>
+);
+
 const svgObj: Record<string, JSX.Element> = {
   twitter,
   githup,
@@ -421,6 +452,7 @@ const svgObj: Record<string, JSX.Element> = {
   webhook_bg,
   update_svg,
   delete_svg,
+  right_arrow,
 };
 
 export function getSvg(type: string): JSX.Element {

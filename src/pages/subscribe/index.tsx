@@ -23,6 +23,7 @@ export default React.memo(() => {
   });
   const [inputValue, setInputValue] = useState("");
   const params = useParams();
+  const [showCard, setShowCard] = useState("conditions");
 
   const [subscribeData, setSubscribeDate] = useState<Record<string, any>>({});
   const login = localStorage.getItem("login");
@@ -61,10 +62,13 @@ export default React.memo(() => {
   }, []);
 
   const handleChange = (type: string, value: Record<string, any>) => {
-    console.log("=====234", type, value);
     switch (type) {
       case "conditions":
-        setSubscribeDate({ ...subscribeData, conditions: value });
+        setSubscribeDate({
+          ...subscribeData,
+          metric: value.metricId,
+          conditions: value,
+        });
         break;
       case "action":
         const key = Object.keys(value)[0];
@@ -84,7 +88,6 @@ export default React.memo(() => {
     const payload = {
       ...subscribeData,
       name: inputValue,
-      metric: 0,
       user: 0,
     };
     axios
@@ -95,52 +98,102 @@ export default React.memo(() => {
   };
 
   const handleClick = (item: any) => {
-    console.log("----3", item);
     setDetail({ show: true, detail: item });
   };
 
-  const content = `When the balance of <span style=color:#1BA5F8>0xccf5...fc3e</span>  is <span style=color:#1BA5F8>below 20 USD</span>`;
+  const handleClickCard = (value: string) => {
+    setShowCard(value);
+  };
+
+  console.log("====435", subscribeData);
   return (
     <div className='ssv-subscribe'>
       <h3 className='title'>Subscription</h3>
-      <div className='ssv-subscribe-card'>
-        <h3 className='title'>Choose a Metric</h3>
-        <div className='ssv-subscribe-card-item'>
-          {groups.map((item: METRIGROUPCITEM, index: number) => {
-            return (
-              <div className='metric_groups' key={index}>
-                <div className='metric_groups_header'>
-                  {getSvg("metric_logo")}
-                  <span className='name'>{item.name}</span>
-                </div>
+      {showCard === "conditions" ? (
+        <div className='ssv-subscribe-card'>
+          <h3 className='title'>Choose a Metric</h3>
+          <div className='ssv-subscribe-card-item'>
+            {groups.map((item: METRIGROUPCITEM, index: number) => {
+              return (
+                <div className='metric_groups' key={index}>
+                  <div className='metric_groups_header'>
+                    {getSvg("metric_logo")}
+                    <span className='name'>{item.name}</span>
+                  </div>
 
-                <div className='metric_groups_content'>
-                  {item.metrics.map((value: METRICITEM, index: number) => {
-                    return (
-                      <div
-                        className='token-item'
-                        key={index}
-                        onClick={() => handleClick(value)}>
-                        <span>{value.display}</span>
-                        {getSvg("addIcon")}
-                      </div>
-                    );
-                  })}
+                  <div className='metric_groups_content'>
+                    {item.metrics.map((value: METRICITEM, index: number) => {
+                      return (
+                        <div
+                          className='token-item'
+                          key={index}
+                          onClick={() =>
+                            handleClick({ ...value, groupId: item.id })
+                          }>
+                          <span>{value.display}</span>
+                          {getSvg("addIcon")}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div
+          className='ssv-subscribe-card'
+          onClick={() => handleClickCard("conditions")}>
+          <h3 className='title-text'>
+            {(subscribeData?.conditions?.showText &&
+              subscribeData.conditions.showText[0]) ||
+              "Metrics"}
+          </h3>
+          <span
+            className='title-detail'
+            dangerouslySetInnerHTML={{
+              __html:
+                (subscribeData?.conditions?.showText &&
+                  subscribeData?.conditions?.showText[1]) ||
+                "",
+            }}></span>
+          <span className='card-icons'>{getSvg("right_arrow")}</span>
+        </div>
+      )}
+
       <Detail
         data={detail}
         onChange={handleChange}
         dataSource={(subscribeData && subscribeData?.conditions) || {}}
       />
-      <Action
-        onChange={handleChange}
-        dataSource={(subscribeData && subscribeData?.conditions) || {}}
-      />
+      <div onClick={() => handleClickCard("action")}>
+        {showCard === "action" ? (
+          <Action
+            onChange={handleChange}
+            dataSource={(subscribeData && subscribeData?.conditions) || {}}
+          />
+        ) : (
+          <>
+            <h3 className='title'> Action</h3>
+            <div
+              className='ssv-subscribe-card'
+              onClick={() => handleClickCard("action")}>
+              <h3 className='title-text'>
+                {subscribeData?.notification_type || "Action"}
+              </h3>
+              <span className='title-detail'>
+                Send {subscribeData?.notification_type} to
+                <span style={{ marginLeft: 6, color: "#1ba5f8" }}>
+                  {subscribeData?.notification_address || ""}
+                </span>
+              </span>
+              <span className='card-icons'>{getSvg("right_arrow")}</span>
+            </div>
+          </>
+        )}
+      </div>
+
       <Input
         value={inputValue}
         className='subscribe-label'

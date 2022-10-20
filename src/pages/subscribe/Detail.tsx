@@ -19,25 +19,43 @@ interface PROPS {
 export default (props: PROPS) => {
   const { data, dataSource, onChange } = props;
   const [optiosData, setOptions] = useState<Record<string, any>>({});
-  const [initialValues, setInitValues] = useState({});
   const { detail } = data;
 
-  const onFinish = (values: any) => {
-    if (values) {
-      console.log("====435", values);
-      onChange("conditions", { ...values, metricId: detail?.id });
+  const [form] = Form.useForm();
+
+  const onFinish = () => {
+    if (form) {
+      const values = form.getFieldsValue();
+      if (values) {
+        onChange("conditions", {
+          ...values,
+          groupId: detail?.groupId,
+          metricId: detail?.id,
+          showText: [detail?.rule_template, detail?.rules_hint],
+        });
+      }
     }
   };
 
   useEffect(() => {
-    setInitValues(dataSource || {});
+    handleChange();
   }, [data, dataSource]);
+
+  const handleChange = () => {
+    if (form) {
+      const values = form.getFieldsValue();
+      Object.keys(values).forEach((va) => {
+        form.setFieldValue(va, "");
+      });
+    }
+  };
 
   const renderChildren = (data: any) => {
     const options = (data?.choices || []).map((value: string[]) => {
       return { label: value[1], value: value[0] };
     });
     if (data.remote_url && !optiosData[data.remote_url]) {
+      const url = `${tokenUrl}${data.remote_url}`;
       axios.get(`${tokenUrl}${data.remote_url}`).then((res) => {
         if (res.data) {
           const newOpt = {
@@ -60,7 +78,6 @@ export default (props: PROPS) => {
       case "SELECT":
         return (
           <Select
-            //open={true}
             className='item-select default-border'
             popupClassName='item-select-wrap'
             options={
@@ -68,7 +85,12 @@ export default (props: PROPS) => {
             }></Select>
         );
       case "INPUT":
-        return <Input className='item-input default-border' />;
+        return (
+          <div className='show-input default-border'>
+            <Input className='item-input' />
+          </div>
+        );
+
       default:
         return null;
     }
@@ -87,13 +109,14 @@ export default (props: PROPS) => {
           <span className='name'>{detail?.display || ""}</span>
         </h3>
         <p className='title'>
-          display
-          <span className='title-detail'>
-            When the balance of 0xccf5...fc3e is below 20 USD
-          </span>
+          {detail?.rule_template || ""}
+          <span
+            className='title-detail'
+            dangerouslySetInnerHTML={{ __html: detail?.rules_hint }}></span>
         </p>
         {detail && (
           <Form
+            form={form}
             onFinish={onFinish}
             layout='vertical'
             initialValues={dataSource}
@@ -110,7 +133,9 @@ export default (props: PROPS) => {
               );
             })}
             <Form.Item className='from-btns' wrapperCol={{ span: 24 }}>
-              <div className='default-border default-btn-border '>
+              <div
+                className='default-border default-btn-border'
+                onClick={handleChange}>
                 <span className='text'>change</span>
               </div>
               <Button

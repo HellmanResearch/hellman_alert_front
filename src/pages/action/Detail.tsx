@@ -4,11 +4,12 @@ import { Button, Form, Input, Modal } from "antd";
 import { icons } from "antd/lib/image/PreviewGroup";
 import { useEffect, useRef, useState } from "react";
 
-const FormList = [{ name: "email", label: "Email address", require: true }];
+const FormList = [{ name: "", label: " address", require: true }];
 
 export default (props: any) => {
-  const { title, icon, open } = props.data;
+  const { title, key, icon, open } = props.data;
   const [address, setAddress] = useState("");
+  const [form] = Form.useForm();
 
   const onFinish = (values: any) => {
     if (props.onChange) {
@@ -17,6 +18,15 @@ export default (props: any) => {
   };
 
   //useEffect(() => { },[da])
+
+  const handleChange = () => {
+    if (form) {
+      const values = form.getFieldsValue();
+      Object.keys(values).forEach((va) => {
+        form.setFieldValue(va, "");
+      });
+    }
+  };
 
   return (
     <Modal
@@ -38,6 +48,7 @@ export default (props: any) => {
           </span>
         </div>
         <Form
+          form={form}
           layout='vertical'
           initialValues={props.dataSource}
           className='from-content'
@@ -46,8 +57,8 @@ export default (props: any) => {
             return (
               <Form.Item
                 key={item.label}
-                label={<span className='item-label'>{item.label}</span>}
-                name={item.name}
+                label={<span className='item-label'>{title + item.label}</span>}
+                name={key}
                 required={item.require}>
                 <Input
                   className='item-input default-border'
@@ -59,7 +70,9 @@ export default (props: any) => {
             );
           })}
           <Form.Item className='from-btns' wrapperCol={{ span: 24 }}>
-            <div className='default-border default-btn-border '>
+            <div
+              className='default-border default-btn-border'
+              onClick={handleChange}>
               <span className='text'>change</span>
             </div>
             <Button

@@ -10,16 +10,19 @@ const listAction = [
     title: "Discord",
     text: "Post a message to Discord",
     icon: getSvg("discode_bg"),
+    key: "discord",
   },
   {
     title: "Email",
     text: "Send email Subject to Recipients",
     icon: getSvg("email_bg"),
+    key: "email",
   },
   {
     title: "Webhook",
     text: "Call a Webhook",
     icon: getSvg("webhook_bg"),
+    key: "webhook",
   },
 ];
 
