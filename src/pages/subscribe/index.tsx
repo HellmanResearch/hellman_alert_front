@@ -24,7 +24,7 @@ export default React.memo(() => {
   const [inputValue, setInputValue] = useState("");
   const params = useParams();
   const [showCard, setShowCard] = useState("conditions");
-
+  console.log("=params===2", params);
   const [subscribeData, setSubscribeDate] = useState<Record<string, any>>({});
   const login = localStorage.getItem("login");
 

@@ -12,13 +12,11 @@ import { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { rootState } from "@/type";
 import axios from "axios";
-import Web3 from "web3";
+import { loginSign } from "@/store/Server";
 
-const web3 = new Web3(
-  Web3.givenProvider || "ws://some.local-or-remote.node:8546"
-);
 export default () => {
   const login = localStorage.getItem("login");
+
   const account = useSelector(
     (state: rootState) => state?.user.account,
     shallowEqual
@@ -32,36 +30,8 @@ export default () => {
       window.ethereum
         .request({ method: "eth_requestAccounts" })
         .then(async (res: any) => {
-          axios
-            .get(
-              `${defaultUrl}users/users/signature-content?public_key=${res[0]}`
-            )
-            .then(async (response) => {
-              console.log("====45", response);
-              const from = res[0];
-              const sign = await web3.eth.personal.sign(
-                response.data.signature_content,
-                from,
-                "test password!"
-              );
-              console.log("==sign==3", sign, JSON.stringify(sign));
-
-              //login
-              if (sign) {
-                axios
-                  .get(
-                    `${defaultUrl}users/users/login-signature?public_key=${res[0]}&signature=${sign}`
-                  )
-                  .then((result) => {
-                    console.log("===========34653", response);
-                  });
-              }
-            });
-          dispatch({
-            type: "user/login",
-            payload: {
-              account: res[0],
-            },
+          loginSign(res[0]).then((res: any) => {
+            dispatch({ type: "user/login", payload: res.data });
           });
         });
     }

@@ -1,5 +1,6 @@
 
-export interface userState { 
+export interface userState {
+    public_key: string; 
     account:number
 }
 

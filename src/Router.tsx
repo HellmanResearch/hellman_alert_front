@@ -1,7 +1,7 @@
 /** @format */
 
 import { shallowEqual, useSelector } from "react-redux";
-import { Routes as Switch, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Metrics from "@/pages/metrics";
 import Subscribe from "@/pages/subscribe";
 import { rootState } from "./type";
@@ -10,21 +10,23 @@ import Alert from "@/pages/alert";
 import { Suspense } from "react";
 
 export default () => {
-  const account = useSelector(
-    (state: rootState) => state?.user.account,
+  const public_key = useSelector(
+    (state: rootState) => state?.user?.public_key,
     shallowEqual
   );
 
-  //   if (!account) {
-  //     return <NoData />;
-  //   }
+  if (!public_key) {
+    return <NoData />;
+  }
   return (
     <Suspense fallback={<div></div>}>
-      <Switch>
+      <Routes>
         <Route path='/metrics' element={<Metrics />} />
-        <Route path='/subscribe' element={<Subscribe />} />
+        <Route path='/subscribe' element={<Subscribe />}>
+          <Route path=':subscribeId' element={<Subscribe />} />
+        </Route>
         <Route path='/alerts' element={<Alert />} />
-      </Switch>
+      </Routes>
     </Suspense>
   );
 };

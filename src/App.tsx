@@ -12,18 +12,16 @@ import React from "react";
 const { Content } = Layout;
 
 function App() {
-  // useEffect(() => {
-  //   window.ethereum.on("accountsChanged", function (accounts: any) {
-  //     console.log("====3", accounts);
-  //     // Time to reload your interface with accounts[0]!
-  //   });
-  //   window.ethereum.on("connect", (connectInfo: any) => {
-  //     console.log("--connectInfo--3");
-  //   });
-  // }, []);
   useEffect(() => {
-    console.log("----3");
+    window.ethereum.on("accountsChanged", function (accounts: any) {
+      console.log("====3", accounts);
+      // Time to reload your interface with accounts[0]!
+    });
+    window.ethereum.on("connect", (connectInfo: any) => {
+      console.log("--connectInfo--3");
+    });
   }, []);
+
   console.log("----34render5");
   return (
     <BrowserRouter>

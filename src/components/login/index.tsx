@@ -1,5 +1,6 @@
 /** @format */
 
+import { loginSign } from "@/store/Server";
 import { getSvg } from "@/svgTypes";
 import { Button, Modal } from "antd";
 import { useState } from "react";
@@ -22,11 +23,8 @@ export default () => {
       window.ethereum
         .request({ method: "eth_requestAccounts" })
         .then((res: any) => {
-          dispatch({
-            type: "user/login",
-            payload: {
-              account: res[0],
-            },
+          loginSign(res[0]).then((res: any) => {
+            dispatch({ type: "user/login", payload: res.data });
           });
           setShow(false);
         });
