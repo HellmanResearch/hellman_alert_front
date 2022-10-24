@@ -1,10 +1,9 @@
 /** @format */
 
-import { defaultUrl, tokenUrl } from "@/contanst";
+import { tokenUrl } from "@/contanst";
+import { getReq } from "@/server/axios";
 import { getSvg } from "@/svgTypes";
-import { METRICITEM } from "@/type";
 import { Checkbox, Form, Select, Input, Modal, Button } from "antd";
-import axios from "axios";
 import { useEffect, useState } from "react";
 
 interface PROPS {
@@ -56,7 +55,7 @@ export default (props: PROPS) => {
     });
     if (data.remote_url && !optiosData[data.remote_url]) {
       const url = `${tokenUrl}${data.remote_url}`;
-      axios.get(`${tokenUrl}${data.remote_url}`).then((res) => {
+      getReq(`${tokenUrl}${data.remote_url}`).then((res: any) => {
         if (res.data) {
           const newOpt = {
             [data.remote_url]: res.data.map((va: any) => {

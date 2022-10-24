@@ -15,6 +15,7 @@ export default () => {
     shallowEqual
   );
 
+  console.log("====2", public_key);
   if (!public_key) {
     return <NoData />;
   }

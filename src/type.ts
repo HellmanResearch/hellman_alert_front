@@ -1,7 +1,9 @@
 
 export interface userState {
     public_key: string; 
-    account:number
+    id:string |number,
+    account?: number,
+    [key:string]:any
 }
 
 export interface rootState { 

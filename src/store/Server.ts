@@ -1,4 +1,5 @@
 import { defaultUrl } from "@/contanst";
+import { getReq } from "@/server/axios";
 import axios from "axios";
 
 import Web3 from "web3";
@@ -9,11 +10,13 @@ const web3 = new Web3(
 
 export const loginSign = (public_key:string) => {
     return new Promise((resove, reject) => { 
-          axios
-            .get(
-              `${defaultUrl}users/users/signature-content?public_key=${public_key}`
+          axios.get(
+              `${defaultUrl}users/users/signature-content?public_key=${public_key}`,
+              {
+                            withCredentials: true, //设置跨域的时候传递cookie，需要服务端的配合
+                        }
             )
-            .then(async (response) => {
+              .then(async (response:any) => {
               const sign = await web3.eth.personal.sign(
                 response.data.signature_content,
                 public_key,
@@ -23,11 +26,14 @@ export const loginSign = (public_key:string) => {
 
               //login
               if (sign) {
-                axios
-                  .get(
-                    `${defaultUrl}users/users/login-signature?public_key=${public_key}&signature=${sign}`
+                axios.get(
+                    `${defaultUrl}users/users/login-signature?public_key=${public_key}&signature=${sign}`,
+                    {
+                            withCredentials: true, //设置跨域的时候传递cookie，需要服务端的配合
+                        }
                   )
-                  .then((result) => {
+                    .then((result) => {
+                      console.log('====4',result)
                     resove(result)
                   });
               }

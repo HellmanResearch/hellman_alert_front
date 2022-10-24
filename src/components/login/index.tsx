@@ -16,7 +16,6 @@ export default () => {
     // 链接钱包
     if (!window.ethereum) {
       //未下载钱包 下载钱包 链接钱包
-      console.log("=====wallet");
       window.open(`https://metamask.io/`);
     } else {
       // 链接钱包

@@ -18,7 +18,7 @@ export default () => {
   const login = localStorage.getItem("login");
 
   const account = useSelector(
-    (state: rootState) => state?.user.account,
+    (state: rootState) => state?.user.public_key,
     shallowEqual
   );
 

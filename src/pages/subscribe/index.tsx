@@ -1,7 +1,7 @@
 /** @format */
 
 import { getSvg } from "@/svgTypes";
-import { METRICITEM, METRIGROUPCITEM } from "@/type";
+import { METRICITEM, METRIGROUPCITEM, userState, rootState } from "@/type";
 import { metric_groups } from "@/varible";
 import { useEffect, useState } from "react";
 import { defaultUrl } from "@/contanst";
@@ -13,6 +13,7 @@ import React from "react";
 import { Button, Input } from "antd";
 import { isKeyObject } from "util/types";
 import { useParams } from "react-router";
+import { shallowEqual, useSelector } from "react-redux";
 export default React.memo(() => {
   const [groups, setGroups] = useState([]);
   const [detail, setDetail] = useState<{
@@ -26,7 +27,11 @@ export default React.memo(() => {
   const [showCard, setShowCard] = useState("conditions");
   console.log("=params===2", params);
   const [subscribeData, setSubscribeDate] = useState<Record<string, any>>({});
-  const login = localStorage.getItem("login");
+
+  const userInfo: userState = useSelector(
+    (state: rootState) => state.user,
+    shallowEqual
+  );
 
   useEffect(() => {
     if (params.id) {
@@ -88,8 +93,9 @@ export default React.memo(() => {
     const payload = {
       ...subscribeData,
       name: inputValue,
-      user: 0,
+      user: userInfo.id,
     };
+    console.log("====3", payload);
     axios
       .post(`${defaultUrl}alerting/subscribes`, { ...payload })
       .then((res) => {

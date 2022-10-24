@@ -1,9 +1,9 @@
 /** @format */
 import { defaultUrl } from "@/contanst";
 import "@/pages/style.less";
+import { getReq } from "@/server/axios";
 import { getSvg } from "@/svgTypes";
 import { Button } from "antd";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import "./index.less";
@@ -57,7 +57,7 @@ export default () => {
   const [data, setData] = useState([]);
   const Navigate = useNavigate();
   useEffect(() => {
-    axios.get(`${defaultUrl}alerting/subscribes`).then((res) => {
+    getReq(`${defaultUrl}alerting/subscribes`).then((res: any) => {
       console.log("-===3", res);
       setData(res.data);
     });
