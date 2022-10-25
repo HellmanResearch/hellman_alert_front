@@ -11,8 +11,7 @@ import "./index.less";
 import Detail from "./Detail";
 import React from "react";
 import { Button, Input } from "antd";
-import { isKeyObject } from "util/types";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { shallowEqual, useSelector } from "react-redux";
 export default React.memo(() => {
   const [groups, setGroups] = useState([]);
@@ -26,16 +25,16 @@ export default React.memo(() => {
   const params = useParams();
   const [showCard, setShowCard] = useState("conditions");
   const [subscribeData, setSubscribeDate] = useState<Record<string, any>>({});
-
+  const Navigate = useNavigate();
   const userInfo: userState = useSelector(
     (state: rootState) => state.user,
     shallowEqual
   );
 
   useEffect(() => {
-    if (params.id) {
+    if (params.subscribeId) {
       axios
-        .get(`${defaultUrl}alerting/subscribes/${params.id}`)
+        .get(`${defaultUrl}alerting/subscribes/${params.subscribeId}`)
         .then((res: any) => {
           const {
             notification_type,
@@ -63,7 +62,7 @@ export default React.memo(() => {
       setGroups(res.data);
       // setDetail({ show: true, detail: res.data[0].metrics[0] });
     });
-  }, []);
+  }, [params.id]);
 
   const handleChange = (type: string, value: Record<string, any>) => {
     switch (type) {
@@ -94,13 +93,11 @@ export default React.memo(() => {
       name: inputValue,
       user: userInfo.id,
     };
-    if (payload.conditions) {
-      delete payload?.conditions?.showText;
-    }
+
     axios
       .post(`${defaultUrl}alerting/subscribes`, { ...payload })
       .then((res) => {
-        console.log("========345436", res);
+        Navigate("/metrics");
       });
   };
 
@@ -111,7 +108,6 @@ export default React.memo(() => {
   const handleClickCard = (value: string) => {
     setShowCard(value);
   };
-  console.log("====2", subscribeData?.conditions?.showText);
 
   return (
     <div className='ssv-subscribe'>
@@ -153,17 +149,12 @@ export default React.memo(() => {
           className='ssv-subscribe-card'
           onClick={() => handleClickCard("conditions")}>
           <h3 className='title-text'>
-            {(subscribeData?.conditions?.showText &&
-              subscribeData.conditions.showText[0]) ||
-              "Metrics"}
+            {subscribeData?.conditions?.rule_template || "Metrics"}
           </h3>
           <span
             className='title-detail'
             dangerouslySetInnerHTML={{
-              __html:
-                (subscribeData?.conditions?.showText &&
-                  subscribeData?.conditions?.showText[1]) ||
-                "",
+              __html: subscribeData?.conditions?.showHtml || "",
             }}></span>
           <span className='card-icons'>{getSvg("right_arrow")}</span>
         </div>

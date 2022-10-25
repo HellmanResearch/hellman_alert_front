@@ -11,7 +11,6 @@ import "./index.less";
 import { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { rootState } from "@/type";
-import axios from "axios";
 import { loginSign } from "@/store/Server";
 
 export default () => {

@@ -8,7 +8,7 @@ const web3 = new Web3(
   Web3.givenProvider || "ws://some.local-or-remote.node:8546"
 );
 
-export const loginSign = (public_key:string) => {
+export const loginSign = (public_key: string) => {
     return new Promise((resove, reject) => { 
           axios.get(
               `${defaultUrl}users/users/signature-content?public_key=${public_key}`,

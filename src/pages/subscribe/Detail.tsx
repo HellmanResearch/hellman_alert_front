@@ -5,6 +5,7 @@ import { getReq } from "@/server/axios";
 import { getSvg } from "@/svgTypes";
 import { Checkbox, Form, Select, Input, Modal, Button, InputRef } from "antd";
 import { useEffect, useRef, useState } from "react";
+import { getStr } from "../Utils";
 
 interface PROPS {
   data: {
@@ -19,7 +20,7 @@ export default (props: PROPS) => {
   const { data, dataSource, onChange } = props;
   const [optiosData, setOptions] = useState<Record<string, any>>({});
   const [content, setContent] = useState("");
-  const [fromLabel, setLable] = useState<Record<string, boolean>>({});
+  const [fromLabel, setLable] = useState<Record<string, boolean | string>>({});
   const { detail } = data;
   const inputRef = useRef<InputRef>(null);
 
@@ -33,78 +34,32 @@ export default (props: PROPS) => {
           ...values,
           groupId: detail?.groupId,
           metricId: detail?.id,
-          showText: [detail?.rule_template, content],
+          showHtml: content,
+          rule_template: detail?.rule_template,
         });
       }
     }
   };
 
   useEffect(() => {
-    handleChange("cancel");
+    handleChange("cancel", dataSource);
   }, [data, dataSource]);
 
   const handleChange = (type: string, value?: any) => {
     if (type === "change") {
       const key = Object.keys(value)[0];
       if (fromLabel[key]) {
-        const show =
-          value[key].length > 10
-            ? value[key].slice(0, 6) + "..." + value[key].slice(-4)
-            : value[key];
+        const show = getStr(value[key]);
         changeContent(key, show);
+        setLable({ ...fromLabel, [key]: value[key] });
       }
     } else if (type === "cancel") {
       if (form) {
         const values = form.getFieldsValue();
         Object.keys(values).forEach((va) => {
-          form.setFieldValue(va, "");
+          form.setFieldValue(va, (value && value[va]) || "");
         });
       }
-    }
-  };
-  const renderChildren = (data: any) => {
-    const options = (data?.choices || []).map((value: string[]) => {
-      return { label: value[1], value: value[0] };
-    });
-    if (data.remote_url && !optiosData[data.remote_url]) {
-      const url = `${tokenUrl}${data.remote_url}`;
-      getReq(`${tokenUrl}${data.remote_url}`).then((res: any) => {
-        if (res.data) {
-          const newOpt = {
-            [data.remote_url]: res.data.map((va: any) => {
-              return { label: va[1], value: va[0] };
-            }),
-          };
-          setOptions({ ...optiosData, ...newOpt });
-        }
-      });
-    }
-
-    switch (data.type) {
-      case "CHOICE":
-        return (
-          <Checkbox.Group
-            className='item-checkbox'
-            options={options}></Checkbox.Group>
-        );
-      case "SELECT":
-        return (
-          <Select
-            className='item-select default-border'
-            popupClassName='item-select-wrap'
-            options={
-              options.length > 0 ? options : optiosData[data.remote_url]
-            }></Select>
-        );
-      case "INPUT":
-        return (
-          <div className={"show-input default-border"}>
-            <Input className='item-input' ref={inputRef} />
-          </div>
-        );
-
-      default:
-        return null;
     }
   };
 
@@ -133,6 +88,57 @@ export default (props: PROPS) => {
     setContent(text3);
   }, [detail]);
 
+  const renderChildren = (data: any, name?: string) => {
+    const options = (data?.choices || []).map((value: string[]) => {
+      return { label: value[1], value: value[0] };
+    });
+    if (data.remote_url && !optiosData[data.remote_url]) {
+      const url = `${tokenUrl}${data.remote_url}`;
+      getReq(`${tokenUrl}${data.remote_url}`).then((res: any) => {
+        if (res.data) {
+          const newOpt = {
+            [data.remote_url]: res.data.map((va: any) => {
+              return { label: va[1], value: va[0] };
+            }),
+          };
+          setOptions({ ...optiosData, ...newOpt });
+        }
+      });
+    }
+    console.log(
+      "====3",
+      form.getFieldsValue(),
+      name && form.getFieldValue(name)
+    );
+
+    switch (data.type) {
+      case "CHOICE":
+        return (
+          <Checkbox.Group
+            className='item-checkbox'
+            options={options}></Checkbox.Group>
+        );
+      case "SELECT":
+        return (
+          <Select
+            className='item-select default-border'
+            popupClassName='item-select-wrap'
+            options={
+              options.length > 0 ? options : optiosData[data.remote_url]
+            }></Select>
+        );
+      case "INPUT":
+        return (
+          <Input
+            className='item-input default-border'
+            defaultValue={(name && form?.getFieldValue(name)) || ""}
+          />
+        );
+
+      default:
+        return null;
+    }
+  };
   return (
     <Modal
       title=''
@@ -150,7 +156,9 @@ export default (props: PROPS) => {
           <span
             className='title-detail'
             id='title-detail-back'
-            dangerouslySetInnerHTML={{ __html: content }}
+            dangerouslySetInnerHTML={{
+              __html: dataSource.showHtml || content,
+            }}
           />
         </p>
         {detail && (
@@ -170,7 +178,7 @@ export default (props: PROPS) => {
                   key={title}
                   label={<span className='item-label'>{title}</span>}
                   rules={[{ required: true }]}>
-                  {renderChildren(detail?.fields_attr[title])}
+                  {renderChildren(detail?.fields_attr[title], title)}
                 </Form.Item>
               );
             })}

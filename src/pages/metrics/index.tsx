@@ -8,12 +8,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import "./index.less";
 
-const objTest = {
-  label: "Hellman operator",
-  metric: "Alert (Account balance)",
-  action: "Discord/Email/Webhook",
-};
-
 export default () => {
   const listType = [
     {
