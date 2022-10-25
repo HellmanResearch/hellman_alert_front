@@ -25,7 +25,6 @@ export default React.memo(() => {
   const [inputValue, setInputValue] = useState("");
   const params = useParams();
   const [showCard, setShowCard] = useState("conditions");
-  console.log("=params===2", params);
   const [subscribeData, setSubscribeDate] = useState<Record<string, any>>({});
 
   const userInfo: userState = useSelector(
@@ -90,12 +89,14 @@ export default React.memo(() => {
   };
 
   const handleCreate = () => {
-    const payload = {
+    const payload: any = {
       ...subscribeData,
       name: inputValue,
       user: userInfo.id,
     };
-    console.log("====3", payload);
+    if (payload.conditions) {
+      delete payload?.conditions?.showText;
+    }
     axios
       .post(`${defaultUrl}alerting/subscribes`, { ...payload })
       .then((res) => {
@@ -110,8 +111,8 @@ export default React.memo(() => {
   const handleClickCard = (value: string) => {
     setShowCard(value);
   };
+  console.log("====2", subscribeData?.conditions?.showText);
 
-  console.log("====435", subscribeData);
   return (
     <div className='ssv-subscribe'>
       <h3 className='title'>Subscription</h3>

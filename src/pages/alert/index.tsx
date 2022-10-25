@@ -19,13 +19,7 @@ const columns = [
 export default () => {
   const [alertsData, setAlerts] = useState([]);
   useEffect(() => {
-    const payload = {
-      page: 1,
-    };
-    getReq(`${defaultUrl}alerting/alerts`, {
-      withCredentials: true, //设置跨域的时候传递cookie，需要服务端的配合
-    }).then((res: any) => {
-      console.log("=====3", res);
+    getReq(`${defaultUrl}alerting/alerts`).then((res: any) => {
       setAlerts(res.data);
     });
   }, []);

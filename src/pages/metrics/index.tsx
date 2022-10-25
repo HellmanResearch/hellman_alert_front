@@ -58,7 +58,6 @@ export default () => {
   const Navigate = useNavigate();
   useEffect(() => {
     getReq(`${defaultUrl}alerting/subscribes`).then((res: any) => {
-      console.log("-===3", res);
       setData(res.data);
     });
   }, []);

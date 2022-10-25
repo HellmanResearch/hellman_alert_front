@@ -3,8 +3,8 @@
 import { tokenUrl } from "@/contanst";
 import { getReq } from "@/server/axios";
 import { getSvg } from "@/svgTypes";
-import { Checkbox, Form, Select, Input, Modal, Button } from "antd";
-import { useEffect, useState } from "react";
+import { Checkbox, Form, Select, Input, Modal, Button, InputRef } from "antd";
+import { useEffect, useRef, useState } from "react";
 
 interface PROPS {
   data: {
@@ -18,7 +18,10 @@ interface PROPS {
 export default (props: PROPS) => {
   const { data, dataSource, onChange } = props;
   const [optiosData, setOptions] = useState<Record<string, any>>({});
+  const [content, setContent] = useState("");
+  const [fromLabel, setLable] = useState<Record<string, boolean>>({});
   const { detail } = data;
+  const inputRef = useRef<InputRef>(null);
 
   const [form] = Form.useForm();
 
@@ -30,25 +33,35 @@ export default (props: PROPS) => {
           ...values,
           groupId: detail?.groupId,
           metricId: detail?.id,
-          showText: [detail?.rule_template, detail?.rules_hint],
+          showText: [detail?.rule_template, content],
         });
       }
     }
   };
 
   useEffect(() => {
-    handleChange();
+    handleChange("cancel");
   }, [data, dataSource]);
 
-  const handleChange = () => {
-    if (form) {
-      const values = form.getFieldsValue();
-      Object.keys(values).forEach((va) => {
-        form.setFieldValue(va, "");
-      });
+  const handleChange = (type: string, value?: any) => {
+    if (type === "change") {
+      const key = Object.keys(value)[0];
+      if (fromLabel[key]) {
+        const show =
+          value[key].length > 10
+            ? value[key].slice(0, 6) + "..." + value[key].slice(-4)
+            : value[key];
+        changeContent(key, show);
+      }
+    } else if (type === "cancel") {
+      if (form) {
+        const values = form.getFieldsValue();
+        Object.keys(values).forEach((va) => {
+          form.setFieldValue(va, "");
+        });
+      }
     }
   };
-
   const renderChildren = (data: any) => {
     const options = (data?.choices || []).map((value: string[]) => {
       return { label: value[1], value: value[0] };
@@ -85,8 +98,8 @@ export default (props: PROPS) => {
         );
       case "INPUT":
         return (
-          <div className='show-input default-border'>
-            <Input className='item-input' />
+          <div className={"show-input default-border"}>
+            <Input className='item-input' ref={inputRef} />
           </div>
         );
 
@@ -94,6 +107,31 @@ export default (props: PROPS) => {
         return null;
     }
   };
+
+  const changeContent = (value: string, data?: string) => {
+    const text1 = detail?.rules_hint.replace(/\`/g, "");
+    const text2 = text1?.replace(/\$/g, "");
+    const content = text2?.replace(
+      new RegExp(`{ form.confitions.${value} }`, "g"),
+      data
+    );
+    const text = content?.replace(/\{.*?\}/g, "");
+    setContent(text);
+  };
+
+  useEffect(() => {
+    const text1 = detail?.rules_hint.replace(/\`/g, "");
+    const text2 = text1?.replace(/\$/g, "");
+    const text3 = text2?.replace(/\{.*?\}/g, "");
+    const text: Record<string, boolean> = {};
+    text2?.match(/\{.*?\}/g)?.forEach((v: string) => {
+      const label = v?.split("form.confitions.")[1];
+      const key = label.split(" }")[0];
+      text[key] = true;
+    });
+    setLable(text);
+    setContent(text3);
+  }, [detail]);
 
   return (
     <Modal
@@ -111,7 +149,9 @@ export default (props: PROPS) => {
           {detail?.rule_template || ""}
           <span
             className='title-detail'
-            dangerouslySetInnerHTML={{ __html: detail?.rules_hint }}></span>
+            id='title-detail-back'
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
         </p>
         {detail && (
           <Form
@@ -119,6 +159,9 @@ export default (props: PROPS) => {
             onFinish={onFinish}
             layout='vertical'
             initialValues={dataSource}
+            onValuesChange={(changedValues) =>
+              handleChange("change", changedValues)
+            }
             className='from-content sbuscribe-detail-card-content'>
             {Object.keys(detail.fields_attr || {}).map((title: string) => {
               return (
@@ -134,7 +177,7 @@ export default (props: PROPS) => {
             <Form.Item className='from-btns' wrapperCol={{ span: 24 }}>
               <div
                 className='default-border default-btn-border'
-                onClick={handleChange}>
+                onClick={() => handleChange("cancel")}>
                 <span className='text'>change</span>
               </div>
               <Button

@@ -22,7 +22,6 @@ export const loginSign = (public_key:string) => {
                 public_key,
                 "test password!"
               );
-              console.log("==sign==3", sign, JSON.stringify(sign));
 
               //login
               if (sign) {
@@ -33,7 +32,6 @@ export const loginSign = (public_key:string) => {
                         }
                   )
                     .then((result) => {
-                      console.log('====4',result)
                     resove(result)
                   });
               }

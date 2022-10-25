@@ -60,12 +60,14 @@ export default (props: any) => {
                 label={<span className='item-label'>{title + item.label}</span>}
                 name={key}
                 required={item.require}>
-                <Input
-                  className='item-input default-border'
-                  onChange={(e) => {
-                    setAddress(e.target.value);
-                  }}
-                />
+                <div className={"show-input default-border"}>
+                  <Input
+                    className='item-input'
+                    onChange={(e) => {
+                      setAddress(e.target.value);
+                    }}
+                  />
+                </div>
               </Form.Item>
             );
           })}

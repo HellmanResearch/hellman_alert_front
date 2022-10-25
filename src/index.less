@@ -62,12 +62,14 @@
 }
 //form
 .from-content{
+     
        .item-label{
             font-size: 18px;
             font-family: Helvetica-Bold;
             font-weight: 700;
             color: #ffffff;
             }
+           
             .item-select.ant-select-status-success{
             border-radius: 6px;
             border: 2px solid transparent;
@@ -101,15 +103,16 @@
             }
             .show-input{
                 border:2px solid transparent;
+                border-radius: 6px;
             
             }
-                .item-input:not(.ant-input-status-success){
-               border: 1px solid #949fae;
+            .item-input:not(.ant-input-status-success){
+               border:none;
                background: #2e304c;
                color: #fff;
                 }
             .ant-input-status-success{
-                border: 2px solid #949fae;
+                border: none;
                 border-radius: 6px;
                 background: #2e304c;
                  color: #fff;
@@ -151,7 +154,10 @@
     .ant-select-item{
     color: #fff;
     line-height: 46px;
-    border-bottom:  1px solid #949fae;;
+    border-bottom:  1px solid #949fae;
+    background-color: transparent !important;
+    box-shadow: none !important;
+            
     }
     .ant-select-item-option-active{
         background: #303155;

@@ -12,6 +12,6 @@ export const linkList: Record<string, string> = {
   Subscribe: "subscribe",
   Alerts: "alerts",
 };
-
-export const defaultUrl = 'http://192.168.19.22:8000/api/v1/';
-export const tokenUrl =`http://192.168.19.22:8000`
+console.log('====process.env.REACT_APP_BASE_URL',process.env.REACT_APP_BASE_URL)
+export const defaultUrl = process.env.REACT_APP_BASE_URL||'api/'||'http://192.168.1.128:82/api/v1/';
+export const tokenUrl =process.env.REACT_APP_TOKEN_URL ||`http://192.168.1.128:82`
