@@ -1,5 +1,5 @@
 /** @format */
-import { defaultUrl } from "@/contanst";
+import { defaultUrl, page_size } from "@/contanst";
 import "@/pages/style.less";
 import { DelReq, getReq } from "@/server/axios";
 import { getSvg } from "@/svgTypes";
@@ -54,13 +54,14 @@ export default () => {
   const Navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(1);
-  const load = () => {
+  const load = (current?: number) => {
     const payload = {
-      page,
+      page: current || page,
+      page_size,
     };
     getReq(`${defaultUrl}alerting/subscribes`, payload).then((res: any) => {
       setData(res.data?.results || []);
-      setTotal(res.count);
+      setTotal(res.data?.count);
     });
   };
   useEffect(() => {
@@ -125,7 +126,12 @@ export default () => {
       <Pagination
         className='ssv-pagination'
         defaultCurrent={page}
+        defaultPageSize={page_size}
         total={total}
+        onChange={(current) => {
+          setPage(current);
+          load(current);
+        }}
       />
     </div>
   );

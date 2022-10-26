@@ -2,7 +2,7 @@
 
 /** @format */
 
-import { defaultUrl } from "@/contanst";
+import { defaultUrl, page_size } from "@/contanst";
 import { getReq } from "@/server/axios";
 import { useEffect, useState } from "react";
 import moment from "moment";
@@ -44,14 +44,15 @@ export default () => {
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(1);
   const Navigate = useNavigate();
-  const load = () => {
+  const load = (current?: number) => {
     const payload = {
-      page,
+      page: current || page,
+      page_size,
     };
 
     getReq(`${defaultUrl}engine/metrics`, payload).then((res: any) => {
       setAlerts(res?.data?.results);
-      setTotal(res?.count);
+      setTotal(res?.data?.count);
     });
   };
   useEffect(() => {
@@ -61,7 +62,7 @@ export default () => {
   //   const onSearch = (e: any) => {
   //     setSearch(e.target.value);
   //   };
-
+  console.log("===total", total);
   return (
     <div className='ssv-main'>
       <div className='ssv-main-header'>
@@ -116,7 +117,12 @@ export default () => {
       <Pagination
         className='ssv-pagination'
         defaultCurrent={page}
+        defaultPageSize={page_size}
         total={total}
+        onChange={(current) => {
+          setPage(current);
+          load(current);
+        }}
       />
     </div>
   );

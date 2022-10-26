@@ -14,7 +14,17 @@ export default () => {
         </div>
         <div className='ssv-footer-icons'>
           {listLinkType.map((item) => {
-            return <span key={item.key}>{getSvg(item.key)}</span>;
+            return (
+              <span
+                key={item.key}
+                onClick={() => {
+                  if (item.link) {
+                    window.open(item.link);
+                  }
+                }}>
+                {getSvg(item.key)}
+              </span>
+            );
           })}
         </div>
       </div>

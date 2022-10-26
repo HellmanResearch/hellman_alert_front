@@ -56,8 +56,8 @@ export default (props: PROPS) => {
     } else if (type === "cancel") {
       if (form) {
         const values = form.getFieldsValue();
-        Object.keys(values).forEach((va) => {
-          form.setFieldValue(va, (value && value[va]) || "");
+        Object.keys(values).forEach((key) => {
+          form.setFieldValue(key, (value && value[key]) || "");
         });
       }
     }
@@ -75,18 +75,21 @@ export default (props: PROPS) => {
   };
 
   useEffect(() => {
-    const text1 = detail?.rules_hint.replace(/\`/g, "");
-    const text2 = text1?.replace(/\$/g, "");
-    const text3 = text2?.replace(/\{.*?\}/g, "");
-    const text: Record<string, boolean> = {};
-    text2?.match(/\{.*?\}/g)?.forEach((v: string) => {
-      const label = v?.split("form.confitions.")[1];
-      const key = label.split(" }")[0];
-      text[key] = true;
-    });
-    setLable(text);
-    setContent(text3);
-  }, [detail]);
+    const rules_hint = detail?.rules_hint;
+    if (rules_hint) {
+      const text1 = rules_hint.replace(/\`/g, "");
+      const text2 = text1?.replace(/\$/g, "");
+      const text3 = text2?.replace(/\{.*?\}/g, "");
+      const text: Record<string, boolean> = {};
+      text2?.match(/\{.*?\}/g)?.forEach((v: string) => {
+        const label = v?.split("form.confitions.")[1];
+        const key = label.split(" }")[0];
+        text[key] = true;
+      });
+      setLable(text);
+      setContent(dataSource?.showHtml ? dataSource.showHtml : text3);
+    }
+  }, [detail, dataSource]);
 
   const renderChildren = (data: any, name?: string) => {
     const options = (data?.choices || []).map((value: string[]) => {
@@ -105,11 +108,6 @@ export default (props: PROPS) => {
         }
       });
     }
-    console.log(
-      "====3",
-      form.getFieldsValue(),
-      name && form.getFieldValue(name)
-    );
 
     switch (data.type) {
       case "CHOICE":
@@ -157,7 +155,7 @@ export default (props: PROPS) => {
             className='title-detail'
             id='title-detail-back'
             dangerouslySetInnerHTML={{
-              __html: dataSource.showHtml || content,
+              __html: content,
             }}
           />
         </p>

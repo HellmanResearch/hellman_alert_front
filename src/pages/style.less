@@ -115,8 +115,8 @@
             }
         }
     }
-    .ant-pagination-item{
-        background: #252632;
+    .ant-pagination-item{        
+         background: #252632;
         border: 1px solid #949fae;
         color: #fff;
         a{
@@ -125,8 +125,20 @@
          &:hover{
                 color: #fff;
                 a{
-                    color: #fff;
+                background: linear-gradient(90deg, #d027fa, #1ba5f8);
+                color: transparent;
+                -webkit-background-clip: text;
                 }
             }
+    }
+    .ant-pagination-item-active{
+         background: transparent;
+        a{
+         
+           background: linear-gradient(90deg, #d027fa, #1ba5f8);
+                color: transparent;
+                -webkit-background-clip: text;
+        }
+
     }
 }
