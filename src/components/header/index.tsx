@@ -29,9 +29,11 @@ export default () => {
       window.ethereum
         .request({ method: "eth_requestAccounts" })
         .then(async (res: any) => {
-          loginSign(res[0]).then((res: any) => {
-            dispatch({ type: "user/login", payload: res.data });
-          });
+          if (!localStorage.getItem("login")) {
+            loginSign(res[0]).then((res: any) => {
+              dispatch({ type: "user/login", payload: res.data });
+            });
+          }
         });
     }
   }, []);

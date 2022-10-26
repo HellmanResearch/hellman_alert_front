@@ -6,11 +6,11 @@ import { metric_groups } from "@/varible";
 import { useEffect, useState } from "react";
 import { defaultUrl } from "@/contanst";
 import axios from "axios";
-import Action from "../action";
+import Action from "../../action";
 import "./index.less";
 import Detail from "./Detail";
 import React from "react";
-import { Button, Input } from "antd";
+import { Button, Input, message } from "antd";
 import { useNavigate, useParams } from "react-router";
 import { shallowEqual, useSelector } from "react-redux";
 export default React.memo(() => {
@@ -59,8 +59,7 @@ export default React.memo(() => {
     }
 
     axios.get(`${defaultUrl}engine/metric-groups`).then((res) => {
-      setGroups(res.data);
-      // setDetail({ show: true, detail: res.data[0].metrics[0] });
+      setGroups(res.data.results);
     });
   }, [params.id]);
 
@@ -93,12 +92,27 @@ export default React.memo(() => {
       name: inputValue,
       user: userInfo.id,
     };
-
-    axios
-      .post(`${defaultUrl}alerting/subscribes`, { ...payload })
-      .then((res) => {
-        Navigate("/metrics");
-      });
+    if (params.subscribeId) {
+      axios
+        .put(`${defaultUrl}alerting/subscribes/${params.subscribeId}`, {
+          ...payload,
+        })
+        .then((res) => {
+          Navigate("/subscribe");
+        })
+        .catch((res) => {
+          message.warn(res.response?.data?.non_field_errors || "");
+        });
+    } else {
+      axios
+        .post(`${defaultUrl}alerting/subscribes`, { ...payload })
+        .then((res) => {
+          Navigate("/subscribe");
+        })
+        .catch((res) => {
+          message.warn(res.response?.data?.non_field_errors || "");
+        });
+    }
   };
 
   const handleClick = (item: any) => {

@@ -45,9 +45,6 @@ service.interceptors.request.use(
       });
     });
     request.baseURL = process.env['REACT_APP_BASE_URL'];
-    request.headers = {
-      cookie:`sessionid:1ljkcimzzvxzffxn6zmhyjpu2i8n3opi`
-    }
     return request;
   },
   (error) => {},
@@ -56,7 +53,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     removePending(response.config);
-    if (typeof response.data === 'string') { 
+    if ( typeof response.data === 'string' &&  response.data) { 
       response.data = JSON.parse(response.data);
     }
     return response;

@@ -1,19 +1,31 @@
 /** @format */
 
-import { shallowEqual, useSelector } from "react-redux";
-import { Routes, Route } from "react-router-dom";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { Routes, Route, useParams } from "react-router-dom";
 import Metrics from "@/pages/metrics";
-import Subscribe from "@/pages/subscribe";
+import Subscribe from "@/pages/subscribes/addItem";
+import Subscribes from "@/pages/subscribes/";
+
 import { rootState } from "./type";
 import NoData from "@/components/noData";
 import Alert from "@/pages/alert";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 
 export default () => {
+  const dispath = useDispatch();
   const public_key = useSelector(
     (state: rootState) => state?.user?.public_key,
     shallowEqual
   );
+
+  console.log("===3", useParams());
+
+  useEffect(() => {
+    if (localStorage.getItem("login")) {
+      const data = JSON.parse(localStorage.getItem("login") || "{}");
+      dispath({ type: "user/login", payload: data });
+    }
+  }, []);
 
   if (!public_key) {
     return <NoData />;
@@ -22,9 +34,9 @@ export default () => {
     <Suspense fallback={<div></div>}>
       <Routes>
         <Route path='/metrics' element={<Metrics />} />
-        <Route path='/subscribe' element={<Subscribe />}>
-          <Route path=':subscribeId' element={<Subscribe />} />
-        </Route>
+        <Route path='/subscribe' element={<Subscribes />} />
+        <Route path='/subscribe/add' element={<Subscribe />} />
+        <Route path='/subscribe/:subscribeId' element={<Subscribe />} />
         <Route path='/alerts' element={<Alert />} />
       </Routes>
     </Suspense>

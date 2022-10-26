@@ -12,9 +12,8 @@ function _axios(_axiosRequest: AxiosRequest) {
       responseType: _axiosRequest.responseType,
     })
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status ===200) {
           resolve(response)
-         // resolve(new Response(response.data));
         } else {
           resolve(response)
           /// 权限控制
@@ -31,15 +30,6 @@ function _axios(_axiosRequest: AxiosRequest) {
       });
   });
 }
-export const postReq = (_axiosRequest: AxiosRequest) => {
-  return _axios({
-    url: _axiosRequest.url,
-    headers: _axiosRequest.headers,
-    method: 'POST',
-    data: _axiosRequest.data,
-    params: _axiosRequest.params,
-  });
-};
 
 export const getReq = (_axiosRequest: AxiosRequest | string,params?:Record<string,any>) => {
   if (typeof _axiosRequest === 'string') { 
@@ -52,6 +42,23 @@ export const getReq = (_axiosRequest: AxiosRequest | string,params?:Record<strin
     url: _axiosRequest.url,
     headers: _axiosRequest.headers,
     method: 'GET',
+    data: _axiosRequest.data,
+    params: _axiosRequest.params ,
+  });
+};
+
+export const DelReq = (_axiosRequest: AxiosRequest | string,params?:Record<string,any>) => {
+  if (typeof _axiosRequest === 'string') { 
+    return _axios({
+      url: _axiosRequest,
+      method: 'DELETE',
+      params,
+    })
+  }
+  return _axios({
+    url: _axiosRequest.url,
+    headers: _axiosRequest.headers,
+    method: 'DELETE',
     data: _axiosRequest.data,
     params: _axiosRequest.params ,
   });

@@ -5,7 +5,7 @@ import { getReq } from "@/server/axios";
 import { getSvg } from "@/svgTypes";
 import { Checkbox, Form, Select, Input, Modal, Button, InputRef } from "antd";
 import { useEffect, useRef, useState } from "react";
-import { getStr } from "../Utils";
+import { getStr } from "../../Utils";
 
 interface PROPS {
   data: {

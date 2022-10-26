@@ -1,75 +1,89 @@
 /** @format */
+
+/** @format */
+
 import { defaultUrl } from "@/contanst";
-import "@/pages/style.less";
 import { getReq } from "@/server/axios";
-import { getSvg } from "@/svgTypes";
-import { Button } from "antd";
 import { useEffect, useState } from "react";
+import moment from "moment";
+import { Button, Input, Pagination } from "antd";
+import "../style.less";
 import { useNavigate } from "react-router";
-import "./index.less";
+
+const columns = [
+  { title: "display", dataIndex: "display", width: "30%" },
+  {
+    title: "create_time",
+    dataIndex: "create_time",
+    width: "30%",
+    render: (text: string, record?: any) =>
+      moment(text).format("YYYY-MM-DD hh:mm:ss"),
+  },
+  {
+    title: "update_time",
+    dataIndex: "update_time",
+    width: "30%",
+    render: (text: string, record?: any) =>
+      moment(text).format("YYYY-MM-DD hh:mm:ss"),
+  },
+  {
+    title: "",
+    dataIndex: "",
+    width: "10%",
+    render: () => {
+      return <span>History</span>;
+    },
+  },
+];
+
+const { Search } = Input;
 
 export default () => {
-  const listType = [
-    {
-      title: "label",
-      dataIndex: "name",
-      width: "25%",
-    },
-    {
-      title: "Metric",
-      dataIndex: "metric",
-      width: "15%",
-    },
-    {
-      title: "Action",
-      dataIndex: "notification_type",
-      width: "20%",
-    },
-    {
-      title: "",
-      dataIndex: "edit",
-      width: "40%",
-      render: (Record: any) => {
-        return (
-          <div className='edit'>
-            <span
-              className='default-border edit-btn'
-              onClick={() => handleClick("update", Record)}>
-              {getSvg("update_svg")}
-              <span className='text'>update</span>
-            </span>
-            <span className='default-border edit-btn'>
-              {getSvg("delete_svg")}
-              <span className='text'>remove</span>
-            </span>
-          </div>
-        );
-      },
-    },
-  ];
-
-  const [data, setData] = useState([]);
+  const [alertsData, setAlerts] = useState([]);
+  // const [search, setSearch] = useState("");
+  const [page, setPage] = useState<number>(1);
+  const [total, setTotal] = useState<number>(1);
   const Navigate = useNavigate();
-  useEffect(() => {
-    getReq(`${defaultUrl}alerting/subscribes`).then((res: any) => {
-      setData(res.data);
+  const load = () => {
+    const payload = {
+      page,
+    };
+
+    getReq(`${defaultUrl}engine/metrics`, payload).then((res: any) => {
+      setAlerts(res?.data?.results);
+      setTotal(res?.count);
     });
+  };
+  useEffect(() => {
+    load();
   }, []);
 
-  const handleClick = (type: string, Record: any) => {
-    if (type === "update") {
-      Navigate(`/subscribe/${Record.id}`);
-    }
-  };
+  //   const onSearch = (e: any) => {
+  //     setSearch(e.target.value);
+  //   };
+
   return (
     <div className='ssv-main'>
       <div className='ssv-main-header'>
-        <h3 className='title'>Subscribed</h3>
-        <Button className='default-btn add-btn'>Add</Button>
+        <h3 className='title'>Metrics</h3>
+        <Button
+          className='default-btn add-btn'
+          onClick={() => {
+            Navigate(`/Subscribe/add`);
+          }}>
+          + Subscribe
+        </Button>
+        {/* <Input.Search
+          placeholder='input search text'
+          onChange={onSearch}
+          onSearch={load}
+          className='alert-search'
+          style={{ width: 400 }}
+        /> */}
       </div>
       <div className='ssv-main-content'>
         <ul className='header'>
-          {listType.map((item, key) => {
+          {columns.map((item, key) => {
             return (
               <li
                 key={key}
@@ -81,13 +95,13 @@ export default () => {
           })}
         </ul>
         <ul className='data-content'>
-          {data.map((itemData, index) => {
+          {alertsData.map((itemData, index) => {
             return (
               <li key={index} className='data-content-item'>
-                {listType.map((item) => {
+                {columns.map((item) => {
                   const children = item.render
-                    ? item.render(itemData)
-                    : itemData[item.dataIndex];
+                    ? item.render(itemData[item.dataIndex], itemData)
+                    : String(itemData[item.dataIndex]);
                   return (
                     <span style={{ width: item.width }} key={item.dataIndex}>
                       {children}
@@ -99,6 +113,11 @@ export default () => {
           })}
         </ul>
       </div>
+      <Pagination
+        className='ssv-pagination'
+        defaultCurrent={page}
+        total={total}
+      />
     </div>
   );
 };

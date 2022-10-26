@@ -9,9 +9,7 @@ import store from "./store";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-document.cookie = "sessionid:kmzv7jorb1gjeubbqc9xtv1r03r2a10u";
 root.render(
-  // <React.StrictMode>
   <Provider store={store}>
     <App />
   </Provider>

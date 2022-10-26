@@ -5,7 +5,7 @@ export const userSlice = createSlice({
   initialState: {},
   reducers: {
     login: (state, action) =>  {
-          localStorage.setItem('login','true')
+          localStorage.setItem('login', JSON.stringify({ ...state, ...action.payload }))
           return { ...state, ...action.payload };
     },
   },
