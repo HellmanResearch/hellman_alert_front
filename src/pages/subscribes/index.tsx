@@ -11,19 +11,15 @@ import "../style.less";
 export default () => {
   const listType = [
     {
-      title: "label",
+      title: "Name",
       dataIndex: "name",
-      width: "25%",
+      width: "35%",
     },
-    {
-      title: "Metric",
-      dataIndex: "metric",
-      width: "15%",
-    },
+
     {
       title: "Action",
       dataIndex: "notification_type",
-      width: "20%",
+      width: "25%",
     },
     {
       title: "",

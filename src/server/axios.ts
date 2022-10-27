@@ -15,6 +15,7 @@ function _axios(_axiosRequest: AxiosRequest) {
         if (response.status ===200) {
           resolve(response)
         } else {
+            
           resolve(response)
           /// 权限控制
          // resolve(new Response(response.data));

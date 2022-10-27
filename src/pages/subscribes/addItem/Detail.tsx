@@ -119,6 +119,7 @@ export default (props: PROPS) => {
       case "SELECT":
         return (
           <Select
+            showSearch
             className='item-select default-border'
             popupClassName='item-select-wrap'
             options={

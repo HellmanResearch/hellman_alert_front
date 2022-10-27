@@ -14,18 +14,11 @@ export default () => {
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(1);
   const columns = [
-    { title: "metric", dataIndex: "metric", width: "10%" },
-    { title: "subscribe", dataIndex: "subscribe", width: "10%" },
+    { title: "Metric", dataIndex: "metric", width: "20%" },
+    { title: "Subscribe", dataIndex: "subscribe", width: "20%" },
     {
-      title: "create_time",
+      title: "Triggered Time",
       dataIndex: "create_time",
-      width: "20%",
-      render: (text: string, record?: any) =>
-        moment(text).format("YYYY-MM-DD hh:mm:ss"),
-    },
-    {
-      title: "confirm_time",
-      dataIndex: "confirm_time",
       width: "20%",
       render: (text: string, record?: any) =>
         moment(text).format("YYYY-MM-DD hh:mm:ss"),

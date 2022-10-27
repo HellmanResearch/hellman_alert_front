@@ -48,6 +48,8 @@ export default React.memo(() => {
             action: {
               [notification_type]: notification_address,
             },
+            notification_type,
+            notification_address,
             conditions,
             name,
             metric,
@@ -183,11 +185,11 @@ export default React.memo(() => {
         {showCard === "action" ? (
           <Action
             onChange={handleChange}
-            dataSource={(subscribeData && subscribeData?.conditions) || {}}
+            dataSource={(subscribeData && subscribeData?.action) || {}}
           />
         ) : (
           <>
-            <h3 className='title'> Action</h3>
+            <h3 className='title'>Action</h3>
             <div
               className='ssv-subscribe-card'
               onClick={() => handleClickCard("action")}>
@@ -210,7 +212,7 @@ export default React.memo(() => {
         value={inputValue}
         className='subscribe-label'
         onChange={(e) => setInputValue(e.target.value)}
-        placeholder='User Defined Label'
+        placeholder='Suscription name'
       />
       <Button className='default-btn subscribe-btn' onClick={handleCreate}>
         Create

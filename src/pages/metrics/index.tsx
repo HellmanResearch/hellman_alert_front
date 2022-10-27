@@ -11,20 +11,20 @@ import "../style.less";
 import { useNavigate } from "react-router";
 
 const columns = [
-  { title: "display", dataIndex: "display", width: "30%" },
+  { title: "Display", dataIndex: "display", width: "30%" },
   {
-    title: "create_time",
+    title: "CreateTime",
     dataIndex: "create_time",
     width: "30%",
     render: (text: string, record?: any) =>
-      moment(text).format("YYYY-MM-DD hh:mm:ss"),
+      moment(text).format("YYYY-MM-DD hh:mm"),
   },
   {
-    title: "update_time",
+    title: "UpdateTime",
     dataIndex: "update_time",
     width: "30%",
     render: (text: string, record?: any) =>
-      moment(text).format("YYYY-MM-DD hh:mm:ss"),
+      moment(text).format("YYYY-MM-DD hh:mm"),
   },
   {
     title: "",

@@ -8,6 +8,7 @@ const FormList = [{ name: "", label: " address", require: true }];
 
 export default (props: any) => {
   const { title, key, icon, open } = props.data;
+  const { dataSource } = props;
   const [address, setAddress] = useState("");
   const [form] = Form.useForm();
 
@@ -18,13 +19,22 @@ export default (props: any) => {
   };
 
   //useEffect(() => { },[da])
+  useEffect(() => {
+    handleChange("default", dataSource);
+  }, [dataSource]);
 
-  const handleChange = () => {
+  const handleChange = (type: string, values?: Record<string, string>) => {
     if (form) {
-      const values = form.getFieldsValue();
-      Object.keys(values).forEach((va) => {
-        form.setFieldValue(va, "");
-      });
+      if (type === "cancel") {
+        const values = form.getFieldsValue();
+        Object.keys(values).forEach((va) => {
+          form.setFieldValue(va, "");
+        });
+      } else if (values && type === "default") {
+        Object.keys(values).forEach((va) => {
+          form.setFieldValue(va, values[va]);
+        });
+      }
     }
   };
 
@@ -60,21 +70,19 @@ export default (props: any) => {
                 label={<span className='item-label'>{title + item.label}</span>}
                 name={key}
                 required={item.require}>
-                <div className={"show-input default-border"}>
-                  <Input
-                    className='item-input'
-                    onChange={(e) => {
-                      setAddress(e.target.value);
-                    }}
-                  />
-                </div>
+                <Input
+                  className='item-input default-border'
+                  onChange={(e) => {
+                    setAddress(e.target.value);
+                  }}
+                />
               </Form.Item>
             );
           })}
           <Form.Item className='from-btns' wrapperCol={{ span: 24 }}>
             <div
               className='default-border default-btn-border'
-              onClick={handleChange}>
+              onClick={() => handleChange("cancel")}>
               <span className='text'>change</span>
             </div>
             <Button

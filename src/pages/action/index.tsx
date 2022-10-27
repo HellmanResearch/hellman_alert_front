@@ -1,7 +1,7 @@
 /** @format */
 
 import { getSvg } from "@/svgTypes";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Detail from "./Detail";
 import "./index.less";
 
@@ -42,6 +42,7 @@ export default ({
     onChange(type, value);
     setDetail({ open: false });
   };
+
   return (
     <div className='action-card'>
       <h3 className='title'> Action</h3>
@@ -61,7 +62,7 @@ export default ({
           );
         })}
       </div>
-      <Detail data={detail} onChange={handleChange} dataSource />
+      <Detail data={detail} onChange={handleChange} dataSource={dataSource} />
     </div>
   );
 };
