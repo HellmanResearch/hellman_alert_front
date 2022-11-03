@@ -14,27 +14,17 @@ import { rootState } from "@/type";
 import { loginSign } from "@/store/Server";
 
 export default () => {
-  const login = localStorage.getItem("login");
+  const login = JSON.parse(localStorage.getItem("login") || "{}").id;
 
   const account = useSelector(
     (state: rootState) => state?.user.public_key,
     shallowEqual
   );
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    if (login) {
+    if (!login) {
       // 链接钱包
-      window.ethereum
-        .request({ method: "eth_requestAccounts" })
-        .then(async (res: any) => {
-          if (!localStorage.getItem("login")) {
-            loginSign(res[0]).then((res: any) => {
-              dispatch({ type: "user/login", payload: res.data });
-            });
-          }
-        });
+      loginSign();
     }
   }, []);
   return (

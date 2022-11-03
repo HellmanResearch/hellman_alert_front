@@ -14,12 +14,7 @@ function _axios(_axiosRequest: AxiosRequest) {
       .then((response) => {
         if (response.status ===200) {
           resolve(response)
-        } else {
-            
-          resolve(response)
-          /// 权限控制
-         // resolve(new Response(response.data));
-        }
+        } 
       })
       .catch((error) => {
         const message =

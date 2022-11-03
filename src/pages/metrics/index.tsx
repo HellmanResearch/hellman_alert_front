@@ -48,6 +48,7 @@ export default () => {
     const payload = {
       page: current || page,
       page_size,
+      ordering: "-id",
     };
 
     getReq(`${defaultUrl}engine/metrics`, payload).then((res: any) => {

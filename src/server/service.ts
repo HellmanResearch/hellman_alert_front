@@ -1,5 +1,10 @@
+import store from '@/store';
+import { loginSign } from '@/store/Server';
 import axios, { AxiosRequestConfig, Method } from 'axios';
 
+
+
+//const dispatch = useDispatch()
 interface PendingType {
   url: string | undefined;
   method?: string;
@@ -59,7 +64,13 @@ service.interceptors.response.use(
     return response;
   },
   (error) => {
-    return error;
+    if (error.response.status === 403) { 
+      //window.location?.path = '/metrics';
+      store.dispatch({ type: "user/login", payload: {cancel:true} });
+      //无权限,重新签名
+      loginSign()
+    }
+   return error;
   },
 );
 

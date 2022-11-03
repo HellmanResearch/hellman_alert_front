@@ -7,6 +7,8 @@ import "../style.less";
 import moment from "moment";
 import { Button, Input, Pagination } from "antd";
 import axios from "axios";
+import { shallowEqual, useSelector } from "react-redux";
+import { rootState } from "@/type";
 
 export default () => {
   const [alertsData, setAlerts] = useState<any[]>([]);
@@ -14,8 +16,7 @@ export default () => {
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(1);
   const columns = [
-    { title: "Metric", dataIndex: "metric", width: "20%" },
-    { title: "Subscribe", dataIndex: "subscribe", width: "20%" },
+    { title: "Name", dataIndex: "subscribe__name", width: "40%" },
     {
       title: "Triggered Time",
       dataIndex: "create_time",
@@ -47,15 +48,24 @@ export default () => {
       },
     },
   ];
+  const account = useSelector(
+    (state: rootState) => state?.user.public_key,
+    shallowEqual
+  );
   const load = (current?: number) => {
     const payload = {
       page: current || page,
       page_size,
+      ordering: "-id",
     };
-    getReq(`${defaultUrl}alerting/alerts`, payload).then((res: any) => {
-      setAlerts(res?.data?.results);
-      setTotal(res?.data.count);
-    });
+    getReq(`${defaultUrl}alerting/alerts`, payload)
+      .then((res: any) => {
+        setAlerts(res?.data?.results);
+        setTotal(res?.data.count);
+      })
+      .catch((error) => {
+        console.log("===error", error);
+      });
   };
 
   const handleConfirm = (type: string) => {
@@ -78,8 +88,11 @@ export default () => {
   };
 
   useEffect(() => {
-    load();
-  }, []);
+    console.log("=====4", account);
+    if (account) {
+      load();
+    }
+  }, [account]);
 
   //   const onSearch = (e: any) => {
   //     setSearch(e.target.value);

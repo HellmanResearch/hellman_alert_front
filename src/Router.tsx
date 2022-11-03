@@ -38,6 +38,7 @@ export default () => {
         <Route path='/subscribe/add' element={<Subscribe />} />
         <Route path='/subscribe/:subscribeId' element={<Subscribe />} />
         <Route path='/alerts' element={<Alert />} />
+        <Route path='/*' element={<Metrics />} />
       </Routes>
     </Suspense>
   );

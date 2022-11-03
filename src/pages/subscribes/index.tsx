@@ -3,8 +3,10 @@ import { defaultUrl, page_size } from "@/contanst";
 import "@/pages/style.less";
 import { DelReq, getReq } from "@/server/axios";
 import { getSvg } from "@/svgTypes";
+import { rootState } from "@/type";
 import { Button, Pagination } from "antd";
 import { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import "../style.less";
 
@@ -50,10 +52,15 @@ export default () => {
   const Navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(1);
+  const account = useSelector(
+    (state: rootState) => state?.user.public_key,
+    shallowEqual
+  );
   const load = (current?: number) => {
     const payload = {
       page: current || page,
       page_size,
+      ordering: "-id",
     };
     getReq(`${defaultUrl}alerting/subscribes`, payload).then((res: any) => {
       setData(res.data?.results || []);
@@ -61,8 +68,10 @@ export default () => {
     });
   };
   useEffect(() => {
-    load();
-  }, []);
+    if (account) {
+      load();
+    }
+  }, [account]);
 
   const handleClick = (type: string, Record: any) => {
     if (type === "update") {
