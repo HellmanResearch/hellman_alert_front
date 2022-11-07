@@ -147,7 +147,39 @@ module.exports = function (webpackEnv) {
                   // so that it honors browserslist config in package.json
                   // which in turn let's users customize the target behavior as per their needs.
                   'postcss-normalize',
-                ]
+
+                  //postcss-pxtorem
+
+                  //  [
+                  //   'postcss-pxtorem',
+                  //   {
+                  //     // 把px单位换算成rem单位
+                  //     rootValue: 192, //根据设计图尺寸写，设计图是1920，就写192(1920/10);
+                  //     unitPrecision: 3, //允许REM单位增长到的十进制数字,小数点后保留的位数。
+                  //     propList: ['*'],
+                  //     selectorBlackList: ['PX'],
+                  //     exclude: /(node_module)/, //默认false，可以（reg）利用正则表达式排除某些文件夹的方法，例如/(node_module)/ 。如果想把前端UI框架内的px也转换成rem，请把此属性设为默认值
+                  //     mediaQuery: false, //（布尔值）允许在媒体查询中xx转换px。
+                  //     minPixelValue: 1, //设置要替换的最小像素值
+                  //   },
+                  // ],
+
+                  // postcss-px-to-viewport
+                [
+                  'postcss-px-to-viewport', {
+                        unitToConvert: "px", // 要转化的单位       
+                        viewportWidth: 1920, // UI设计稿的宽度       
+                        unitPrecision: 6, // 转换后的精度，即小数点位数       
+                        propList: ["*"], // 指定转换的css属性的单位，*代表全部css属性的单位都进行转换     
+                        viewportUnit: "vw", // 指定需要转换成的视窗单位，默认vw       
+                        fontViewportUnit: "vw", // 指定字体需要转换成的视窗单位，默认vw      selectorBlackList: ["wrap"], // 指定不转换为视窗单位的类名，       
+                        minPixelValue: 1, // 默认值1，小于或等于1px则不进行转换       
+                        mediaQuery: true, // 是否在媒体查询的css代码中也进行转换，默认false      
+                        replace: true, // 是否转换后直接更换属性值       
+                        exclude: [/node_modules/], // 设置忽略文件，用正则做目录名匹配 
+                  }
+                  ]
+              ]
               : [
                   'tailwindcss',
                   'postcss-flexbugs-fixes',
