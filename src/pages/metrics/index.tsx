@@ -9,34 +9,37 @@ import moment from "moment";
 import { Button, Input, Pagination } from "antd";
 import "../style.less";
 import { useNavigate } from "react-router";
-
-const columns = [
-  { title: "Display", dataIndex: "display", width: "30%" },
-  {
-    title: "CreateTime",
-    dataIndex: "create_time",
-    width: "30%",
-    render: (text: string, record?: any) =>
-      moment(text).format("YYYY-MM-DD hh:mm"),
-  },
-  {
-    title: "UpdateTime",
-    dataIndex: "update_time",
-    width: "30%",
-    render: (text: string, record?: any) =>
-      moment(text).format("YYYY-MM-DD hh:mm"),
-  },
-  {
-    title: "",
-    dataIndex: "",
-    width: "10%",
-    render: () => {
-      return <span>History</span>;
-    },
-  },
-];
-
+import History from "./History";
 const { Search } = Input;
+
+const data = {
+  xAxis: {
+    type: "category",
+    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  },
+  yAxis: {
+    type: "value",
+  },
+  series: [
+    {
+      data: [
+        120,
+        {
+          value: 200,
+          itemStyle: {
+            color: "#a90000",
+          },
+        },
+        150,
+        80,
+        70,
+        110,
+        130,
+      ],
+      type: "bar",
+    },
+  ],
+};
 
 export default () => {
   const [alertsData, setAlerts] = useState([]);
@@ -44,6 +47,43 @@ export default () => {
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(1);
   const Navigate = useNavigate();
+  const [show, setShow] = useState(false);
+  const [historyData, setHistory] = useState({ ...data });
+
+  const columns = [
+    { title: "Display", dataIndex: "display", width: "30%" },
+    {
+      title: "CreateTime",
+      dataIndex: "create_time",
+      width: "30%",
+      render: (text: string, record?: any) =>
+        moment(text).format("YYYY-MM-DD hh:mm"),
+    },
+    {
+      title: "UpdateTime",
+      dataIndex: "update_time",
+      width: "30%",
+      render: (text: string, record?: any) =>
+        moment(text).format("YYYY-MM-DD hh:mm"),
+    },
+    {
+      title: "",
+      dataIndex: "",
+      width: "10%",
+      render: (_text: string, _res: Record<string, any>) => {
+        return (
+          <span
+            onClick={() => {
+              setHistory(historyData);
+              setShow(true);
+            }}>
+            History
+          </span>
+        );
+      },
+    },
+  ];
+
   const load = (current?: number) => {
     const payload = {
       page: current || page,
@@ -63,7 +103,6 @@ export default () => {
   //   const onSearch = (e: any) => {
   //     setSearch(e.target.value);
   //   };
-  console.log("===total", total);
   return (
     <div className='ssv-main'>
       <div className='ssv-main-header'>
@@ -125,6 +164,13 @@ export default () => {
           load(current);
         }}
       />
+      {/* <History
+        show={show}
+        options={historyData}
+        onChange={() => {
+          setShow(false);
+        }}
+      /> */}
     </div>
   );
 };

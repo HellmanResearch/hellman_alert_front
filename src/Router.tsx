@@ -18,8 +18,6 @@ export default () => {
     shallowEqual
   );
 
-  console.log("===3", useParams());
-
   useEffect(() => {
     if (localStorage.getItem("login")) {
       const data = JSON.parse(localStorage.getItem("login") || "{}");
