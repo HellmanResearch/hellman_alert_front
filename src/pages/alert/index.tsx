@@ -1,7 +1,6 @@
 /** @format */
 
 import { defaultUrl, page_size } from "@/contanst";
-import { getReq } from "@/server/axios";
 import { useEffect, useState } from "react";
 import "../style.less";
 import moment from "moment";
@@ -58,7 +57,10 @@ export default () => {
       page_size,
       ordering: "-id",
     };
-    getReq(`${defaultUrl}alerting/alerts`, payload)
+    axios
+      .get(
+        `${defaultUrl}alerting/alerts?page=${payload.page}&page_size=${payload.page_size}&&ordering=-id`
+      )
       .then((res: any) => {
         setAlerts(res?.data?.results);
         setTotal(res?.data.count);

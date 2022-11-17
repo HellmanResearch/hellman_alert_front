@@ -3,13 +3,12 @@
 /** @format */
 
 import { defaultUrl, page_size } from "@/contanst";
-import { getReq } from "@/server/axios";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { Button, Input, Pagination } from "antd";
 import "../style.less";
 import { useNavigate } from "react-router";
-import History from "./History";
+import axios from "axios";
 const { Search } = Input;
 
 const data = {
@@ -47,7 +46,6 @@ export default () => {
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(1);
   const Navigate = useNavigate();
-  const [show, setShow] = useState(false);
   const [historyData, setHistory] = useState({ ...data });
 
   const columns = [
@@ -74,8 +72,8 @@ export default () => {
         return (
           <span
             onClick={() => {
-              setHistory(historyData);
-              setShow(true);
+              //setHistory(historyData);
+              Navigate(`/history/${_res.id}`);
             }}>
             History
           </span>
@@ -91,10 +89,14 @@ export default () => {
       ordering: "-id",
     };
 
-    getReq(`${defaultUrl}engine/metrics`, payload).then((res: any) => {
-      setAlerts(res?.data?.results);
-      setTotal(res?.data?.count);
-    });
+    axios
+      .get(
+        `${defaultUrl}engine/metrics?page=${payload.page}&page_size=${payload.page_size}&&ordering=-id`
+      )
+      .then((res: any) => {
+        setAlerts(res?.data?.results);
+        setTotal(res?.data?.count);
+      });
   };
   useEffect(() => {
     load();
@@ -164,13 +166,6 @@ export default () => {
           load(current);
         }}
       />
-      {/* <History
-        show={show}
-        options={historyData}
-        onChange={() => {
-          setShow(false);
-        }}
-      /> */}
     </div>
   );
 };

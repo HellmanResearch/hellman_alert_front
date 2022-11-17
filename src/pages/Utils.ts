@@ -3,3 +3,14 @@ export const getStr = (value: string) :string=> {
             ? value.slice(0, 6) + "..." + value.slice(-4)
             : value;
 }
+
+export function getCookie(name:string) {
+  var arr = document.cookie.split(";");
+  for (var i = 0; i < arr.length; i++) {
+    var arr2 = arr[i].split("=");
+    if (arr2[0] == name) {
+      return arr2[1];
+    }
+  }
+  return "";
+}

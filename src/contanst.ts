@@ -14,5 +14,10 @@ export const linkList: Record<string, string> = {
 };
 
 export const page_size = 5;
-export const defaultUrl =  window.location.protocol + "//" + window.location.host + "/api/v1/" ||process.env.REACT_APP_BASE_URL ||'http://192.168.1.128:82/api/v1/';
-export const tokenUrl = window.location.protocol + "//" + window.location.host ||process.env.REACT_APP_TOKEN_URL ||`http://192.168.1.128:82`
+/*
+window.location.protocol + "//" + window.location.host + "/api/v1/" ||
+window.location.protocol + "//" + window.location.host ||
+*/
+//export const defaultUrl =  process.env.REACT_APP_BASE_URL ||'http://39.101.77.40/api/v1/';
+export const tokenUrl = process.env.REACT_APP_TOKEN_URL || `http://39.101.77.40`
+export const defaultUrl ='/api/v1/'

@@ -19,9 +19,11 @@ export default () => {
       window.open(`https://metamask.io/`);
     } else {
       // 链接钱包
+      console.log("====w");
       window.ethereum
         .request({ method: "eth_requestAccounts" })
         .then((res: any) => {
+          console.log("=====ew4534", res);
           loginSign(res[0]).then((res: any) => {
             dispatch({ type: "user/login", payload: res.data });
           });
@@ -50,7 +52,9 @@ export default () => {
         <p className='login-wallect-text'>
           Connect your wallet to create the notifications
         </p>
-        <Button className='default-btn wallect-btn' onClick={handleClick}>
+        <Button
+          className='default-btn wallect-btn header-wallect-btn'
+          onClick={handleClick}>
           <span className='wallect-name'>Metamask</span>
           <span className='wallect-icon'>{getSvg("wallect_Metamask")}</span>
         </Button>

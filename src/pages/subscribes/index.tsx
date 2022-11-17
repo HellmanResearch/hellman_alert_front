@@ -1,10 +1,10 @@
 /** @format */
 import { defaultUrl, page_size } from "@/contanst";
 import "@/pages/style.less";
-import { DelReq, getReq } from "@/server/axios";
 import { getSvg } from "@/svgTypes";
 import { rootState } from "@/type";
 import { Button, Pagination } from "antd";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
@@ -62,10 +62,14 @@ export default () => {
       page_size,
       ordering: "-id",
     };
-    getReq(`${defaultUrl}alerting/subscribes`, payload).then((res: any) => {
-      setData(res.data?.results || []);
-      setTotal(res.data?.count);
-    });
+    axios
+      .get(
+        `${defaultUrl}/alerting/subscribes?page=${payload.page}&page_size=${payload.page_size}&&ordering=-id`
+      )
+      .then((res: any) => {
+        setData(res.data?.results || []);
+        setTotal(res.data?.count);
+      });
   };
   useEffect(() => {
     if (account) {
@@ -77,11 +81,11 @@ export default () => {
     if (type === "update") {
       Navigate(`/subscribe/${Record.id}`);
     } else if (type === "remove") {
-      DelReq(`${defaultUrl}alerting/subscribes/${Record.id}`).then(
-        (res: any) => {
+      axios
+        .delete(`${defaultUrl}alerting/subscribes/${Record.id}`)
+        .then((res: any) => {
           load();
-        }
-      );
+        });
     }
   };
   return (

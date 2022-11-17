@@ -1,12 +1,11 @@
 /** @format */
 
 import { tokenUrl } from "@/contanst";
-import { getReq } from "@/server/axios";
 import { getSvg } from "@/svgTypes";
 import { Checkbox, Form, Select, Input, Modal, Button, InputRef } from "antd";
+import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { getStr } from "../../Utils";
-
+import { getStr } from "@/pages/Utils";
 interface PROPS {
   data: {
     show: boolean;
@@ -22,8 +21,6 @@ export default (props: PROPS) => {
   const [content, setContent] = useState("");
   const [fromLabel, setLable] = useState<Record<string, boolean | string>>({});
   const { detail } = data;
-  const inputRef = useRef<InputRef>(null);
-
   const [form] = Form.useForm();
 
   const onFinish = () => {
@@ -97,7 +94,7 @@ export default (props: PROPS) => {
     });
     if (data.remote_url && !optiosData[data.remote_url]) {
       const url = `${tokenUrl}${data.remote_url}`;
-      getReq(`${tokenUrl}${data.remote_url}`).then((res: any) => {
+      axios.get(`${tokenUrl}${data.remote_url}`).then((res: any) => {
         if (res.data) {
           const newOpt = {
             [data.remote_url]: res.data.map((va: any) => {

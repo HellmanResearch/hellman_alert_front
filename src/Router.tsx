@@ -5,7 +5,7 @@ import { Routes, Route, useParams } from "react-router-dom";
 import Metrics from "@/pages/metrics";
 import Subscribe from "@/pages/subscribes/addItem";
 import Subscribes from "@/pages/subscribes/";
-
+import History from "@/pages/history";
 import { rootState } from "./type";
 import NoData from "@/components/noData";
 import Alert from "@/pages/alert";
@@ -33,6 +33,7 @@ export default () => {
       <Routes>
         <Route path='/metrics' element={<Metrics />} />
         <Route path='/subscribe' element={<Subscribes />} />
+        <Route path='/history/:id' element={<History />} />
         <Route path='/subscribe/add' element={<Subscribe />} />
         <Route path='/subscribe/:subscribeId' element={<Subscribe />} />
         <Route path='/alerts' element={<Alert />} />
