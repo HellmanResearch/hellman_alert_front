@@ -71,6 +71,7 @@ export default () => {
       render: (_text: string, _res: Record<string, any>) => {
         return (
           <span
+            style={{ cursor: "pointer" }}
             onClick={() => {
               //setHistory(historyData);
               Navigate(`/history/${_res.id}`);

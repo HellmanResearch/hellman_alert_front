@@ -38,7 +38,6 @@ export default () => {
         ...values,
       })
       .then((res) => {
-        console.log("=====33", res);
         const xAxis: string[] = [];
         const series: any[] = [];
         res.data.forEach((item: Array<string | number>) => {
@@ -62,7 +61,6 @@ export default () => {
       return { label: value[1], value: value[0] };
     });
     if (data.remote_url && !optiosData[data.remote_url]) {
-      const url = `${tokenUrl}${data.remote_url}`;
       axios.get(`${tokenUrl}${data.remote_url}`).then((res: any) => {
         if (res.data) {
           const newOpt = {
@@ -70,6 +68,7 @@ export default () => {
               return { label: va[1], value: va[0] };
             }),
           };
+          handleChange(name, newOpt[data.remote_url][0].value);
           setOptions({ ...optiosData, ...newOpt });
         }
       });
@@ -89,6 +88,7 @@ export default () => {
             onChange={(value) => handleChange(name, value)}
             className='item-select default-border item-content'
             popupClassName='item-select-wrap'
+            value={(filterValue && filterValue[name]) || ""}
             options={
               options.length > 0 ? options : optiosData[data.remote_url]
             }></Select>

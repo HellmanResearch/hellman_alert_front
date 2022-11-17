@@ -9,6 +9,7 @@ import History from "@/pages/history";
 import { rootState } from "./type";
 import NoData from "@/components/noData";
 import Alert from "@/pages/alert";
+import Email from "@/pages/email";
 import { Suspense, useEffect } from "react";
 
 export default () => {
@@ -34,6 +35,10 @@ export default () => {
         <Route path='/metrics' element={<Metrics />} />
         <Route path='/subscribe' element={<Subscribes />} />
         <Route path='/history/:id' element={<History />} />
+        <Route
+          path='/alerting/alerts/:ID/confirm-via-sign'
+          element={<Email />}
+        />
         <Route path='/subscribe/add' element={<Subscribe />} />
         <Route path='/subscribe/:subscribeId' element={<Subscribe />} />
         <Route path='/alerts' element={<Alert />} />
