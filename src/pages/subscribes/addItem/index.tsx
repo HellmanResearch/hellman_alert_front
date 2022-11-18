@@ -215,7 +215,7 @@ export default React.memo(() => {
         placeholder='Suscription name'
       />
       <Button className='default-btn subscribe-btn' onClick={handleCreate}>
-        Create
+        {params.subscribeId ? "Update" : "Create"}
       </Button>
     </div>
   );

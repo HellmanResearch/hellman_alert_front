@@ -1,7 +1,7 @@
 
 
 export const listLinkType = [
-  { key: "twitter", link: "" },
+  { key: "twitter", link: " https://twitter.com/HellmanResearch" },
   { key: "githup", link: "https://github.com/HellmanResearch/ssv-front" },
   { key: "discode", link: "" },
 ];
