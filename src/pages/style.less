@@ -37,9 +37,34 @@
             font-family:Helvetica-Bold;
             font-weight: 700;
         }
-        .add-btn{
+        &-content{
+            display: flex;
+            align-items: center;
+            column-gap: 10px;
+            .limit{
+                color: #898A92;
+                &-icon{
+                    margin-right: 4px;
+                    position: relative;
+                    &::before{
+                      position: absolute;
+                        content: '';
+                        background-color: #1ba5f8;
+                        width: 8px;
+                        height: 8px;
+                        z-index: 2;
+                        top: 50%;
+                        border-radius: 4px;
+                        left: -10px;
+                        transform: translate(-50%, -50%);
+                    }
+                }
+            }
+            .add-btn{
             border-radius: 23px;    
             }
+        }
+        
     }
     &-content{
             flex: 1;

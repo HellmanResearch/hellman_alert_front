@@ -52,8 +52,11 @@ export default () => {
   const Navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(1);
-  const account = useSelector(
-    (state: rootState) => state?.user.public_key,
+  const { account, max_subscribe } = useSelector(
+    (state: rootState) => ({
+      account: state?.user.public_key,
+      max_subscribe: state?.user.max_subscribe,
+    }),
     shallowEqual
   );
   const load = (current?: number) => {
@@ -92,13 +95,21 @@ export default () => {
     <div className='ssv-main'>
       <div className='ssv-main-header'>
         <h3 className='title'>Subscribed</h3>
-        <Button
-          className='default-btn add-btn'
-          onClick={() => {
-            Navigate(`/subscribe/add`);
-          }}>
-          Add
-        </Button>
+        <div className='ssv-main-header-content'>
+          <div className='limit'>
+            <span className='limit-icon'>limit: </span>
+            <span>
+              {total} / {max_subscribe}
+            </span>
+          </div>
+          <Button
+            className='default-btn add-btn'
+            onClick={() => {
+              Navigate(`/subscribe/add`);
+            }}>
+            Add
+          </Button>
+        </div>
       </div>
       <div className='ssv-main-content'>
         <ul className='header'>
