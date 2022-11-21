@@ -88,6 +88,11 @@ export default () => {
             onChange={(value) => handleChange(name, value)}
             className='item-select default-border item-content'
             popupClassName='item-select-wrap'
+            filterOption={(input, option) =>
+              String(option?.label ?? "")
+                ?.toLowerCase()
+                .includes(input.toLowerCase())
+            }
             value={(filterValue && filterValue[name]) || ""}
             options={
               options.length > 0 ? options : optiosData[data.remote_url]

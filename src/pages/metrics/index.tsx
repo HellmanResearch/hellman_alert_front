@@ -70,14 +70,15 @@ export default () => {
       width: "10%",
       render: (_text: string, _res: Record<string, any>) => {
         return (
-          <span
+          <Button
+            className='default-btn'
             style={{ cursor: "pointer" }}
             onClick={() => {
               //setHistory(historyData);
               Navigate(`/history/${_res.id}`);
             }}>
             History
-          </span>
+          </Button>
         );
       },
     },

@@ -117,6 +117,11 @@ export default (props: PROPS) => {
         return (
           <Select
             showSearch
+            filterOption={(input, option) =>
+              String(option?.label ?? "")
+                ?.toLowerCase()
+                .includes(input.toLowerCase())
+            }
             className='item-select default-border'
             popupClassName='item-select-wrap'
             options={
