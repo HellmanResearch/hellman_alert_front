@@ -105,6 +105,25 @@ module.exports = function (webpackEnv) {
 
   const shouldUseReactRefresh = env.raw.FAST_REFRESH;
 
+//   // 获取当前ip
+//   function getIpAddress() {
+//   var ifaces=os.networkInterfaces()
+
+//   for (var dev in ifaces) {
+//     let iface = ifaces[dev]
+
+//     for (let i = 0; i < iface.length; i++) {
+//       let {family, address, internal} = iface[i]
+
+//       if (family === 'IPv4' && address !== '127.0.0.1' && !internal) {
+//         return address
+//       }
+//     }
+//   }
+// }
+
+// let ipAddress = getIpAddress()
+
   // common function to get style loaders
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
@@ -596,29 +615,13 @@ module.exports = function (webpackEnv) {
         },
       ].filter(Boolean),
     },
-     devServer:{
-    proxy: {
-      "/api": {
-        target:process.env.REACT_APP_BASE_URL,
-      },
-      // onProxyRes: function(proxyRes, req, res) {
-      //     var cookies = proxyRes.headers['set-cookie'];
-      //     var cookieRegex = /Path=\/XXX\//i;
-      //     //修改cookie Path
-      //     if (cookies) {
-      //       var newCookie = cookies.map(function(cookie) {
-      //         if (cookieRegex.test(cookie)) {
-      //           return cookie.replace(cookieRegex, 'Path=/');
-      //         }
-      //         return cookie;
-      //       });
-      //       //修改cookie path
-      //       delete proxyRes.headers['set-cookie'];
-      //       proxyRes.headers['set-cookie'] = newCookie;
-      //     }
-      //   }
-    }
-},
+//      devServer:{
+//     proxy: {
+//       "/api": {
+//         target:ipAddress||process.env.REACT_APP_BASE_URL,
+//       },
+//     }
+// },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(

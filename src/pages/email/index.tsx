@@ -42,7 +42,7 @@ export default () => {
       {name && (
         <p className='p-label'>
           <span className='label'> Name:</span>
-          <span>{name}</span>
+          <span>{decodeURIComponent(name)}</span>
         </p>
       )}
 
