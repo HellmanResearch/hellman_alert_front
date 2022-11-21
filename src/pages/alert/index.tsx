@@ -21,22 +21,24 @@ export default () => {
       dataIndex: "create_time",
       width: "20%",
       render: (text: string, record?: any) =>
-        moment(text).format("YYYY-MM-DD hh:mm:ss"),
+        moment(text).format("YYYY-MM-DD hh:mm:ss") + "UTC",
     },
     {
       title: "",
-      dataIndex: "confirmed",
+      dataIndex: "Acknowledged",
       width: "40%",
       aligin: "right",
       render: (text: string, record: any) => {
-        const showText = text ? "Confirmed" : "Confirm";
+        const showText = text ? "Acknowledged" : "Acknowledge";
         return (
           <div
             className={
-              showText === "Confirm" ? "edit-btn default-border" : "edit-btn"
+              showText === "Acknowledge"
+                ? "edit-btn default-border"
+                : "edit-btn"
             }
             onClick={() => {
-              if (showText === "Confirm") {
+              if (showText === "Acknowledge") {
                 handleConfirm(record.id);
               }
             }}
@@ -112,7 +114,7 @@ export default () => {
           onClick={() => {
             handleConfirm("all");
           }}>
-          Confirm All
+          Acknowledge All
         </Button>
         {/* <Input.Search
           placeholder='input search text'

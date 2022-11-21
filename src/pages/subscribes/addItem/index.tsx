@@ -17,7 +17,7 @@ export default React.memo(() => {
   const [groups, setGroups] = useState([]);
   const [detail, setDetail] = useState<{
     show: boolean;
-    detail?: Record<string, string>;
+    detail?: Record<string, any>;
   }>({
     show: false,
   });
@@ -62,6 +62,7 @@ export default React.memo(() => {
 
     axios.get(`${defaultUrl}engine/metric-groups`).then((res) => {
       setGroups(res.data.results);
+      setDetail({ show: true, detail: subscribeData });
     });
   }, [params.id]);
 
@@ -73,6 +74,7 @@ export default React.memo(() => {
           metric: value.metricId,
           conditions: value,
         });
+        setShowCard("action");
         break;
       case "action":
         const key = Object.keys(value)[0];
@@ -81,6 +83,8 @@ export default React.memo(() => {
           notification_address: value[key],
         };
         setSubscribeDate({ ...subscribeData, ...actionObj });
+        setShowCard("");
+
         break;
       default:
         break;
@@ -103,7 +107,11 @@ export default React.memo(() => {
           Navigate("/subscribe");
         })
         .catch((res) => {
-          message.warn(res.response?.data?.non_field_errors || "");
+          if (res.response.data) {
+            if (Object.keys(res.response.data).length > 0) {
+              message.warn("缺少必填参数");
+            }
+          }
         });
     } else {
       axios
@@ -112,7 +120,11 @@ export default React.memo(() => {
           Navigate("/subscribe");
         })
         .catch((res) => {
-          message.warn(res.response?.data?.non_field_errors || "");
+          if (res.response.data) {
+            if (Object.keys(res.response.data).length > 0) {
+              message.warn("缺少必填参数");
+            }
+          }
         });
     }
   };

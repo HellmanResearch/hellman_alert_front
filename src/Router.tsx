@@ -13,18 +13,10 @@ import Email from "@/pages/email";
 import { Suspense, useEffect } from "react";
 
 export default () => {
-  const dispath = useDispatch();
   const public_key = useSelector(
     (state: rootState) => state?.user?.public_key,
     shallowEqual
   );
-
-  useEffect(() => {
-    if (localStorage.getItem("login")) {
-      const data = JSON.parse(localStorage.getItem("login") || "{}");
-      dispath({ type: "user/login", payload: data });
-    }
-  }, []);
 
   if (!public_key) {
     return <NoData />;

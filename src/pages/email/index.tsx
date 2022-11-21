@@ -5,19 +5,21 @@ import { getSvg } from "@/svgTypes";
 import { Button } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import "../style.less";
 export default () => {
   const param = useParams();
   const [flag, setFlag] = useState("confirm_right");
-  const [data, setData] = useState<Record<string, any>>({});
+  const [search] = useSearchParams();
+  const name = search.get("name");
+  const navigator = useNavigate();
   useEffect(() => {
     axios
       .post(`${defaultUrl}/alerting/alerts/${param.id}/confirm-via-sign`, {
         sign: param.sign,
       })
       .then((res) => {
-        setData(res.data);
         setFlag("confirm_right");
       })
       .catch((re) => {
@@ -28,16 +30,29 @@ export default () => {
   return (
     <div className='ssv-main confirm-body'>
       {getSvg(flag)}
-      <h3>Acknowledge successful</h3>
+      <h3 className='header-title'>
+        {flag === "confirm_right"
+          ? "Acknowledge successful"
+          : "Acknowledge error"}
+      </h3>
       <p className='p-label'>
         <span className='label'> ID:</span>
         <span>{param.id}</span>
       </p>
-      <p className='p-label'>
-        <span className='label'> Name:</span>
-        <span>{data?.name}</span>
-      </p>
-      <Button className='default-btn'>Go to list of alerts</Button>
+      {name && (
+        <p className='p-label'>
+          <span className='label'> Name:</span>
+          <span>{name}</span>
+        </p>
+      )}
+
+      <Button
+        className='default-btn'
+        onClick={() => {
+          navigator("/alerts");
+        }}>
+        Go to list of alerts
+      </Button>
     </div>
   );
 

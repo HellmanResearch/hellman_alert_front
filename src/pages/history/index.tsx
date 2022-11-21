@@ -40,8 +40,9 @@ export default () => {
       .then((res) => {
         const xAxis: string[] = [];
         const series: any[] = [];
-        res.data.forEach((item: Array<string | number>) => {
-          xAxis.push(moment(item[0]).format("YYYY_MM_DD HH:mm:ss"));
+        res.data.forEach((item: [number, string]) => {
+          const timer: number = Number(item[0]) * 1000;
+          xAxis.push(moment(timer).format("YYYY-MM-DD HH:mm:ss"));
           series.push(item[1]);
         });
         setEchartsOptions({

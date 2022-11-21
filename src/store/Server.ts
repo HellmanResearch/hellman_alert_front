@@ -19,14 +19,16 @@ axios.interceptors.response.use(
       message.warning('无权限访问资源');
     } else if (err.response?.status == 403) {
       message.warning('登录过期, 请重新登录');
-      setTimeout(() => {
-        location.href = '/login';
-      }, 2000);
+       //重新登录
+         loginSign();
     } else {
-      notification.error({
+      if (err.response?.data?.detail) { 
+          notification.error({
         message: '网络请求错误',
-        description: `${err.response?.data?.message || err.response?.data || err}`,
+        description: `${err.response?.data?.detail || err.response?.data || err}`,
       });
+      }
+     
     }
     return Promise.reject(err);
   }

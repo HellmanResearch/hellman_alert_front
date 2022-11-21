@@ -49,30 +49,28 @@ export default () => {
   const [historyData, setHistory] = useState({ ...data });
 
   const columns = [
-    { title: "Display", dataIndex: "display", width: "30%" },
+    { title: "Display", dataIndex: "display", width: "40%" },
     {
-      title: "CreateTime",
-      dataIndex: "create_time",
-      width: "30%",
-      render: (text: string, record?: any) =>
-        moment(text).format("YYYY-MM-DD hh:mm"),
+      title: "Group",
+      dataIndex: "group__name",
+      width: "40%",
     },
-    {
-      title: "UpdateTime",
-      dataIndex: "update_time",
-      width: "30%",
-      render: (text: string, record?: any) =>
-        moment(text).format("YYYY-MM-DD hh:mm"),
-    },
+    // {
+    //   title: "UpdateTime",
+    //   dataIndex: "update_time",
+    //   width: "20%",
+    //   render: (text: string, record?: any) =>
+    //     moment(text).format("YYYY-MM-DD hh:mm"),
+    // },
     {
       title: "",
       dataIndex: "",
-      width: "10%",
+      width: "20%",
       render: (_text: string, _res: Record<string, any>) => {
         return (
           <Button
             className='default-btn'
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", float: "right" }}
             onClick={() => {
               //setHistory(historyData);
               Navigate(`/history/${_res.id}`);

@@ -184,11 +184,11 @@ export default (props: PROPS) => {
               );
             })}
             <Form.Item className='from-btns' wrapperCol={{ span: 24 }}>
-              <div
+              {/* <div
                 className='default-border default-btn-border'
                 onClick={() => handleChange("cancel")}>
                 <span className='text'>change</span>
-              </div>
+              </div> */}
               <Button
                 className='default-btn'
                 type='primary'

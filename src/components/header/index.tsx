@@ -20,7 +20,7 @@ export default () => {
     (state: rootState) => state?.user.public_key,
     shallowEqual
   );
-
+  console.log("=account===3", account);
   useEffect(() => {
     if (!login) {
       // 链接钱包

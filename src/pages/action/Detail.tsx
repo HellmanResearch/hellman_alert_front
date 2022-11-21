@@ -1,7 +1,9 @@
 /** @format */
 
+import { defaultUrl } from "@/contanst";
 import { Button, Form, Input, Modal } from "antd";
 import { icons } from "antd/lib/image/PreviewGroup";
+import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 
 const FormList = [{ name: "", label: " address", require: true }];
@@ -25,12 +27,14 @@ export default (props: any) => {
 
   const handleChange = (type: string, values?: Record<string, string>) => {
     if (form) {
-      if (type === "cancel") {
-        const values = form.getFieldsValue();
-        Object.keys(values).forEach((va) => {
-          form.setFieldValue(va, "");
+      if (type === "test") {
+        console.log("====3435", title, address);
+        axios.post(`${defaultUrl}alerting/subscribes/action-test`, {
+          notification_address: address,
+          notification_type: title.toLocaleLowerCase(),
         });
       } else if (values && type === "default") {
+        const values = form.getFieldsValue();
         Object.keys(values).forEach((va) => {
           form.setFieldValue(va, values[va]);
         });
@@ -53,7 +57,7 @@ export default (props: any) => {
         <div className='action-detail-header'>
           <h3 className='title'>Action</h3>
           <span className='detail'>
-            Send email to Email{" "}
+            Send email to {title}{" "}
             <span style={{ color: "#1BA5F8" }}>{address}</span>
           </span>
         </div>
@@ -82,8 +86,8 @@ export default (props: any) => {
           <Form.Item className='from-btns' wrapperCol={{ span: 24 }}>
             <div
               className='default-border default-btn-border'
-              onClick={() => handleChange("cancel")}>
-              <span className='text'>change</span>
+              onClick={() => handleChange("test")}>
+              <span className='text'>测试发送</span>
             </div>
             <Button
               className='default-btn'
