@@ -62,7 +62,7 @@ export default React.memo(() => {
 
     axios.get(`${defaultUrl}engine/metric-groups`).then((res) => {
       setGroups(res.data.results);
-      setDetail({ show: true, detail: subscribeData });
+      // setDetail({ show: true, detail: subscribeData });
     });
   }, [params.id]);
 

@@ -600,9 +600,6 @@ module.exports = function (webpackEnv) {
     proxy: {
       "/api": {
         target:process.env.REACT_APP_BASE_URL,
-        headers: {
-          Cookie:'sessionid=kmzv7jorb1gjeubbqc9xtv1r03r2a10u'
-        }
       },
       // onProxyRes: function(proxyRes, req, res) {
       //     var cookies = proxyRes.headers['set-cookie'];

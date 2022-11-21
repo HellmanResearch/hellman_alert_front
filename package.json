@@ -73,7 +73,8 @@
     "proxy": "http://39.101.77.40/",
   "scripts": {
     "start": "env-cmd -f .env node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build-test": "env-cmd -f .env node scripts/build.js",
+    "build": "env-cmd -f .env.pord node scripts/build.js",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
