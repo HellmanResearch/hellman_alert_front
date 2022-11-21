@@ -17,7 +17,7 @@ export default () => {
   useEffect(() => {
     axios
       .post(`${defaultUrl}/alerting/alerts/${param.id}/confirm-via-sign`, {
-        sign: param.sign,
+        sign: param.sign && decodeURIComponent(param.sign),
       })
       .then((res) => {
         setFlag("confirm_right");
