@@ -6,6 +6,7 @@ import { defaultUrl, page_size } from "@/contanst";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { Button, Input, Pagination } from "antd";
+import { LineChartOutlined } from "@ant-design/icons";
 import "../style.less";
 import { useNavigate } from "react-router";
 import axios from "axios";
@@ -68,15 +69,18 @@ export default () => {
       width: "20%",
       render: (_text: string, _res: Record<string, any>) => {
         return (
-          <Button
-            className='default-btn'
+          <span
+            className='default-border edit-btn'
             style={{ cursor: "pointer", float: "right" }}
             onClick={() => {
               //setHistory(historyData);
               Navigate(`/history/${_res.id}`);
             }}>
-            History
-          </Button>
+            <span className='text'>
+              <LineChartOutlined className='icon' />
+              History
+            </span>
+          </span>
         );
       },
     },

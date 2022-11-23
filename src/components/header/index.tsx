@@ -2,7 +2,7 @@
 
 import { Button } from "antd";
 import { Header } from "antd/lib/layout/layout";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { defaultUrl, linkList, listLinkType } from "@/contanst";
 import logo from "@/assets/images/logo.webp";
 import { getSvg } from "@/svgTypes";
@@ -15,12 +15,11 @@ import { loginSign } from "@/store/Server";
 
 export default () => {
   const login = JSON.parse(localStorage.getItem("login") || "{}").id;
-
+  const navigate = useNavigate();
   const account = useSelector(
     (state: rootState) => state?.user.public_key,
     shallowEqual
   );
-  console.log("=account===3", account);
   useEffect(() => {
     if (!login) {
       // 链接钱包
@@ -29,7 +28,11 @@ export default () => {
   }, []);
   return (
     <Header className='ssv-header'>
-      <div className='ssv-header-logo'>
+      <div
+        className='ssv-header-logo'
+        onClick={() => {
+          navigate("/metrics");
+        }}>
         <img className='logo_img' src={logo} />
         <span className='logo_text'>HellmanAlert</span>
       </div>

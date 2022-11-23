@@ -43,6 +43,28 @@
     background-image: linear-gradient(to right, #171822, #171822), linear-gradient(to right, #d027fa, #1ba5f8);
 }
 
+                    .edit-btn{
+                        display: inline-flex;
+                        align-items: center;
+                        column-gap: 3px;
+                        justify-content: center;
+                         padding: 6px 20px;
+                        margin-right: 14px;
+                        border: 1px solid transparent;
+                        border-radius: 30px;
+                        background-image: linear-gradient(to right, #252632, #252632), linear-gradient(to right, #d027fa, #1ba5f8);
+                        cursor: pointer;
+                        .icon{
+                            color: #d027fa;
+                            margin-right: 3px;
+                        }
+                        .text{
+                        background: linear-gradient(90deg, #d027fa, #1ba5f8);
+                        color: transparent;
+                        -webkit-background-clip: text; 
+                        }                                              
+                    }
+
 .ssv-modal{
       .ant-modal-content{
         padding: 40px 30px;
@@ -159,4 +181,25 @@
         background: #303155;
         color: #fff;
     }
+}
+
+
+//ant-popconfirm
+.ant-popconfirm{
+    .ant-popover-content{
+        .ant-popover-inner{
+            background: #2E304C;
+            .ant-popover-message{
+                color: #fff;
+            }
+        }
+        .ant-popover-arrow{
+        &-content{
+            &::before{
+                background: #2E304C;
+            }
+        }
+    }
+    }
+    
 }

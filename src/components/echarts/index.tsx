@@ -35,6 +35,9 @@ export default ({ options }: { options?: Record<string, any> }) => {
           yAxis: {
             type: "value",
           },
+          tooltip: {
+            show: true,
+          },
           series: [
             {
               data: options?.series || [150, 230, 224, 218, 135, 147, 260],
@@ -56,22 +59,14 @@ export default ({ options }: { options?: Record<string, any> }) => {
               color: "#fff",
             },
 
-            data: options?.xAxis || [
-              "Mon",
-              "Tue",
-              "Wed",
-              "Thu",
-              "Fri",
-              "Sat",
-              "Sun",
-            ],
+            data: options?.xAxis || [],
           },
           yAxis: {
             type: "value",
           },
           series: [
             {
-              data: options?.series || [150, 230, 224, 218, 135, 147, 260],
+              data: options?.series || [],
               type: "line",
             },
           ],

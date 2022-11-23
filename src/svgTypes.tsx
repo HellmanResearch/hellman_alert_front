@@ -74,6 +74,31 @@ const discode = (
   </svg>
 );
 
+const email = (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='23px'
+    height='17px'
+    viewBox='0 0 23 17'
+    version='1.1'>
+    <title>形状结合</title>
+    <g id='页面-3' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
+      <g
+        id='切图'
+        transform='translate(-271.000000, -187.000000)'
+        fill='#FFFFFF'
+        fill-rule='nonzero'>
+        <g id='编组-4' transform='translate(271.000000, 187.000000)'>
+          <path
+            d='M23,0.826582766 L23,15.9589951 C23,16.3770735 22.6693557,16.6979946 22.2705185,16.6979946 L22.2705185,16.6979946 L0.719702373,16.6979946 C0.320958443,16.6979946 0,16.3770735 0,15.9589951 L0,15.9589951 L0,0.875366658 L6.59362634,7.03128167 L1.29348231,14.2473412 L7.86764361,8.22747613 L11.4658942,11.5923329 L15.005899,8.2955571 L21.5217398,14.2473599 L16.2604699,7.10910448 L23,0.826582766 Z M21.9982693,0 L11.4659129,9.83215638 L0.943354308,0 L21.9982693,0 Z'
+            id='形状结合'
+          />
+        </g>
+      </g>
+    </g>
+  </svg>
+);
+
 const wallect_Metamask = (
   <svg
     xmlns='http://www.w3.org/2000/svg'
@@ -526,6 +551,7 @@ const svgObj: Record<string, JSX.Element> = {
   twitter,
   githup,
   discode,
+  email,
   wallect_Metamask,
   metric_logo,
   addIcon,

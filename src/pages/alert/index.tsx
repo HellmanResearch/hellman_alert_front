@@ -15,7 +15,8 @@ export default () => {
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(1);
   const columns = [
-    { title: "Name", dataIndex: "subscribe__name", width: "40%" },
+    { title: "Name", dataIndex: "subscribe__name", width: "25%" },
+    { title: "ID", dataIndex: "id", width: "25%" },
     {
       title: "Triggered Time",
       dataIndex: "create_time",
@@ -25,8 +26,8 @@ export default () => {
     },
     {
       title: "",
-      dataIndex: "Acknowledged",
-      width: "40%",
+      dataIndex: "confirmed",
+      width: "30%",
       aligin: "right",
       render: (text: string, record: any) => {
         const showText = text ? "Acknowledged" : "Acknowledge";

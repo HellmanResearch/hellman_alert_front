@@ -3,7 +3,7 @@ import { defaultUrl, page_size } from "@/contanst";
 import "@/pages/style.less";
 import { getSvg } from "@/svgTypes";
 import { rootState } from "@/type";
-import { Button, Pagination } from "antd";
+import { Button, Pagination, Popconfirm } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -36,12 +36,16 @@ export default () => {
               {getSvg("update_svg")}
               <span className='text'>update</span>
             </span>
-            <span
-              className='default-border edit-btn'
-              onClick={() => handleClick("remove", Record)}>
-              {getSvg("delete_svg")}
-              <span className='text'>remove</span>
-            </span>
+            <Popconfirm
+              title='Are you sure to remove this task?'
+              onConfirm={() => handleClick("remove", Record)}
+              okText='Yes'
+              cancelText='No'>
+              <span className='default-border edit-btn'>
+                {getSvg("delete_svg")}
+                <span className='text'>remove</span>
+              </span>
+            </Popconfirm>
           </div>
         );
       },

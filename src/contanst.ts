@@ -3,7 +3,7 @@
 export const listLinkType = [
   { key: "twitter", link: " https://twitter.com/HellmanResearch" },
   { key: "githup", link: "https://github.com/HellmanResearch/ssv-front" },
-  { key: "discode", link: "" },
+  { key: "email", link: "https://HellmanResearch@outlook.com" },
 ];
 
 export const linkList: Record<string, string> = {

@@ -153,7 +153,7 @@ export default (props: PROPS) => {
           <span className='name'>{detail?.display || ""}</span>
         </h3>
         <p className='title'>
-          {detail?.rule_template || ""}
+          {/* {detail?.rule_template || ""} */}
           <span
             className='title-detail'
             id='title-detail-back'

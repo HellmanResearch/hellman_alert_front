@@ -28,7 +28,6 @@ export default (props: any) => {
   const handleChange = (type: string, values?: Record<string, string>) => {
     if (form) {
       if (type === "test") {
-        console.log("====3435", title, address);
         axios.post(`${defaultUrl}alerting/subscribes/action-test`, {
           notification_address: address,
           notification_type: title.toLocaleLowerCase(),
@@ -87,7 +86,7 @@ export default (props: any) => {
             <div
               className='default-border default-btn-border'
               onClick={() => handleChange("test")}>
-              <span className='text'>测试发送</span>
+              <span className='text'>Test send</span>
             </div>
             <Button
               className='default-btn'

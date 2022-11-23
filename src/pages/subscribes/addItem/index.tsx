@@ -10,7 +10,7 @@ import Action from "../../action";
 import "./index.less";
 import Detail from "./Detail";
 import React from "react";
-import { Button, Input, message } from "antd";
+import { Button, Divider, Input, message } from "antd";
 import { useNavigate, useParams } from "react-router";
 import { shallowEqual, useSelector } from "react-redux";
 export default React.memo(() => {
@@ -108,8 +108,13 @@ export default React.memo(() => {
         })
         .catch((res) => {
           if (res.response.data) {
-            if (Object.keys(res.response.data).length > 0) {
+            console.log("=====3435", res.response.data);
+            if (Object.keys(res.response.data).length > 1) {
               message.warn("缺少必填参数");
+            } else if (Object.keys(res.response.data).length === 1) {
+              message.warn(
+                `${res.response.data[Object.keys(res.response.data)[0]]}`
+              );
             }
           }
         });
@@ -121,8 +126,26 @@ export default React.memo(() => {
         })
         .catch((res) => {
           if (res.response.data) {
-            if (Object.keys(res.response.data).length > 0) {
-              message.warn("缺少必填参数");
+            if (Object.keys(res.response.data).length > 1) {
+              let showContent = "";
+              Object.keys(res.response.data).forEach((v) => {
+                showContent =
+                  showContent.length > 0
+                    ? showContent + `<br />${v}:${res.response.data[v][0]}`
+                    : `${v}:${res.response.data[v][0]}`;
+              });
+
+              message.warn(
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: showContent,
+                  }}
+                />
+              );
+            } else if (Object.keys(res.response.data).length === 1) {
+              message.warn(
+                `${res.response.data[Object.keys(res.response.data)[0]]}`
+              );
             }
           }
         });
@@ -176,15 +199,15 @@ export default React.memo(() => {
         <div
           className='ssv-subscribe-card'
           onClick={() => handleClickCard("conditions")}>
-          <h3 className='title-text'>
-            {subscribeData?.conditions?.rule_template || "Metrics"}
-          </h3>
+          <h3 className='title-text'>Metrics</h3>
           <span
             className='title-detail'
             dangerouslySetInnerHTML={{
               __html: subscribeData?.conditions?.showHtml || "",
             }}></span>
-          <span className='card-icons'>{getSvg("right_arrow")}</span>
+          {subscribeData?.conditions?.showHtml && (
+            <span className='card-icons'>{getSvg("right_arrow")}</span>
+          )}
         </div>
       )}
 
@@ -214,7 +237,9 @@ export default React.memo(() => {
                   {subscribeData?.notification_address || ""}
                 </span>
               </span>
-              <span className='card-icons'>{getSvg("right_arrow")}</span>
+              {subscribeData?.notification_address && (
+                <span className='card-icons'>{getSvg("right_arrow")}</span>
+              )}
             </div>
           </>
         )}
@@ -227,7 +252,7 @@ export default React.memo(() => {
         placeholder='Suscription name'
       />
       <Button className='default-btn subscribe-btn' onClick={handleCreate}>
-        {params.subscribeId ? "Update" : "Create"}
+        {params.subscribeId ? "Save" : "Create"}
       </Button>
     </div>
   );
