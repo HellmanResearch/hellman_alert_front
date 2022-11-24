@@ -54,7 +54,6 @@ export default (props: PROPS) => {
         const show = Array.isArray(value)
           ? showValue.join("/")
           : getStr(showValue || value);
-        console.log("===2", show, value);
         changeContent(title, show);
         setLable({ ...fromLabel, [title]: show });
       }
