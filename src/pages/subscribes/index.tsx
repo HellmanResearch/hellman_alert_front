@@ -7,8 +7,10 @@ import { Button, Pagination, Popconfirm } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { LoadingOutlined } from "@ant-design/icons";
+import { useNavigate, useParams } from "react-router";
 import "../style.less";
+import { setStrUpLower } from "../Utils";
 
 export default () => {
   const listType = [
@@ -22,6 +24,7 @@ export default () => {
       title: "Action",
       dataIndex: "notification_type",
       width: "25%",
+      render: (Record: any) => setStrUpLower(Record["notification_type"]),
     },
     {
       title: "",
@@ -56,6 +59,8 @@ export default () => {
   const Navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(1);
+  const [loading, setLoading] = useState(false);
+
   const { account, max_subscribe } = useSelector(
     (state: rootState) => ({
       account: state?.user.public_key,
@@ -63,6 +68,7 @@ export default () => {
     }),
     shallowEqual
   );
+
   const load = (current?: number) => {
     const payload = {
       page: current || page,
@@ -76,10 +82,15 @@ export default () => {
       .then((res: any) => {
         setData(res.data?.results || []);
         setTotal(res.data?.count);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
       });
   };
   useEffect(() => {
     if (account) {
+      setLoading(true);
       load();
     }
   }, [account]);
@@ -128,24 +139,31 @@ export default () => {
             );
           })}
         </ul>
-        <ul className='data-content'>
-          {data.map((itemData, index) => {
-            return (
-              <li key={index} className='data-content-item'>
-                {listType.map((item) => {
-                  const children = item.render
-                    ? item.render(itemData)
-                    : itemData[item.dataIndex];
-                  return (
-                    <span style={{ width: item.width }} key={item.dataIndex}>
-                      {children}
-                    </span>
-                  );
-                })}
-              </li>
-            );
-          })}
-        </ul>
+        {loading && (
+          <div className='loading'>
+            <LoadingOutlined style={{ fontSize: 50 }} />
+          </div>
+        )}
+        {!loading && (
+          <ul className='data-content'>
+            {data.map((itemData, index) => {
+              return (
+                <li key={index} className='data-content-item'>
+                  {listType.map((item) => {
+                    const children = item.render
+                      ? item.render(itemData)
+                      : itemData[item.dataIndex];
+                    return (
+                      <span style={{ width: item.width }} key={item.dataIndex}>
+                        {children}
+                      </span>
+                    );
+                  })}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
       <Pagination
         className='ssv-pagination'

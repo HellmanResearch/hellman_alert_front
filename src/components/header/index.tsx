@@ -34,7 +34,10 @@ export default () => {
           navigate("/metrics");
         }}>
         <img className='logo_img' src={logo} />
-        <span className='logo_text'>HellmanAlert</span>
+        <span className='logo_text'>
+          HellmanAlert
+          <span className='logo_text-test'>Beta</span>
+        </span>
       </div>
       <div className='ssv-header-router'>
         {Object.keys(linkList).map((item: string) => {

@@ -14,3 +14,8 @@ export function getCookie(name:string) {
   }
   return "";
 }
+
+//首字母大写
+export function setStrUpLower(str:string ='') { 
+    return str.slice(0, 1).toUpperCase()+ str.slice(1).toLowerCase()
+}

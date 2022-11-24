@@ -29,8 +29,12 @@ export default () => {
         <Route path='/history/:id' element={<History />} />
         <Route path='/confirm/:id/:sign' element={<Email />} />
         <Route path='/subscribe/add' element={<Subscribe />} />
-        <Route path='/subscribe/:subscribeId' element={<Subscribe />} />
-        <Route path='/alerts' element={<Alert />} />
+        <Route path='/subscribe/:subscribeId' element={<Subscribe />}>
+          <Route path=':sign' element={<Subscribe />}></Route>
+        </Route>
+        <Route path='/alerts' element={<Alert />}>
+          <Route path=':id/:sign' element={<Alert />}></Route>
+        </Route>
         <Route path='/*' element={<Metrics />} />
       </Routes>
     </Suspense>

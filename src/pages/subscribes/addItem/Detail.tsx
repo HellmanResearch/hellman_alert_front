@@ -6,6 +6,7 @@ import { Checkbox, Form, Select, Input, Modal, Button, InputRef } from "antd";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { getStr } from "@/pages/Utils";
+import { DefaultOptionType } from "antd/lib/select";
 interface PROPS {
   data: {
     show: boolean;
@@ -39,16 +40,23 @@ export default (props: PROPS) => {
   };
 
   useEffect(() => {
-    handleChange("cancel", dataSource);
-  }, [data, dataSource]);
+    handleChange("cancel", "", dataSource);
+  }, [dataSource]);
 
-  const handleChange = (type: string, value?: any) => {
+  const handleChange = (
+    type: string,
+    title: string,
+    value?: any,
+    showValue?: any
+  ) => {
     if (type === "change") {
-      const key = Object.keys(value)[0];
-      if (fromLabel[key]) {
-        const show = getStr(value[key]);
-        changeContent(key, show);
-        setLable({ ...fromLabel, [key]: value[key] });
+      if (fromLabel[title]) {
+        const show = Array.isArray(value)
+          ? showValue.join("/")
+          : getStr(showValue || value);
+        console.log("===2", show, value);
+        changeContent(title, show);
+        setLable({ ...fromLabel, [title]: show });
       }
     } else if (type === "cancel") {
       if (form) {
@@ -63,12 +71,22 @@ export default (props: PROPS) => {
   const changeContent = (value: string, data?: string) => {
     const text1 = detail?.rules_hint.replace(/\`/g, "");
     const text2 = text1?.replace(/\$/g, "");
-    const content = text2?.replace(
-      new RegExp(`{ form.confitions.${value} }`, "g"),
-      data
-    );
-    const text = content?.replace(/\{.*?\}/g, "");
-    setContent(text);
+    let showContent = "";
+    console.log("===3", fromLabel, value, data);
+    Object.keys(fromLabel).forEach((v) => {
+      const replaceText = showContent || text2;
+      let showValue: any =
+        typeof fromLabel[v] !== "boolean" ? fromLabel[v] : "";
+      if (v === value) {
+        showValue = data;
+      }
+      console.log("---2", replaceText);
+      showContent = replaceText?.replace(
+        new RegExp(`{ form.confitions.${v} }`, "g"),
+        showValue
+      );
+    });
+    setContent(showContent);
   };
 
   useEffect(() => {
@@ -88,11 +106,15 @@ export default (props: PROPS) => {
     }
   }, [detail, dataSource]);
 
-  const renderChildren = (data: any, name?: string) => {
+  const renderChildren = (data: any, name: string) => {
     const options = (data?.choices || []).map((value: string[]) => {
       return { label: value[1], value: value[0] };
     });
-    if (data.remote_url && !optiosData[data.remote_url]) {
+    if (
+      data.remote_url &&
+      !optiosData[data.remote_url] &&
+      data.type !== "CHOICE"
+    ) {
       const url = `${tokenUrl}${data.remote_url}`;
       axios.get(`${tokenUrl}${data.remote_url}`).then((res: any) => {
         if (res.data) {
@@ -110,6 +132,16 @@ export default (props: PROPS) => {
       case "CHOICE":
         return (
           <Checkbox.Group
+            onChange={(changedValues: any) => {
+              const showValues: string[] = [];
+              changedValues?.forEach((value: number) => {
+                const item = options.find((opt: any) => opt.value === value);
+                if (item) {
+                  showValues.push(item.label);
+                }
+              });
+              handleChange("change", name, changedValues, showValues);
+            }}
             className='item-checkbox'
             options={options}></Checkbox.Group>
         );
@@ -117,6 +149,9 @@ export default (props: PROPS) => {
         return (
           <Select
             showSearch
+            onChange={(changedValues, option: any) => {
+              handleChange("change", name, changedValues, option.label);
+            }}
             filterOption={(input, option) =>
               String(option?.label ?? "")
                 ?.toLowerCase()
@@ -131,6 +166,9 @@ export default (props: PROPS) => {
       case "INPUT":
         return (
           <Input
+            onChange={(e) => {
+              handleChange("change", name, e.target.value);
+            }}
             className='item-input default-border'
             defaultValue={(name && form?.getFieldValue(name)) || ""}
           />
@@ -140,6 +178,7 @@ export default (props: PROPS) => {
         return null;
     }
   };
+
   return (
     <Modal
       title=''
@@ -153,7 +192,6 @@ export default (props: PROPS) => {
           <span className='name'>{detail?.display || ""}</span>
         </h3>
         <p className='title'>
-          {/* {detail?.rule_template || ""} */}
           <span
             className='title-detail'
             id='title-detail-back'
@@ -168,33 +206,29 @@ export default (props: PROPS) => {
             onFinish={onFinish}
             layout='vertical'
             initialValues={dataSource}
-            onValuesChange={(changedValues) =>
-              handleChange("change", changedValues)
-            }
+            // onValuesChange={(changedValues, values) =>
+            //   handleChange("change", changedValues, values)
+            // }
             className='from-content sbuscribe-detail-card-content'>
             {Object.keys(detail.fields_attr || {}).map((title: string) => {
+              const showTitle = detail.fields_attr[title].display;
               return (
                 <Form.Item
                   name={title}
                   key={title}
-                  label={<span className='item-label'>{title}</span>}
+                  label={<span className='item-label'>{showTitle}</span>}
                   rules={[{ required: true }]}>
                   {renderChildren(detail?.fields_attr[title], title)}
                 </Form.Item>
               );
             })}
             <Form.Item className='from-btns' wrapperCol={{ span: 24 }}>
-              {/* <div
-                className='default-border default-btn-border'
-                onClick={() => handleChange("cancel")}>
-                <span className='text'>change</span>
-              </div> */}
               <Button
                 className='default-btn'
                 type='primary'
                 htmlType='submit'
                 onClick={onFinish}>
-                confirm
+                Confirm
               </Button>
             </Form.Item>
           </Form>

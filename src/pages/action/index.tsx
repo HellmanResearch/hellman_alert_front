@@ -8,19 +8,19 @@ import "./index.less";
 const listAction = [
   {
     title: "Discord",
-    text: "Post a message to Discord",
+    text: "Post a notification message to Discord",
     icon: getSvg("discode_bg"),
     key: "discord",
   },
   {
     title: "Email",
-    text: "Send email Subject to Recipients",
+    text: "Send an Email notification",
     icon: getSvg("email_bg"),
     key: "email",
   },
   {
     title: "Webhook",
-    text: "Call a Webhook",
+    text: "Create a Webhook API notification",
     icon: getSvg("webhook_bg"),
     key: "webhook",
   },

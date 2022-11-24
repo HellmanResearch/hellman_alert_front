@@ -6,7 +6,7 @@ import { icons } from "antd/lib/image/PreviewGroup";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 
-const FormList = [{ name: "", label: " address", require: true }];
+const FormList = [{ name: "", label: "address", require: true }];
 
 export default (props: any) => {
   const { title, key, icon, open } = props.data;
@@ -41,6 +41,7 @@ export default (props: any) => {
     }
   };
 
+  console.log("---2", title);
   return (
     <Modal
       title=''
@@ -56,8 +57,10 @@ export default (props: any) => {
         <div className='action-detail-header'>
           <h3 className='title'>Action</h3>
           <span className='detail'>
-            Send email to {title}{" "}
-            <span style={{ color: "#1BA5F8" }}>{address}</span>
+            Send notifications to
+            <span style={{ color: "#1BA5F8", marginLeft: "3px" }}>
+              {address}
+            </span>
           </span>
         </div>
         <Form
@@ -70,7 +73,9 @@ export default (props: any) => {
             return (
               <Form.Item
                 key={item.label}
-                label={<span className='item-label'>{title + item.label}</span>}
+                label={
+                  <span className='item-label'>{`${title} ${item.label}`}</span>
+                }
                 name={key}
                 required={item.require}>
                 <Input

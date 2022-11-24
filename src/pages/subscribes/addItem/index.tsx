@@ -13,6 +13,7 @@ import React from "react";
 import { Button, Divider, Input, message } from "antd";
 import { useNavigate, useParams } from "react-router";
 import { shallowEqual, useSelector } from "react-redux";
+import { setStrUpLower } from "@/pages/Utils";
 export default React.memo(() => {
   const [groups, setGroups] = useState([]);
   const [detail, setDetail] = useState<{
@@ -32,39 +33,63 @@ export default React.memo(() => {
   );
 
   useEffect(() => {
-    if (params.subscribeId) {
+    if (params.sign && params.subscribeId) {
       axios
-        .get(`${defaultUrl}alerting/subscribes/${params.subscribeId}`)
-        .then((res: any) => {
-          const {
-            notification_type,
-            metric,
-            user,
-            name,
-            notification_address,
-            conditions,
-          } = res.data;
-          const data = {
-            action: {
-              [notification_type]: notification_address,
-            },
-            notification_type,
-            notification_address,
-            conditions,
-            name,
-            metric,
-            user,
-          };
-          setInputValue(name);
-          setSubscribeDate(data);
+        .post(
+          `${defaultUrl}/alerting/alerts/${params.subscribeId}/confirm-via-sign`,
+          {
+            sign: params.sign && decodeURIComponent(params.sign),
+          }
+        )
+        .then(() => {
+          load();
+        })
+        .catch(() => {
+          load();
         });
     }
+  }, [params.sign]);
 
+  const load = () => {
+    axios
+      .get(`${defaultUrl}alerting/subscribes/${params.subscribeId}`)
+      .then((res: any) => {
+        const {
+          notification_type,
+          metric,
+          user,
+          name,
+          notification_address,
+          conditions,
+        } = res.data;
+        const data = {
+          action: {
+            [notification_type]: notification_address,
+          },
+          notification_type,
+          notification_address,
+          conditions,
+          name,
+          metric,
+          user,
+        };
+        setInputValue(name);
+        setSubscribeDate(data);
+        setShowCard("all");
+      });
+  };
+
+  useEffect(() => {
+    if (params.subscribeId && !params.sign) {
+      load();
+    }
+  }, [params.subscribeId, params.sign]);
+
+  useEffect(() => {
     axios.get(`${defaultUrl}engine/metric-groups`).then((res) => {
       setGroups(res.data.results);
-      // setDetail({ show: true, detail: subscribeData });
     });
-  }, [params.id]);
+  }, []);
 
   const handleChange = (type: string, value: Record<string, any>) => {
     switch (type) {
@@ -108,7 +133,6 @@ export default React.memo(() => {
         })
         .catch((res) => {
           if (res.response.data) {
-            console.log("=====3435", res.response.data);
             if (Object.keys(res.response.data).length > 1) {
               message.warn("缺少必填参数");
             } else if (Object.keys(res.response.data).length === 1) {
@@ -198,7 +222,10 @@ export default React.memo(() => {
       ) : (
         <div
           className='ssv-subscribe-card'
-          onClick={() => handleClickCard("conditions")}>
+          onClick={() => {
+            setSubscribeDate({ ...subscribeData, conditions: {} });
+            handleClickCard("conditions");
+          }}>
           <h3 className='title-text'>Metrics</h3>
           <span
             className='title-detail'
@@ -229,7 +256,7 @@ export default React.memo(() => {
               className='ssv-subscribe-card'
               onClick={() => handleClickCard("action")}>
               <h3 className='title-text'>
-                {subscribeData?.notification_type || "Action"}
+                {setStrUpLower(subscribeData["notification_type"])}
               </h3>
               <span className='title-detail'>
                 Send {subscribeData?.notification_type} to
@@ -249,7 +276,7 @@ export default React.memo(() => {
         value={inputValue}
         className='subscribe-label'
         onChange={(e) => setInputValue(e.target.value)}
-        placeholder='Suscription name'
+        placeholder='Alert Nickname'
       />
       <Button className='default-btn subscribe-btn' onClick={handleCreate}>
         {params.subscribeId ? "Save" : "Create"}

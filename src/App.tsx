@@ -31,7 +31,6 @@ function App() {
       axios
         .get(`${defaultUrl}users/users/self`)
         .then((res) => {
-          console.log("===3", res);
           dispath({ type: "user/login", payload: res.data });
         })
         .catch((err) => {

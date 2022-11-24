@@ -8,26 +8,44 @@ import { Button, Input, Pagination } from "antd";
 import axios from "axios";
 import { shallowEqual, useSelector } from "react-redux";
 import { rootState } from "@/type";
-
+import { useParams } from "react-router-dom";
+import { LoadingOutlined } from "@ant-design/icons";
 export default () => {
   const [alertsData, setAlerts] = useState<any[]>([]);
-  //   const [search, setSearch] = useState("");
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(1);
+  const [loading, setLoading] = useState(false);
+  const param = useParams();
+
+  useEffect(() => {
+    if (param.id && param.sign) {
+      axios
+        .post(`${defaultUrl}/alerting/alerts/${param.id}/confirm-via-sign`, {
+          sign: param.sign && decodeURIComponent(param.sign),
+        })
+        .then(() => {
+          load();
+        })
+        .catch(() => {
+          load();
+        });
+    }
+  }, [param.id, param.sign]);
+
   const columns = [
     { title: "Name", dataIndex: "subscribe__name", width: "25%" },
-    { title: "ID", dataIndex: "id", width: "25%" },
+    { title: "ID", dataIndex: "id", width: "20%" },
     {
       title: "Triggered Time",
       dataIndex: "create_time",
-      width: "20%",
+      width: "30%",
       render: (text: string, record?: any) =>
-        moment(text).format("YYYY-MM-DD hh:mm:ss") + "UTC",
+        moment.utc(text).format("YYYY-MM-DD hh:mm:ss") + " (UTC)",
     },
     {
       title: "",
       dataIndex: "confirmed",
-      width: "30%",
+      width: "25%",
       aligin: "right",
       render: (text: string, record: any) => {
         const showText = text ? "Acknowledged" : "Acknowledge";
@@ -36,7 +54,7 @@ export default () => {
             className={
               showText === "Acknowledge"
                 ? "edit-btn default-border"
-                : "edit-btn"
+                : "edit-btn default-border disable-btn"
             }
             onClick={() => {
               if (showText === "Acknowledge") {
@@ -44,7 +62,9 @@ export default () => {
               }
             }}
             style={{ textAlign: "right" }}>
-            <span className='text'>{showText}</span>
+            <span className={showText === "Acknowledge" ? "text" : "gary-text"}>
+              {showText}
+            </span>
           </div>
         );
       },
@@ -67,9 +87,10 @@ export default () => {
       .then((res: any) => {
         setAlerts(res?.data?.results);
         setTotal(res?.data.count);
+        setLoading(false);
       })
       .catch((error) => {
-        console.log("===error", error);
+        setLoading(false);
       });
   };
 
@@ -93,20 +114,16 @@ export default () => {
   };
 
   useEffect(() => {
-    console.log("=====4", account);
-    if (account) {
+    setLoading(true);
+    if (account && !param.id) {
       load();
     }
-  }, [account]);
-
-  //   const onSearch = (e: any) => {
-  //     setSearch(e.target.value);
-  //   };
+  }, [account, param.id]);
 
   return (
     <div className='ssv-main'>
       <div className='ssv-main-header'>
-        <h3 className='title'>Triggered Alerts</h3>
+        <h3 className='title'>Time Triggered</h3>
         <Button
           style={{
             background: alertsData.find((v) => !v.confirmed) ? "" : "gray",
@@ -138,29 +155,36 @@ export default () => {
             );
           })}
         </ul>
-        <ul className='data-content'>
-          {alertsData.map((itemData, index) => {
-            return (
-              <li key={index} className='data-content-item'>
-                {columns.map((item: any) => {
-                  const children = item.render
-                    ? item.render(itemData[item.dataIndex], itemData)
-                    : String(itemData[item.dataIndex]);
-                  return (
-                    <span
-                      style={{
-                        width: item.width,
-                        textAlign: item.aligin || "left",
-                      }}
-                      key={item.dataIndex}>
-                      {children}
-                    </span>
-                  );
-                })}
-              </li>
-            );
-          })}
-        </ul>
+        {loading && (
+          <div className='loading'>
+            <LoadingOutlined style={{ fontSize: 50 }} />
+          </div>
+        )}
+        {!loading && (
+          <ul className='data-content'>
+            {alertsData.map((itemData, index) => {
+              return (
+                <li key={index} className='data-content-item'>
+                  {columns.map((item: any) => {
+                    const children = item.render
+                      ? item.render(itemData[item.dataIndex], itemData)
+                      : String(itemData[item.dataIndex]);
+                    return (
+                      <span
+                        style={{
+                          width: item.width,
+                          textAlign: item.aligin || "left",
+                        }}
+                        key={item.dataIndex}>
+                        {children}
+                      </span>
+                    );
+                  })}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
       <Pagination
         className='ssv-pagination'

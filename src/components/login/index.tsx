@@ -19,11 +19,9 @@ export default () => {
       window.open(`https://metamask.io/`);
     } else {
       // 链接钱包
-      console.log("====w");
       window.ethereum
         .request({ method: "eth_requestAccounts" })
         .then((res: any) => {
-          console.log("=====ew4534", res);
           loginSign(res[0]).then((res: any) => {
             dispatch({ type: "user/login", payload: res.data });
           });

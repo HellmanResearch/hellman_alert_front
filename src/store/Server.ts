@@ -16,15 +16,15 @@ axios.interceptors.response.use(
   },
   (err) => {
     if (err.response?.status == 401) {
-      message.warning('无权限访问资源');
+      message.warning('No permission to access resource');
     } else if (err.response?.status == 403) {
-      message.warning('登录过期, 请重新登录');
+      message.warning('Login expired, please login again');
        //重新登录
          loginSign();
     } else {
       if (err.response?.data?.detail) { 
           notification.error({
-        message: '网络请求错误',
+        message: 'Network Error',
         description: `${err.response?.data?.detail || err.response?.data || err}`,
       });
       }

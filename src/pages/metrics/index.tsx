@@ -9,6 +9,7 @@ import { Button, Input, Pagination } from "antd";
 import { LineChartOutlined } from "@ant-design/icons";
 import "../style.less";
 import { useNavigate } from "react-router";
+import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
 const { Search } = Input;
 
@@ -47,7 +48,7 @@ export default () => {
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(1);
   const Navigate = useNavigate();
-  const [historyData, setHistory] = useState({ ...data });
+  const [loading, setLoading] = useState(false);
 
   const columns = [
     { title: "Display", dataIndex: "display", width: "40%" },
@@ -100,9 +101,14 @@ export default () => {
       .then((res: any) => {
         setAlerts(res?.data?.results);
         setTotal(res?.data?.count);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
       });
   };
   useEffect(() => {
+    setLoading(true);
     load();
   }, []);
 
@@ -141,24 +147,31 @@ export default () => {
             );
           })}
         </ul>
-        <ul className='data-content'>
-          {alertsData.map((itemData, index) => {
-            return (
-              <li key={index} className='data-content-item'>
-                {columns.map((item) => {
-                  const children = item.render
-                    ? item.render(itemData[item.dataIndex], itemData)
-                    : String(itemData[item.dataIndex]);
-                  return (
-                    <span style={{ width: item.width }} key={item.dataIndex}>
-                      {children}
-                    </span>
-                  );
-                })}
-              </li>
-            );
-          })}
-        </ul>
+        {loading && (
+          <div className='loading'>
+            <LoadingOutlined style={{ fontSize: 50 }} />
+          </div>
+        )}
+        {!loading && (
+          <ul className='data-content'>
+            {alertsData.map((itemData, index) => {
+              return (
+                <li key={index} className='data-content-item'>
+                  {columns.map((item) => {
+                    const children = item.render
+                      ? item.render(itemData[item.dataIndex], itemData)
+                      : String(itemData[item.dataIndex]);
+                    return (
+                      <span style={{ width: item.width }} key={item.dataIndex}>
+                        {children}
+                      </span>
+                    );
+                  })}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
       <Pagination
         className='ssv-pagination'
