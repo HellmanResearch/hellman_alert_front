@@ -8,7 +8,7 @@ export default () => {
   return (
     <div className='ssv-noData'>
       <div className='left'>
-        <h3 className='title'>Subscribed</h3>
+        <h3 className='title'>Subscriptions</h3>
         <p className='text'>No data has been added to this list.</p>
         <Button className='default-btn nodata-btn'>Add</Button>
       </div>

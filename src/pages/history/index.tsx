@@ -8,6 +8,7 @@ import { defaultUrl, tokenUrl } from "@/contanst";
 import { useParams } from "react-router";
 import moment from "moment";
 import "./index.less";
+import { setStrUpLower } from "../Utils";
 export default () => {
   const [data, setData] = useState<Record<string, any>>({});
   const [optiosData, setOptions] = useState<Record<string, any>>({});
@@ -42,7 +43,7 @@ export default () => {
         const series: any[] = [];
         res.data.forEach((item: [number, string]) => {
           const timer: number = Number(item[0]) * 1000;
-          xAxis.push(moment(timer).format("YYYY-MM-DD HH:mm:ss"));
+          xAxis.push(moment.utc(timer).format("YYYY-MM-DD HH:mm:ss"));
           series.push(item[1]);
         });
         setEchartsOptions({
@@ -61,7 +62,7 @@ export default () => {
     const options = (data?.choices || []).map((value: string[]) => {
       return { label: value[1], value: value[0] };
     });
-    if (data.remote_url && !optiosData[data.remote_url]) {
+    if (data.remote_url && !optiosData[data.remote_url] && data?.is_remote) {
       axios.get(`${tokenUrl}${data.remote_url}`).then((res: any) => {
         if (res.data) {
           const newOpt = {
@@ -108,13 +109,14 @@ export default () => {
   };
   return (
     <div className='ssv-content history-content'>
+      {/* <a href='mailto:981010623@qq.com'>到吴迪的邮箱</a> */}
       <div className='from-content history-card'>
         {data?.query_attr &&
           Object.keys(data?.query_attr)?.map((title: string, index: number) => {
             const item = data.query_attr[title];
             return (
               <div className='history-card-item' key={index}>
-                <span className='item-title'>{title}:</span>
+                <span className='item-title'>{setStrUpLower(title)}:</span>
                 {renderChildren(item, title)}
               </div>
             );

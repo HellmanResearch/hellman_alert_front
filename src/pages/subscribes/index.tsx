@@ -21,7 +21,7 @@ export default () => {
     },
 
     {
-      title: "Action",
+      title: "Notification",
       dataIndex: "notification_type",
       width: "25%",
       render: (Record: any) => setStrUpLower(Record["notification_type"]),
@@ -109,10 +109,10 @@ export default () => {
   return (
     <div className='ssv-main'>
       <div className='ssv-main-header'>
-        <h3 className='title'>Subscribed</h3>
+        <h3 className='title'>Subscriptions</h3>
         <div className='ssv-main-header-content'>
           <div className='limit'>
-            <span className='limit-icon'>limit: </span>
+            <span className='limit-icon'>Limit: </span>
             <span>
               {total} / {max_subscribe}
             </span>

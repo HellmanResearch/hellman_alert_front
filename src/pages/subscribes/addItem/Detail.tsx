@@ -2,7 +2,16 @@
 
 import { tokenUrl } from "@/contanst";
 import { getSvg } from "@/svgTypes";
-import { Checkbox, Form, Select, Input, Modal, Button, InputRef } from "antd";
+import {
+  Checkbox,
+  Form,
+  Select,
+  Input,
+  Modal,
+  Button,
+  InputRef,
+  InputNumber,
+} from "antd";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { getStr } from "@/pages/Utils";
@@ -71,7 +80,6 @@ export default (props: PROPS) => {
     const text1 = detail?.rules_hint.replace(/\`/g, "");
     const text2 = text1?.replace(/\$/g, "");
     let showContent = "";
-    console.log("===3", fromLabel, value, data);
     Object.keys(fromLabel).forEach((v) => {
       const replaceText = showContent || text2;
       let showValue: any =
@@ -79,7 +87,6 @@ export default (props: PROPS) => {
       if (v === value) {
         showValue = data;
       }
-      console.log("---2", replaceText);
       showContent = replaceText?.replace(
         new RegExp(`{ form.confitions.${v} }`, "g"),
         showValue
@@ -109,11 +116,7 @@ export default (props: PROPS) => {
     const options = (data?.choices || []).map((value: string[]) => {
       return { label: value[1], value: value[0] };
     });
-    if (
-      data.remote_url &&
-      !optiosData[data.remote_url] &&
-      data.type !== "CHOICE"
-    ) {
+    if (data.remote_url && !optiosData[data.remote_url] && data.is_remote) {
       const url = `${tokenUrl}${data.remote_url}`;
       axios.get(`${tokenUrl}${data.remote_url}`).then((res: any) => {
         if (res.data) {
@@ -164,7 +167,9 @@ export default (props: PROPS) => {
         );
       case "INPUT":
         return (
-          <Input
+          <InputNumber
+            addonAfter={null}
+            style={{ width: "100%" }}
             onChange={(e) => {
               handleChange("change", name, e.target.value);
             }}

@@ -36,7 +36,7 @@ export default () => {
     { title: "Name", dataIndex: "subscribe__name", width: "25%" },
     { title: "ID", dataIndex: "id", width: "20%" },
     {
-      title: "Triggered Time",
+      title: "Time Triggered",
       dataIndex: "create_time",
       width: "30%",
       render: (text: string, record?: any) =>
@@ -123,7 +123,7 @@ export default () => {
   return (
     <div className='ssv-main'>
       <div className='ssv-main-header'>
-        <h3 className='title'>Time Triggered</h3>
+        <h3 className='title'>Alerts Triggered</h3>
         <Button
           style={{
             background: alertsData.find((v) => !v.confirmed) ? "" : "gray",

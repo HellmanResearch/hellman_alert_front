@@ -4,43 +4,12 @@
 
 import { defaultUrl, page_size } from "@/contanst";
 import { useEffect, useState } from "react";
-import moment from "moment";
-import { Button, Input, Pagination } from "antd";
+import { Button, message, Pagination } from "antd";
 import { LineChartOutlined } from "@ant-design/icons";
 import "../style.less";
 import { useNavigate } from "react-router";
 import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
-const { Search } = Input;
-
-const data = {
-  xAxis: {
-    type: "category",
-    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-  },
-  yAxis: {
-    type: "value",
-  },
-  series: [
-    {
-      data: [
-        120,
-        {
-          value: 200,
-          itemStyle: {
-            color: "#a90000",
-          },
-        },
-        150,
-        80,
-        70,
-        110,
-        130,
-      ],
-      type: "bar",
-    },
-  ],
-};
 
 export default () => {
   const [alertsData, setAlerts] = useState([]);
@@ -51,9 +20,9 @@ export default () => {
   const [loading, setLoading] = useState(false);
 
   const columns = [
-    { title: "Display", dataIndex: "display", width: "40%" },
+    { title: "Metric", dataIndex: "display", width: "40%" },
     {
-      title: "Group",
+      title: "Role",
       dataIndex: "group__name",
       width: "40%",
     },
@@ -69,12 +38,16 @@ export default () => {
       dataIndex: "",
       width: "20%",
       render: (_text: string, _res: Record<string, any>) => {
+        const disabled =
+          _res.key === "operator_fee_change" || _res.key === "operator_status";
         return (
           <span
-            className='default-border edit-btn'
+            className={`default-border edit-btn ${disabled ? "brack-btn" : ""}`}
             style={{ cursor: "pointer", float: "right" }}
             onClick={() => {
-              //setHistory(historyData);
+              if (disabled) {
+                return message.warn("comming soon");
+              }
               Navigate(`/history/${_res.id}`);
             }}>
             <span className='text'>
@@ -115,6 +88,7 @@ export default () => {
   //   const onSearch = (e: any) => {
   //     setSearch(e.target.value);
   //   };
+
   return (
     <div className='ssv-main'>
       <div className='ssv-main-header'>

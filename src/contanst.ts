@@ -2,15 +2,15 @@
 
 export const listLinkType = [
   { key: "twitter", link: " https://twitter.com/HellmanResearch" },
-  { key: "githup", link: "https://github.com/HellmanResearch/ssv-front" },
-  { key: "email", link: "https://HellmanResearch@outlook.com" },
+  { key: "githup", link: "https://github.com/HellmanResearch" },
+  { key: "email", link: "HellmanResearch@outlook.com",type:'send' },
 ];
 
 export const linkList: Record<string, string> = {
   //Dashboard: "/dashboard",
   Metrics: "metrics",
-  Subscribe: "subscribe",
-  Alerts: "alerts",
+  Subscriptions: "subscribe",
+  Triggered: "alerts",
 };
 
 export const page_size = 5;

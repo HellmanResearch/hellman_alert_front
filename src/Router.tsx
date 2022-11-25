@@ -17,6 +17,32 @@ export default () => {
     (state: rootState) => state?.user?.public_key,
     shallowEqual
   );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const handleAccountsChanged = (accounts: any, other: any) => {
+      if (accounts.length === 0 || accounts[0] !== public_key) {
+        //退出登录
+        dispatch({
+          type: "user/login",
+          payload: { cancel: true },
+        });
+      }
+    };
+    window.ethereum.on("accountsChanged", handleAccountsChanged);
+
+    // window.ethereum.on("chainChanged", (chainId: any) => {
+    //   console.log("=chainId==2", chainId);
+
+    //   // Handle the new chain.
+    //   // Correctly handling chain changes can be complicated.
+    //   // We recommend reloading the page unless you have good reason not to.
+    //   // window.location.reload();
+    // });
+    return () => {
+      window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
+    };
+  }, []);
 
   if (!public_key) {
     return <NoData />;

@@ -55,6 +55,9 @@ export default () => {
       </div>
       <div className='ssv-header-icons'>
         {listLinkType.map((item) => {
+          if (item.type === "send") {
+            return <a href={`mailto:${item.link}`}>{getSvg(item.key)}</a>;
+          }
           return (
             <span
               key={item.key}

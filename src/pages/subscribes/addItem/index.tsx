@@ -2,7 +2,6 @@
 
 import { getSvg } from "@/svgTypes";
 import { METRICITEM, METRIGROUPCITEM, userState, rootState } from "@/type";
-import { metric_groups } from "@/varible";
 import { useEffect, useState } from "react";
 import { defaultUrl } from "@/contanst";
 import axios from "axios";
@@ -10,7 +9,7 @@ import Action from "../../action";
 import "./index.less";
 import Detail from "./Detail";
 import React from "react";
-import { Button, Divider, Input, message } from "antd";
+import { Button, Input, notification } from "antd";
 import { useNavigate, useParams } from "react-router";
 import { shallowEqual, useSelector } from "react-redux";
 import { setStrUpLower } from "@/pages/Utils";
@@ -99,7 +98,7 @@ export default React.memo(() => {
           metric: value.metricId,
           conditions: value,
         });
-        setShowCard("action");
+        setShowCard(subscribeData?.notification_address ? "all" : "action");
         break;
       case "action":
         const key = Object.keys(value)[0];
@@ -108,7 +107,7 @@ export default React.memo(() => {
           notification_address: value[key],
         };
         setSubscribeDate({ ...subscribeData, ...actionObj });
-        setShowCard("");
+        setShowCard(subscribeData?.conditions?.metricId ? "all" : "conditions");
 
         break;
       default:
@@ -133,13 +132,12 @@ export default React.memo(() => {
         })
         .catch((res) => {
           if (res.response.data) {
-            if (Object.keys(res.response.data).length > 1) {
-              message.warn("缺少必填参数");
-            } else if (Object.keys(res.response.data).length === 1) {
-              message.warn(
-                `${res.response.data[Object.keys(res.response.data)[0]]}`
-              );
-            }
+            notification.open({
+              message: "Network error",
+              description: `${
+                res.response.data[Object.keys(res.response.data)[0]]
+              }`,
+            });
           }
         });
     } else {
@@ -159,17 +157,23 @@ export default React.memo(() => {
                     : `${v}:${res.response.data[v][0]}`;
               });
 
-              message.warn(
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: showContent,
-                  }}
-                />
-              );
+              notification.open({
+                message: "Network error",
+                description: (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: showContent,
+                    }}
+                  />
+                ),
+              });
             } else if (Object.keys(res.response.data).length === 1) {
-              message.warn(
-                `${res.response.data[Object.keys(res.response.data)[0]]}`
-              );
+              notification.open({
+                message: "Network error",
+                description: `${
+                  res.response.data[Object.keys(res.response.data)[0]]
+                }`,
+              });
             }
           }
         });
@@ -209,7 +213,7 @@ export default React.memo(() => {
                             handleClick({ ...value, groupId: item.id })
                           }>
                           <span>{value.display}</span>
-                          {getSvg("addIcon")}
+                          {/* {getSvg("addIcon")} */}
                         </div>
                       );
                     })}
@@ -226,7 +230,12 @@ export default React.memo(() => {
             setSubscribeDate({ ...subscribeData, conditions: {} });
             handleClickCard("conditions");
           }}>
-          <h3 className='title-text'>Metrics</h3>
+          <div>
+            <h3 className='title'>Choose a Metric</h3>
+            <span className='card-icons add-icons'>
+              <span className='text'>+</span>
+            </span>
+          </div>
           <span
             className='title-detail'
             dangerouslySetInnerHTML={{
@@ -251,19 +260,29 @@ export default React.memo(() => {
           />
         ) : (
           <>
-            <h3 className='title'>Action</h3>
+            <h3 className='title'>Notification</h3>
             <div
               className='ssv-subscribe-card'
               onClick={() => handleClickCard("action")}>
               <h3 className='title-text'>
                 {setStrUpLower(subscribeData["notification_type"])}
               </h3>
-              <span className='title-detail'>
-                Send {subscribeData?.notification_type} to
-                <span style={{ marginLeft: 6, color: "#1ba5f8" }}>
-                  {subscribeData?.notification_address || ""}
+              {!subscribeData?.notification_type && (
+                <div>
+                  <h3 className='title'>Email/Discord/Wehook</h3>
+                  <span className='card-icons add-icons'>
+                    <span className='text'>+</span>
+                  </span>
+                </div>
+              )}
+              {subscribeData?.notification_type && (
+                <span className='title-detail'>
+                  Send {subscribeData?.notification_type} notifications to
+                  <span style={{ marginLeft: 6, color: "#1ba5f8" }}>
+                    {subscribeData?.notification_address || ""}
+                  </span>
                 </span>
-              </span>
+              )}
               {subscribeData?.notification_address && (
                 <span className='card-icons'>{getSvg("right_arrow")}</span>
               )}
@@ -280,6 +299,13 @@ export default React.memo(() => {
       />
       <Button className='default-btn subscribe-btn' onClick={handleCreate}>
         {params.subscribeId ? "Save" : "Create"}
+      </Button>
+      <Button
+        className='subscribe-btn brack-btn'
+        onClick={() => {
+          Navigate(-1);
+        }}>
+        Return
       </Button>
     </div>
   );

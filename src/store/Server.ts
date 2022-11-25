@@ -9,7 +9,6 @@ import store from ".";
 axios.interceptors.response.use(
   (response) => {
     if (response.status > 299) {
-      // Message.warning('接口调用失败');
       throw new Error(response.data?.detail || '接口错误');
     }
     return response;

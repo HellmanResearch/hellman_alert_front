@@ -7,6 +7,7 @@
     flex-direction: column;
 }
 
+ 
 
 .default-btn{
     font-family: Helvetica-Bold;
@@ -74,6 +75,18 @@
                 font-size: 14px;
             }
         }
+
+.brack-btn{
+         background: linear-gradient(90deg,#8c8c8c,#434343);
+         border: none;
+        color: #fff;
+        .icon{
+            color: #fff;
+        }
+        .text{
+            color: #fff;
+        }
+    }
 
 .ssv-modal{
       .ant-modal-content{
@@ -213,6 +226,9 @@
     }
     
 }
+.ant-input-number-handler-wrap{
+    display: none;
+}
 
 .loading{
    display: flex;
@@ -220,4 +236,20 @@
     width: 100%;
     height: 200px;
     justify-content: center;
+}
+
+.add-icons{
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 18px;
+    font-size: 25px;
+    text-align: center;
+    color: #000;
+    //background: linear-gradient(90deg,#8c8c8c,#434343);
+    background-image:  linear-gradient(to right, #d027fa, #1ba5f8);
+    .text{
+    margin-top: -2px;
+    display: block;
+    }
 }

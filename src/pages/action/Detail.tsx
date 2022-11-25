@@ -41,7 +41,6 @@ export default (props: any) => {
     }
   };
 
-  console.log("---2", title);
   return (
     <Modal
       title=''
@@ -98,7 +97,7 @@ export default (props: any) => {
               type='primary'
               htmlType='submit'
               onClick={onFinish}>
-              confirm
+              Confirm
             </Button>
           </Form.Item>
         </Form>
