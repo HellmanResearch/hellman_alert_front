@@ -42,6 +42,7 @@ export default (props: PROPS) => {
           groupId: detail?.groupId,
           metricId: detail?.id,
           showHtml: content,
+          displayName: detail?.display,
           rule_template: detail?.rule_template,
         });
       }
@@ -152,7 +153,7 @@ export default (props: PROPS) => {
           <Select
             showSearch
             onChange={(changedValues, option: any) => {
-              handleChange("change", name, changedValues, option.label);
+              handleChange("change", name, changedValues);
             }}
             filterOption={(input, option) =>
               String(option?.label ?? "")
@@ -170,8 +171,8 @@ export default (props: PROPS) => {
           <InputNumber
             addonAfter={null}
             style={{ width: "100%" }}
-            onChange={(e) => {
-              handleChange("change", name, e.target.value);
+            onChange={(value) => {
+              handleChange("change", name, value);
             }}
             className='item-input default-border'
             defaultValue={(name && form?.getFieldValue(name)) || ""}
