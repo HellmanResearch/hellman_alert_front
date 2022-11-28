@@ -41,8 +41,8 @@ export default (props: PROPS) => {
           ...values,
           groupId: detail?.groupId,
           metricId: detail?.id,
-          showHtml: content,
           displayName: detail?.display,
+          showHtml: content,
           rule_template: detail?.rule_template,
         });
       }
@@ -153,7 +153,10 @@ export default (props: PROPS) => {
           <Select
             showSearch
             onChange={(changedValues, option: any) => {
-              handleChange("change", name, changedValues);
+              const showValue =
+                name === "address" ? changedValues : option.label;
+
+              handleChange("change", name, showValue);
             }}
             filterOption={(input, option) =>
               String(option?.label ?? "")
