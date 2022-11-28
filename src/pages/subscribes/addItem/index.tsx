@@ -210,7 +210,10 @@ export default React.memo(() => {
                           className='token-item'
                           key={index}
                           onClick={() =>
-                            handleClick({ ...value, groupId: item.id })
+                            handleClick({
+                              ...value,
+                              groupId: item.id,
+                            })
                           }>
                           <span>{value.display}</span>
                           {/* {getSvg("addIcon")} */}

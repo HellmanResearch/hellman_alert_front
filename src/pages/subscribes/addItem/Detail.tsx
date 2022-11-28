@@ -153,7 +153,6 @@ export default (props: PROPS) => {
           <Select
             showSearch
             onChange={(changedValues, option: any) => {
-              console.log("===333", name);
               const showValue =
                 name === "address" ? changedValues : option.label;
 
