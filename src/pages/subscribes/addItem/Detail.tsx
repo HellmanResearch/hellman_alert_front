@@ -41,6 +41,7 @@ export default (props: PROPS) => {
           ...values,
           groupId: detail?.groupId,
           metricId: detail?.id,
+          displayName: detail?.display,
           showHtml: content,
           rule_template: detail?.rule_template,
         });
@@ -152,7 +153,11 @@ export default (props: PROPS) => {
           <Select
             showSearch
             onChange={(changedValues, option: any) => {
-              handleChange("change", name, changedValues, option.label);
+              console.log("===333", name);
+              const showValue =
+                name === "address" ? changedValues : option.label;
+
+              handleChange("change", name, showValue);
             }}
             filterOption={(input, option) =>
               String(option?.label ?? "")
@@ -170,8 +175,8 @@ export default (props: PROPS) => {
           <InputNumber
             addonAfter={null}
             style={{ width: "100%" }}
-            onChange={(e) => {
-              handleChange("change", name, e.target.value);
+            onChange={(value) => {
+              handleChange("change", name, value);
             }}
             className='item-input default-border'
             defaultValue={(name && form?.getFieldValue(name)) || ""}

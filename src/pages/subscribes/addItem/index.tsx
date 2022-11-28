@@ -230,12 +230,17 @@ export default React.memo(() => {
             setSubscribeDate({ ...subscribeData, conditions: {} });
             handleClickCard("conditions");
           }}>
-          <div>
-            <h3 className='title'>Choose a Metric</h3>
-            <span className='card-icons add-icons'>
-              <span className='text'>+</span>
-            </span>
-          </div>
+          <h3 className='title-text'>
+            {subscribeData?.conditions?.displayName}
+          </h3>
+          {!subscribeData?.conditions?.showHtml && (
+            <div>
+              <h3 className='title'>Choose a Metric</h3>
+              <span className='card-icons add-icons'>
+                <span className='text'>+</span>
+              </span>
+            </div>
+          )}
           <span
             className='title-detail'
             dangerouslySetInnerHTML={{

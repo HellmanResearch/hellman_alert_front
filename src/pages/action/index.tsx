@@ -11,18 +11,25 @@ const listAction = [
     text: "Post a notification message to Discord",
     icon: getSvg("discode_bg"),
     key: "discord",
+    detailTitle: "Action",
+    detailLabel: "Discord Webhook URL",
+    placeholder: "https://discord.com/api/webhooks/xxxxxxx/xxxxxx",
   },
   {
     title: "Email",
     text: "Send an Email notification",
     icon: getSvg("email_bg"),
     key: "email",
+    detailTitle: "Action",
+    placeholder: "example@email.com",
   },
   {
     title: "Webhook",
     text: "Create a Webhook API notification",
     icon: getSvg("webhook_bg"),
     key: "webhook",
+    detailTitle: "Action",
+    placeholder: "",
   },
 ];
 
