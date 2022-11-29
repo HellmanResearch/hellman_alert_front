@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { rootState } from "@/type";
 import { loginSign } from "@/store/Server";
-import editSvg from "@/assets/images/edit.svg";
+import editPng from "@/assets/images/edit.png";
 
 export default () => {
   const login = JSON.parse(localStorage.getItem("login") || "{}").id;
@@ -71,7 +71,14 @@ export default () => {
             </span>
           );
         })}
-        {/* <img src={editSvg} alt='' /> */}
+        <img
+          src={editPng}
+          alt=''
+          style={{ width: 22, marginTop: -7 }}
+          onClick={() => {
+            window.open("https://forms.gle/fjFWvnYFVqf1TQ7s9");
+          }}
+        />
       </div>
       {login ? (
         <div className='wallet-logged default-border'>

@@ -4,6 +4,8 @@ import { linkList, listLinkType } from "@/contanst";
 import { getSvg } from "@/svgTypes";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./index.less";
+import editPng from "@/assets/images/edit.png";
+
 export default () => {
   const navigate = useNavigate();
   return (
@@ -54,6 +56,14 @@ export default () => {
               </span>
             );
           })}
+          <img
+            src={editPng}
+            alt=''
+            style={{ width: 22, marginTop: -7 }}
+            onClick={() => {
+              window.open("https://forms.gle/fjFWvnYFVqf1TQ7s9");
+            }}
+          />
         </div>
       </div>
       <div className='ssv-footer-right'>
