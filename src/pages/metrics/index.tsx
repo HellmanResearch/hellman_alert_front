@@ -20,7 +20,7 @@ export default () => {
   const [loading, setLoading] = useState(false);
 
   const columns = [
-    { title: "Metric", dataIndex: "display", width: "40%" },
+    { title: "Metric", dataIndex: "history_display_name", width: "40%" },
     {
       title: "Role",
       dataIndex: "group__name",
@@ -42,12 +42,12 @@ export default () => {
           _res.key === "operator_fee_change" || _res.key === "operator_status";
         return (
           <span
-            className={`default-border edit-btn ${disabled ? "brack-btn" : ""}`}
+            className={`default-border edit-btn`}
             style={{ cursor: "pointer", float: "right" }}
             onClick={() => {
-              if (disabled) {
-                return message.warn("comming soon");
-              }
+              // if (disabled) {
+              //   return message.warn("comming soon");
+              // }
               Navigate(`/history/${_res.id}`);
             }}>
             <span className='text'>

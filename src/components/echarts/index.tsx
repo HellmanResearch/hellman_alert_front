@@ -20,31 +20,29 @@ export default ({ options }: { options?: Record<string, any> }) => {
       if (chart) {
         myCharts = chart;
         myCharts.setOption({
-          xAxis: {
-            type: "category",
-            data: options?.xAxis || [
-              "Mon",
-              "Tue",
-              "Wed",
-              "Thu",
-              "Fri",
-              "Sat",
-              "Sun",
-            ],
-          },
+          xAxis: { ...options?.xAxis },
           yAxis: {
             type: "value",
+            ...options?.yAxis,
           },
           tooltip: {
             show: true,
-          },
-          series: [
-            {
-              data: options?.series || [150, 230, 224, 218, 135, 147, 260],
-              type: "line",
+            formatter: function (params: any) {
+              const showValue = Array.isArray(params.value)
+                ? params.value[1]
+                : params.value;
+              return `${params.marker} ${params.name}:  ${
+                Number(showValue) ? Number(showValue).toFixed(2) : showValue
+              }`;
             },
-          ],
+          },
+          dataZoom: {
+            type: "inside",
+          },
+
+          series: options?.series,
         });
+        console.log("===233", chart.getOption());
       } else {
         myCharts = echarts.init(echartsRef.current, "dark").setOption({
           grid: {
@@ -81,6 +79,6 @@ export default ({ options }: { options?: Record<string, any> }) => {
   }, [echartsRef, options]);
 
   return (
-    <div id='main' ref={echartsRef} style={{ width: 800, height: 400 }}></div>
+    <div id='main' ref={echartsRef} style={{ width: 1000, height: 400 }}></div>
   );
 };

@@ -550,7 +550,7 @@ const confirm_error = (
 const ssv_svg = (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    width='20'
+    width='30'
     viewBox='0 0 365 512'
     fill='none'>
     <path

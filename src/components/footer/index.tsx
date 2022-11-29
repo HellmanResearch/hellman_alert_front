@@ -11,13 +11,20 @@ export default () => {
       <div className='ssv-footer-left'>
         <div
           className='ssv-footer-logo'
+          style={{
+            display: "flex",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
           onClick={() => {
-            navigate("/metrics");
+            window.open("https://ssv.network/");
+            // navigate("/metrics");
           }}>
-          <img className='logo_img' src={logo} />
-          <span className='logo_text'>HellmanAlert</span>
+          <span className='logo_img'>{getSvg("ssv_svg")}</span>
+          {/* <img className='logo_img' src={logo} /> */}
+          <span className='logo_text'>Powered by ssv.network</span>
         </div>
-        <div
+        {/* <div
           style={{
             display: "flex",
             alignItems: "flex-start",
@@ -26,13 +33,10 @@ export default () => {
           onClick={() => {
             window.open("https://ssv.network/");
           }}>
-          <span className='logo_img' style={{ width: 25, marginLeft: 60 }}>
-            {getSvg("ssv_svg")}
-          </span>
           <span className='logo_text' style={{ fontSize: 14 }}>
             Powered by ssv.network
           </span>
-        </div>
+        </div> */}
         <div className='ssv-footer-icons'>
           {listLinkType.map((item) => {
             if (item.type === "send") {

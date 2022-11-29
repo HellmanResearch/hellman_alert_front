@@ -13,10 +13,12 @@ export default () => {
   const [data, setData] = useState<Record<string, any>>({});
   const [optiosData, setOptions] = useState<Record<string, any>>({});
   const [filterValue, setFilterValue] = useState<Record<string, any>>({});
+  const [showName, setShowName] = useState("");
   const [options, setEchartsOptions] = useState<{
-    xAxis: string[];
-    series: string[];
-  }>({ xAxis: ["1", "2", "3", "4", "5"], series: [] });
+    xAxis?: Record<string, any>;
+    series?: Record<string, any>;
+    yAxis?: Record<string, any>;
+  }>({});
   const { id } = useParams();
 
   useEffect(() => {
@@ -39,16 +41,64 @@ export default () => {
         ...values,
       })
       .then((res) => {
-        const xAxis: string[] = [];
-        const series: any[] = [];
-        res.data.forEach((item: [number, string]) => {
-          const timer: number = Number(item[0]) * 1000;
-          xAxis.push(moment.utc(timer).format("YYYY-MM-DD HH:mm:ss"));
-          series.push(item[1]);
-        });
+        let xAxis: Record<string, any> = {};
+        let series: Record<string, any>[] = [
+          {
+            type: "line",
+            data: [],
+            symbolSize: 6,
+          },
+        ];
+        let yAxis: Record<string, any> = {};
+        let tooltip: Record<string, any> = {};
+        if (Object.keys(res.data?.history_value_map).length > 0) {
+          xAxis = {
+            type: "category",
+            data: [],
+          };
+          yAxis = {
+            type: "category",
+            axisLine: { onZero: false },
+            data: [],
+            splitLine: {
+              show: true,
+            },
+          };
+          Object.keys(res.data?.history_value_map)
+            .reverse()
+            .forEach((v) => {
+              yAxis.data.push(res.data?.history_value_map[v]);
+            });
+          res.data.human_data.forEach((item: any[]) => {
+            const timer: number = Number(item[0]) * 1000;
+            const showTimer = moment.utc(timer).format("YYYY-MM-DD HH:mm:ss");
+            xAxis.data.push(showTimer);
+            const newItem = [showTimer, item[1]];
+            series[0].data.push([...newItem]);
+          });
+        } else {
+          yAxis = {
+            type: "value",
+            name: res.data?.history_y_unit,
+          };
+          xAxis = {
+            type: "category",
+
+            data: [],
+          };
+
+          res.data?.data.forEach((item: any[]) => {
+            const timer: number = Number(item[0]) * 1000;
+            xAxis.data.push(moment.utc(timer).format("YYYY-MM-DD HH:mm:ss"));
+            series[0].data.push(item[1]);
+          });
+        }
+        console.log("===33", xAxis, series, yAxis);
+        setShowName(res.data?.history_display_name);
         setEchartsOptions({
           xAxis: xAxis,
           series,
+          yAxis,
         });
       });
   };
@@ -109,7 +159,7 @@ export default () => {
   };
   return (
     <div className='ssv-content history-content'>
-      {/* <a href='mailto:981010623@qq.com'>到吴迪的邮箱</a> */}
+      <h3 className='title'>{showName}</h3>
       <div className='from-content history-card'>
         {data?.query_attr &&
           Object.keys(data?.query_attr)?.map((title: string, index: number) => {

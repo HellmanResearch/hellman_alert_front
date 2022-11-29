@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { rootState } from "@/type";
 import { loginSign } from "@/store/Server";
+import editSvg from "@/assets/images/edit.svg";
 
 export default () => {
   const login = JSON.parse(localStorage.getItem("login") || "{}").id;
@@ -70,6 +71,7 @@ export default () => {
             </span>
           );
         })}
+        {/* <img src={editSvg} alt='' /> */}
       </div>
       {login ? (
         <div className='wallet-logged default-border'>
