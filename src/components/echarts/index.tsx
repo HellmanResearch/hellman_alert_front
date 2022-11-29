@@ -39,10 +39,8 @@ export default ({ options }: { options?: Record<string, any> }) => {
           dataZoom: {
             type: "inside",
           },
-
           series: options?.series,
         });
-        console.log("===233", chart.getOption());
       } else {
         myCharts = echarts.init(echartsRef.current, "dark").setOption({
           grid: {

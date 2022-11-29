@@ -7,7 +7,6 @@ const twitter = (
     height='18px'
     viewBox='0 0 22 18'
     version='1.1'>
-    <title>Fill 1</title>
     <g id='页面-2' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
       <g
         id='切图'
@@ -31,7 +30,6 @@ const githup = (
     height='22px'
     viewBox='0 0 22 22'
     version='1.1'>
-    <title>路径</title>
     <g id='页面-2' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
       <g
         id='切图'
@@ -56,7 +54,6 @@ const discode = (
     height='19px'
     viewBox='0 0 25 19'
     version='1.1'>
-    <title>形状</title>
     <g id='页面-2' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
       <g
         id='切图'
@@ -81,7 +78,6 @@ const email = (
     height='17px'
     viewBox='0 0 23 17'
     version='1.1'>
-    <title>形状结合</title>
     <g id='页面-3' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
       <g
         id='切图'
@@ -106,7 +102,6 @@ const wallect_Metamask = (
     height='42px'
     viewBox='0 0 45 42'
     version='1.1'>
-    <title>MetaMask_Fox 2</title>
     <g
       id='页面-2'
       stroke='none'
@@ -207,7 +202,6 @@ const metric_logo = (
     height='40px'
     viewBox='0 0 40 40'
     version='1.1'>
-    <title>编组 9</title>
     <g id='页面-2' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
       <g
         id='切图'
@@ -246,7 +240,6 @@ const addIcon = (
     height='16px'
     viewBox='0 0 16 16'
     version='1.1'>
-    <title>形状</title>
     <g id='页面-2' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
       <g
         id='切图'
@@ -271,7 +264,6 @@ const discode_bg = (
     height='84px'
     viewBox='0 0 83 84'
     version='1.1'>
-    <title>编组 8</title>
     <defs>
       <polygon id='path-1' points='0 0 51.25 0 51.25 40 0 40' />
     </defs>
@@ -317,7 +309,6 @@ const email_bg = (
     height='84px'
     viewBox='0 0 83 84'
     version='1.1'>
-    <title>编组 9</title>
     <g id='页面-2' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
       <g id='切图' transform='translate(-795.000000, -160.000000)'>
         <g id='编组-9' transform='translate(795.000000, 160.000000)'>
@@ -354,7 +345,6 @@ const webhook_bg = (
     height='84px'
     viewBox='0 0 83 84'
     version='1.1'>
-    <title>编组 10</title>
     <g id='页面-2' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
       <g id='切图' transform='translate(-929.000000, -163.000000)'>
         <g id='编组-10' transform='translate(929.000000, 163.000000)'>
@@ -391,7 +381,6 @@ const update_svg = (
     height='16px'
     viewBox='0 0 17 16'
     version='1.1'>
-    <title>形状结合</title>
     <g id='页面-2' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
       <g
         id='切图'
@@ -416,7 +405,6 @@ const delete_svg = (
     height='16px'
     viewBox='0 0 16 16'
     version='1.1'>
-    <title>形状结合</title>
     <g id='页面-2' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
       <g
         id='切图'
@@ -441,7 +429,6 @@ const right_arrow = (
     height='36px'
     viewBox='0 0 36 36'
     version='1.1'>
-    <title>形状</title>
     <defs>
       <linearGradient x1='0%' y1='0%' x2='100%' y2='0%' id='linearGradient-1'>
         <stop stop-color='#D027FA' offset='0%' />
@@ -472,7 +459,6 @@ const confirm_right = (
     height='140px'
     viewBox='0 0 140 140'
     version='1.1'>
-    <title>编组</title>
     <g id='页面-3' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
       <g
         id='切图'
@@ -513,7 +499,6 @@ const confirm_error = (
     height='140px'
     viewBox='0 0 140 140'
     version='1.1'>
-    <title>编组 2</title>
     <g id='页面-3' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
       <g
         id='切图'

@@ -93,7 +93,6 @@ export default () => {
             series[0].data.push(item[1]);
           });
         }
-        console.log("===33", xAxis, series, yAxis);
         setShowName(res.data?.history_display_name);
         setEchartsOptions({
           xAxis: xAxis,
@@ -172,7 +171,7 @@ export default () => {
             );
           })}
       </div>
-      <Echarts options={options} />
+      <Echarts options={{ ...options }} />
     </div>
   );
 };

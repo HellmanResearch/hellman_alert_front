@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.d6fea53c.css",
-    "main.js": "/static/js/main.4bbe158a.js",
+    "main.js": "/static/js/main.c43d48e2.js",
     "vendor.css": "/static/css/vendor.0515bd34.css",
     "vendor.js": "/static/js/vendor.956cf458.js",
     "static/media/HelveticaBold.ttf": "/static/media/HelveticaBold.7042dc4eaeea8d5ba8f8.ttf",
@@ -11,7 +11,7 @@
     "static/media/logo.webp": "/static/media/logo.548c231f0cd23b2ba4d8.webp",
     "index.html": "/index.html",
     "main.d6fea53c.css.map": "/static/css/main.d6fea53c.css.map",
-    "main.4bbe158a.js.map": "/static/js/main.4bbe158a.js.map",
+    "main.c43d48e2.js.map": "/static/js/main.c43d48e2.js.map",
     "vendor.0515bd34.css.map": "/static/css/vendor.0515bd34.css.map",
     "vendor.956cf458.js.map": "/static/js/vendor.956cf458.js.map"
   },
@@ -19,6 +19,6 @@
     "static/css/vendor.0515bd34.css",
     "static/js/vendor.956cf458.js",
     "static/css/main.d6fea53c.css",
-    "static/js/main.4bbe158a.js"
+    "static/js/main.c43d48e2.js"
   ]
 }
