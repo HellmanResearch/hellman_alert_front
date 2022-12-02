@@ -11,6 +11,7 @@ import NoData from "@/components/noData";
 import Alert from "@/pages/alert";
 import Email from "@/pages/email";
 import { Suspense, useEffect } from "react";
+import { message } from "antd";
 
 export default () => {
   const public_key = useSelector(
@@ -29,7 +30,12 @@ export default () => {
         });
       }
     };
-    window.ethereum.on("accountsChanged", handleAccountsChanged);
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", handleAccountsChanged);
+    } else {
+      console.log("=不支持钱包");
+      //Notification.console.warn();
+    }
 
     // window.ethereum.on("chainChanged", (chainId: any) => {
     //   console.log("=chainId==2", chainId);
@@ -40,7 +46,12 @@ export default () => {
     //   // window.location.reload();
     // });
     return () => {
-      window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
+      if (window.ethereum) {
+        window.ethereum.removeListener(
+          "accountsChanged",
+          handleAccountsChanged
+        );
+      }
     };
   }, []);
 
