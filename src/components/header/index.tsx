@@ -1,8 +1,9 @@
 /** @format */
 
-import { Button } from "antd";
 import { Header } from "antd/lib/layout/layout";
 import { NavLink, useNavigate } from "react-router-dom";
+import { Tooltip } from "antd";
+import { FileTextOutlined } from "@ant-design/icons";
 import { defaultUrl, linkList, listLinkType } from "@/contanst";
 import logo from "@/assets/images/logo.webp";
 import { getSvg } from "@/svgTypes";
@@ -71,14 +72,24 @@ export default () => {
             </span>
           );
         })}
-        <img
-          src={editPng}
-          alt=''
-          style={{ width: 22, marginTop: -7 }}
-          onClick={() => {
-            window.open("https://forms.gle/fjFWvnYFVqf1TQ7s9");
-          }}
-        />
+        <Tooltip title='Feedback'>
+          <img
+            src={editPng}
+            alt=''
+            style={{ width: 22, marginTop: -7 }}
+            onClick={() => {
+              window.open("https://forms.gle/fjFWvnYFVqf1TQ7s9");
+            }}
+          />
+        </Tooltip>
+        <Tooltip title='Documentation'>
+          <FileTextOutlined
+            style={{ fontSize: 22, color: "#fff", marginTop: -7 }}
+            onClick={() => {
+              window.open("/docs");
+            }}
+          />
+        </Tooltip>
       </div>
       {login ? (
         <div className='wallet-logged default-border'>
