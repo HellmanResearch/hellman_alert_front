@@ -26,6 +26,7 @@ const ForkTsCheckerWebpackPlugin =
     : require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 //const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 const createEnvironmentHash = require('./webpack/persistentCache/createEnvironmentHash');
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
@@ -104,25 +105,6 @@ module.exports = function (webpackEnv) {
 
   const shouldUseReactRefresh = env.raw.FAST_REFRESH;
 
-//   // 获取当前ip
-//   function getIpAddress() {
-//   var ifaces=os.networkInterfaces()
-
-//   for (var dev in ifaces) {
-//     let iface = ifaces[dev]
-
-//     for (let i = 0; i < iface.length; i++) {
-//       let {family, address, internal} = iface[i]
-
-//       if (family === 'IPv4' && address !== '127.0.0.1' && !internal) {
-//         return address
-//       }
-//     }
-//   }
-// }
-
-// let ipAddress = getIpAddress()
-
   // common function to get style loaders
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
@@ -186,16 +168,16 @@ module.exports = function (webpackEnv) {
                   // postcss-px-to-viewport
                 // [
                 //   'postcss-px-to-viewport', {
-                //         unitToConvert: "px", // 要转化的单位       
-                //         viewportWidth: 1920, // UI设计稿的宽度       
-                //         unitPrecision: 6, // 转换后的精度，即小数点位数       
-                //         propList: ["*"], // 指定转换的css属性的单位，*代表全部css属性的单位都进行转换     
-                //         viewportUnit: "vw", // 指定需要转换成的视窗单位，默认vw       
-                //         fontViewportUnit: "vw", // 指定字体需要转换成的视窗单位，默认vw      selectorBlackList: ["wrap"], // 指定不转换为视窗单位的类名，       
-                //         minPixelValue: 1, // 默认值1，小于或等于1px则不进行转换       
-                //         mediaQuery: true, // 是否在媒体查询的css代码中也进行转换，默认false      
-                //         replace: true, // 是否转换后直接更换属性值       
-                //         exclude: [/node_modules/], // 设置忽略文件，用正则做目录名匹配 
+                //         unitToConvert: "px", // 要转化的单位       
+                //         viewportWidth: 1920, // UI设计稿的宽度       
+                //         unitPrecision: 6, // 转换后的精度，即小数点位数       
+                //         propList: ["*"], // 指定转换的css属性的单位，*代表全部css属性的单位都进行转换     
+                //         viewportUnit: "vw", // 指定需要转换成的视窗单位，默认vw       
+                //         fontViewportUnit: "vw", // 指定字体需要转换成的视窗单位，默认vw      selectorBlackList: ["wrap"], // 指定不转换为视窗单位的类名，       
+                //         minPixelValue: 1, // 默认值1，小于或等于1px则不进行转换       
+                //         mediaQuery: true, // 是否在媒体查询的css代码中也进行转换，默认false      
+                //         replace: true, // 是否转换后直接更换属性值       
+                //         exclude: [/node_modules/], // 设置忽略文件，用正则做目录名匹配 
                 //   }
                 //   ]
               ]
@@ -296,48 +278,45 @@ module.exports = function (webpackEnv) {
     infrastructureLogging: {
       level: 'none',
     },
-    
     optimization: {
-    //https://webpack.docschina.org/plugins/split-chunks-plugin/#optimization-splitchunks
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        default: {
-          name:'common',
-          minSize: 0, // 太小的公共文件也没必要拆分,这里做演示填了0
-          minChunks: 2,// 最小几次引用
-          priority: -20 // 决定分块的优先级顺序
-        },
-        vendor: {
-          name:'vendor',
-          test: /node_modules/,
-          priority: -10
-        }
-      }
-    },
       minimize: isEnvProduction,
       minimizer: [
         // This is only used in production mode
         new TerserPlugin({
-          //minify: TerserPlugin.uglifyJsMinify,
           terserOptions: {
             parse: {
+              // We want terser to parse ecma 8 code. However, we don't want it
+              // to apply any minification steps that turns valid ecma 5 code
+              // into invalid ecma 5 code. This is why the 'compress' and 'output'
+              // sections only apply transformations that are ecma 5 safe
+              // https://github.com/facebook/create-react-app/pull/4234
               ecma: 8,
             },
             compress: {
               ecma: 5,
               warnings: false,
+              // Disabled because of an issue with Uglify breaking seemingly valid code:
+              // https://github.com/facebook/create-react-app/issues/2376
+              // Pending further investigation:
+              // https://github.com/mishoo/UglifyJS2/issues/2011
               comparisons: false,
+              // Disabled because of an issue with Terser breaking valid code:
+              // https://github.com/facebook/create-react-app/issues/5250
+              // Pending further investigation:
+              // https://github.com/terser-js/terser/issues/120
               inline: 2,
             },
             mangle: {
               safari10: true,
             },
+            // Added for profiling in devtools
             keep_classnames: isEnvProductionProfile,
             keep_fnames: isEnvProductionProfile,
             output: {
               ecma: 5,
               comments: false,
+              // Turned on because emoji and regex is not minified properly using default
+              // https://github.com/facebook/create-react-app/issues/2488
               ascii_only: true,
             },
           },
@@ -345,6 +324,26 @@ module.exports = function (webpackEnv) {
         // This is only used in production mode
         new CssMinimizerPlugin(),
       ],
+        splitChunks: {
+      chunks: "all",
+      // chunks:"async" // 默认值 模块存在异步加载操作(import("文件")) 进行分离
+      // 最小值 默认值：20000B ~ 拆分出来的最小的包的大小是 大概20KB
+      minSize: 20,
+      maxSize: 40000,
+      minChunks: 1,
+      cacheGroups: {
+        // 第三方库 将匹配到的 node_modules下加载的库 都打包到vendors下面
+        vendors: {
+          test: /[\\\/]node_modules[\/\\]/,
+          filename: "[id]_vendors.js",
+        },
+         default: {
+          name:'common',
+          minChunks: 2,// 最小几次引用
+          priority: -20 // 决定分块的优先级顺序
+        },
+      },
+    },
     },
     resolve: {
       // This allows you to set a fallback for where webpack should look for modules.
@@ -617,13 +616,6 @@ module.exports = function (webpackEnv) {
         },
       ].filter(Boolean),
     },
-//      devServer:{
-//     proxy: {
-//       "/api": {
-//         target:ipAddress||process.env.REACT_APP_BASE_URL,
-//       },
-//     }
-// },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
@@ -651,16 +643,16 @@ module.exports = function (webpackEnv) {
             : undefined
         )
       ),
-      new webpack.IgnorePlugin({
-        resourceRegExp: /^\.\/locale$/,
-        contextRegExp: /moment$/
-      }),
-      // webpack.config.js
-    new webpack.IgnorePlugin({
-        resourceRegExp:/^\.\/lib\/chart\/(.)*/,
-        contextRegExp:/echarts$/,
-    }),
-      // Inlines the webpack runtime script. This script is too small to warrant
+    //   new webpack.IgnorePlugin({
+    //     resourceRegExp: /^\.\/locale$/,
+    //     contextRegExp: /moment$/
+    //   }),
+    //   // webpack.config.js
+    // new webpack.IgnorePlugin({
+    //     resourceRegExp:/^\.\/lib\/chart\/(.)*/,
+    //     contextRegExp:/echarts$/,
+    // }),
+          // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       // https://github.com/facebook/create-react-app/issues/5358
       isEnvProduction &&
@@ -699,7 +691,6 @@ module.exports = function (webpackEnv) {
           filename: 'static/css/[name].[contenthash:8].css',
           chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
         }),
-      
       // Generate an asset manifest file with the following content:
       // - "files" key: Mapping of all asset filenames to their corresponding
       //   output file so that tools can pick it up without having to parse

@@ -17,7 +17,10 @@ axios.interceptors.response.use(
     if (err.response?.status == 401) {
       message.warning('No permission to access resource');
     } else if (err.response?.status == 403) {
-      message.warning('Login expired, please login again');
+       notification.error({
+        message: 'Login expired',
+        description: `${err.response?.data?.detail || err.response?.data || err}`,
+      });
        //重新登录
          loginSign();
     } else {

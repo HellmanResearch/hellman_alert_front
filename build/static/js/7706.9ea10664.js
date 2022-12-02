@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkssv_front=self.webpackChunkssv_front||[]).push([[7706],{37706:function(n,e,c){c.d(e,{Ak:function(){return t},GD:function(){return u},KL:function(){return r},iv:function(){return s},vU:function(){return o}});var i=1;c(71118).Z.hasGlobalWindow&&(i=Math.max(window.devicePixelRatio||window.screen&&window.screen.deviceXDPI/window.screen.logicalXDPI||1,1));var r=i,t=.4,o="#333",u="#ccc",s="#eee"}}]);
+//# sourceMappingURL=7706.9ea10664.js.map

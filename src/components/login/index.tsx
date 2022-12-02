@@ -19,7 +19,7 @@ export default () => {
       window.open(`https://metamask.io/`);
     } else {
       // 链接钱包
-      window.ethereum
+      window?.ethereum
         .request({ method: "eth_requestAccounts" })
         .then((res: any) => {
           loginSign(res[0]).then((res: any) => {

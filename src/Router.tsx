@@ -34,17 +34,8 @@ export default () => {
       window.ethereum.on("accountsChanged", handleAccountsChanged);
     } else {
       console.log("=不支持钱包");
-      //Notification.console.warn();
     }
 
-    // window.ethereum.on("chainChanged", (chainId: any) => {
-    //   console.log("=chainId==2", chainId);
-
-    //   // Handle the new chain.
-    //   // Correctly handling chain changes can be complicated.
-    //   // We recommend reloading the page unless you have good reason not to.
-    //   // window.location.reload();
-    // });
     return () => {
       if (window.ethereum) {
         window.ethereum.removeListener(
