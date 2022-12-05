@@ -324,7 +324,7 @@ module.exports = function (webpackEnv) {
         // This is only used in production mode
         new CssMinimizerPlugin(),
       ],
-        splitChunks: {
+     splitChunks: {
       chunks: "all",
       // chunks:"async" // 默认值 模块存在异步加载操作(import("文件")) 进行分离
       // 最小值 默认值：20000B ~ 拆分出来的最小的包的大小是 大概20KB
@@ -643,6 +643,7 @@ module.exports = function (webpackEnv) {
             : undefined
         )
       ),
+      
     //   new webpack.IgnorePlugin({
     //     resourceRegExp: /^\.\/locale$/,
     //     contextRegExp: /moment$/
