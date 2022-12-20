@@ -2,7 +2,7 @@
 
 import { Header } from "antd/lib/layout/layout";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Tooltip } from "antd";
+import { Menu, Popover, Tooltip } from "antd";
 import { FileTextOutlined } from "@ant-design/icons";
 import { defaultUrl, linkList, listLinkType } from "@/contanst";
 import logo from "@/assets/images/logo.webp";
@@ -14,9 +14,12 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { rootState } from "@/type";
 import { loginSign } from "@/store/Server";
 import editPng from "@/assets/images/edit.png";
+import { spawn } from "child_process";
+import axios from "axios";
 
 export default () => {
   const login = JSON.parse(localStorage.getItem("login") || "{}").id;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const account = useSelector(
     (state: rootState) => state?.user.public_key,
@@ -25,9 +28,25 @@ export default () => {
   useEffect(() => {
     if (!login) {
       // 链接钱包
-      loginSign();
+      //loginSign();
     }
   }, []);
+
+  const handleOut = () => {
+    const data = JSON.parse(localStorage.getItem("login") || "");
+    console.log("===3", data);
+    axios
+      .post(`${defaultUrl}users/users/logout`, {
+        ...data,
+      })
+      .then((res) => {
+        //退出登录
+        dispatch({
+          type: "user/login",
+          payload: { cancel: true },
+        });
+      });
+  };
   return (
     <Header className='ssv-header'>
       <div
@@ -92,12 +111,21 @@ export default () => {
         </Tooltip>
       </div>
       {login ? (
-        <div className='wallet-logged default-border'>
-          <span className='icon'>{getSvg("wallect_Metamask")}</span>
-          <span className='text'>{`${String(account).slice(0, 6)}...${String(
-            account
-          ).slice(-4)}`}</span>
-        </div>
+        <Popover
+          overlayClassName='ssv-menu-popover'
+          content={
+            <>
+              <div onClick={handleOut}>Logout</div>
+            </>
+          }
+          trigger='click'>
+          <div className='wallet-logged default-border'>
+            <span className='icon'>{getSvg("wallect_Metamask")}</span>
+            <span className='text'>{`${String(account).slice(0, 6)}...${String(
+              account
+            ).slice(-4)}`}</span>
+          </div>
+        </Popover>
       ) : (
         <Login />
       )}

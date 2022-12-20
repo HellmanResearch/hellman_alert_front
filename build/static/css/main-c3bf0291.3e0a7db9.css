@@ -1,0 +1,124 @@
+.action-card .title {
+  font-size: 36px;
+  font-family: Helvetica-Bold;
+  font-weight: 700;
+}
+.action-card-content {
+  max-width: 1200px;
+  margin: auto;
+  width: 100%;
+  background: #161725;
+  border-radius: 40px;
+  overflow: auto;
+}
+.action-card-content-item {
+  display: flex;
+  align-items: center;
+  background: #252632;
+  padding: 24px 0px;
+  margin: 40px 30px;
+  border-radius: 10px;
+  -webkit-column-gap: 20px;
+          column-gap: 20px;
+  padding-left: 30%;
+}
+.action-card-content-item .img-svg {
+  display: block;
+  width: 83px;
+  text-align: left;
+}
+.action-card-content-item .item-text {
+  display: flex;
+  margin: 0px;
+  padding: 0px;
+  flex-direction: column;
+}
+.action-card-content-item .item-text .title {
+  font-size: 18px;
+  font-family: Helvetica-Bold;
+  font-weight: 700;
+}
+.action-card-content-item .item-text .text {
+  font-size: 16px;
+  font-family: Helvetica, Helvetica-Regular;
+  font-weight: 400;
+  text-align: left;
+  color: #898a92;
+}
+.action-modal-wrap .action-detail {
+  color: #ffffff;
+}
+.action-modal-wrap .action-detail-title {
+  display: flex;
+  align-items: center;
+  -webkit-column-gap: 12px;
+          column-gap: 12px;
+}
+.action-modal-wrap .action-detail-header {
+  margin-top: 20px;
+  padding: 0px;
+}
+.action-modal-wrap .action-detail-header .title {
+  font-size: 24px;
+  font-family: Helvetica-Bold;
+  font-weight: 700;
+  color: #fff;
+  margin: 0px;
+}
+.action-modal-wrap .action-detail-header .detail {
+  font-size: 18px;
+  font-family: Helvetica, Helvetica-Regular;
+  font-weight: 400;
+  text-align: left;
+  color: #898a92;
+}
+.action-modal-wrap .action-detail .action-modal-lable {
+  font-size: 18px;
+  font-family: Helvetica-Bold;
+  font-weight: 700;
+}
+
+.item-select-wrap {
+  background-color: #0E0E1A;
+}
+.item-select-wrap .ant-empty-description {
+  color: #fff;
+}
+.history-card {
+  width: 100%;
+  margin-bottom: 50px;
+  max-width: 1200px;
+}
+.history-card-item {
+  width: 1000px;
+  text-align: left;
+  margin: auto;
+}
+.history-card .item-title {
+  min-width: 200px;
+  text-align: right;
+}
+.history-card .item-content {
+  width: 80%;
+  max-width: 600px;
+  margin-left: 10px;
+}
+.history-content {
+  flex-direction: column;
+  padding: 20px;
+  background: #161725;
+  margin: auto;
+  border-radius: 60px;
+  max-width: 1200px;
+}
+.history-content .title {
+  width: 1000px;
+  color: #fff;
+  text-align: left;
+  margin-bottom: 30px;
+  font-weight: bolder;
+  font-size: 26px;
+}
+
+
+/*# sourceMappingURL=main-c3bf0291.3e0a7db9.css.map*/

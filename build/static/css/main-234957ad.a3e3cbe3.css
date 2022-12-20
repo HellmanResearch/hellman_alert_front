@@ -1,0 +1,238 @@
+.login-wallect .ant-modal-content {
+  background: #2e304c;
+  border-radius: 6px;
+}
+.login-wallect .ant-modal-content .ant-modal-body {
+  padding: 30px;
+  color: #fff;
+}
+.login-wallect .ant-modal-content .ant-modal-close-x {
+  font-size: 14px;
+  color: #fff;
+}
+.login-wallect-title {
+  font-size: 36px;
+  font-family: Helvetica-Bold;
+  font-weight: 700;
+  text-align: left;
+}
+.login-wallect-text {
+  margin: 0px;
+  padding: 0px;
+}
+.login-wallect .wallect-btn {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  margin-top: 80px;
+}
+.login-wallect .header-wallect-btn .icon {
+  display: inline-block;
+  line-height: inherit;
+  margin-top: 33%;
+}
+
+.ssv-header {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  height: 80px;
+  color: #ffffff;
+  background: #171822;
+  -webkit-column-gap: 100px;
+          column-gap: 100px;
+  align-items: center;
+}
+.ssv-header-logo {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  cursor: pointer;
+}
+.ssv-header-logo .logo_img {
+  width: 50px;
+}
+.ssv-header-logo .logo_text {
+  position: relative;
+  margin-left: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.ssv-header-logo .logo_text-test {
+  position: absolute;
+  top: -10px;
+  right: -32px;
+  font-size: 14px;
+}
+.ssv-header-router {
+  flex: 1 1;
+  display: flex;
+  font-size: 16px;
+  -webkit-column-gap: 40px;
+          column-gap: 40px;
+  font-family: Helvetica, Helvetica-Bold;
+  font-weight: 400;
+}
+.ssv-header-router a {
+  color: #898a92;
+}
+.ssv-header-router .active {
+  position: relative;
+  color: #fff;
+  font-weight: 700;
+}
+.ssv-header-router .active .link-item {
+  height: 100%;
+}
+.ssv-header-router .active-icon {
+  position: absolute;
+  top: 52px;
+  left: 0px;
+  width: 100%;
+  height: 3px;
+  background: #1ba5f8;
+  border-radius: 0px 0px 5px 5px;
+}
+.ssv-header-icons {
+  display: flex;
+  align-items: center;
+  -webkit-column-gap: 40px;
+          column-gap: 40px;
+  margin-top: 10px;
+}
+.wallet-logged {
+  display: flex;
+  align-items: center;
+  width: 130px;
+  height: 40px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 0px 10px;
+  font-size: 14px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.wallet-logged .icon {
+  display: inline-block;
+  height: inherit;
+}
+.wallet-logged .icon svg {
+  width: 20px;
+}
+.wallet-logged .text {
+  background: linear-gradient(90deg, #d027fa, #1ba5f8);
+  color: transparent;
+  -webkit-background-clip: text;
+          background-clip: text;
+  margin-left: 2px;
+}
+.ssv-menu-popover {
+  padding-top: 0px !important;
+  min-width: 120px;
+}
+.ssv-menu-popover .ant-popover-arrow {
+  display: none;
+}
+.ssv-menu-popover .ant-popover-inner-content {
+  padding: 8px 14px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #252632;
+}
+
+.ssv-footer {
+  display: flex;
+  background: #171822;
+  margin: auto;
+  width: 100%;
+  padding: 40px 270px;
+}
+.ssv-footer-left {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1;
+}
+.ssv-footer-left .ssv-footer-logo {
+  cursor: pointer;
+}
+.ssv-footer-left .ssv-footer-logo .logo_img {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.ssv-footer-left .ssv-footer-logo .logo_text {
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+.ssv-footer-left .ssv-footer-icons {
+  display: flex;
+  align-items: center;
+  -webkit-column-gap: 40px;
+          column-gap: 40px;
+  margin-top: 20px;
+}
+.ssv-footer-right {
+  display: flex;
+  justify-content: end;
+  flex: 1 1;
+}
+.ssv-footer-right .ssv-footer-router {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.ssv-footer-right .ssv-footer-router a {
+  color: #898a92;
+  font-size: 20px;
+}
+.ssv-footer-right .ssv-footer-router .active {
+  color: #fff;
+  font-weight: 700;
+}
+
+.ssv-noData {
+  display: flex;
+  width: 100%;
+  max-width: 1400px;
+  margin: auto;
+  background: #161725;
+  border-radius: 40px;
+  color: #898a92;
+  padding: 50px 100px;
+}
+.ssv-noData .left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 1;
+}
+.ssv-noData .left .title {
+  font-size: 48px;
+  font-family: Helvetica-Bold;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0px;
+  padding: 0px;
+}
+.ssv-noData .left .text {
+  margin: 0px;
+  padding: 0px;
+  font-size: 24px;
+}
+.ssv-noData .left .nodata-btn {
+  border-radius: 23px;
+  margin-top: 100px;
+}
+.ssv-noData .right {
+  flex: 1 1;
+  text-align: right;
+}
+
+
+/*# sourceMappingURL=main-234957ad.a3e3cbe3.css.map*/

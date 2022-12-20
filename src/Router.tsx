@@ -1,7 +1,7 @@
 /** @format */
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Routes, Route, useParams } from "react-router-dom";
+import { Routes, Route, useParams, useLocation } from "react-router-dom";
 import Metrics from "@/pages/metrics";
 import Subscribe from "@/pages/subscribes/addItem";
 import Subscribes from "@/pages/subscribes/";
@@ -19,7 +19,14 @@ export default () => {
     shallowEqual
   );
   const dispatch = useDispatch();
-
+  const params = useParams();
+  const location = useLocation();
+  console.log(
+    "=params==3",
+    params,
+    location,
+    location.pathname.includes("confirm")
+  );
   useEffect(() => {
     const handleAccountsChanged = (accounts: any, other: any) => {
       if (accounts.length === 0 || accounts[0] !== public_key) {
@@ -46,7 +53,7 @@ export default () => {
     };
   }, []);
 
-  if (!public_key) {
+  if (!public_key && !location.pathname.includes("confirm")) {
     return <NoData />;
   }
   return (
