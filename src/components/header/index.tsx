@@ -2,14 +2,14 @@
 
 import { Header } from "antd/lib/layout/layout";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Menu, Popover, Tooltip } from "antd";
+import { Menu, Popover, Modal, Tooltip, Button } from "antd";
 import { FileTextOutlined } from "@ant-design/icons";
 import { defaultUrl, linkList, listLinkType } from "@/contanst";
 import logo from "@/assets/images/logo.webp";
 import { getSvg } from "@/svgTypes";
 import Login from "../login";
 import "./index.less";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { rootState } from "@/type";
 import { loginSign } from "@/store/Server";
@@ -21,6 +21,8 @@ export default () => {
   const login = JSON.parse(localStorage.getItem("login") || "{}").id;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+  const [token, setToken] = useState("");
   const account = useSelector(
     (state: rootState) => state?.user.public_key,
     shallowEqual
@@ -111,24 +113,46 @@ export default () => {
         </Tooltip>
       </div>
       {login ? (
-        <Popover
-          overlayClassName='ssv-menu-popover'
-          content={
-            <>
-              <div onClick={handleOut}>Logout</div>
-            </>
-          }
-          trigger='click'>
-          <div className='wallet-logged default-border'>
-            <span className='icon'>{getSvg("wallect_Metamask")}</span>
-            <span className='text'>{`${String(account).slice(0, 6)}...${String(
-              account
-            ).slice(-4)}`}</span>
-          </div>
-        </Popover>
+        <div
+          className='wallet-logged default-border'
+          onClick={() => {
+            setShow(true);
+            axios.get(`${defaultUrl}users/users/token`).then((res) => {
+              setToken(res.data?.token || "");
+            });
+          }}>
+          <span className='icon'>{getSvg("wallect_Metamask")}</span>
+          <span className='text'>{`${String(account).slice(0, 6)}...${String(
+            account
+          ).slice(-4)}`}</span>
+        </div>
       ) : (
         <Login />
       )}
+      <Modal
+        open={show}
+        title=''
+        wrapClassName='ssv-modal'
+        onCancel={() => setShow(false)}
+        footer={null}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+          }}>
+          <p className='title' style={{ color: "#fff" }}>
+            API Token:
+            <span style={{ marginLeft: 10 }}>{token}</span>
+          </p>
+          <Button
+            className='default-btn'
+            style={{ marginTop: 20 }}
+            onClick={handleOut}>
+            Logout
+          </Button>
+        </div>
+      </Modal>
     </Header>
   );
 };
