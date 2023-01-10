@@ -2,7 +2,7 @@
 import logo from "@/assets/images/logo.webp";
 import { linkList, listLinkType } from "@/contanst";
 import { getSvg } from "@/svgTypes";
-import { FileTextOutlined } from "@ant-design/icons";
+import { FileTextOutlined, ApiOutlined } from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./index.less";
 import editPng from "@/assets/images/edit.png";
@@ -69,6 +69,12 @@ export default () => {
             style={{ fontSize: 22, color: "#fff", marginTop: -7 }}
             onClick={() => {
               window.open("/docs");
+            }}
+          />
+          <ApiOutlined
+            style={{ fontSize: 22, color: "#fff", marginTop: -7 }}
+            onClick={() => {
+              window.open("/swagger/");
             }}
           />
         </div>

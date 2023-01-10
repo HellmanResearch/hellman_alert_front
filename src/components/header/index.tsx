@@ -3,7 +3,7 @@
 import { Header } from "antd/lib/layout/layout";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Menu, Popover, Modal, Tooltip, Button } from "antd";
-import { FileTextOutlined } from "@ant-design/icons";
+import { FileTextOutlined, ApiOutlined } from "@ant-design/icons";
 import { defaultUrl, linkList, listLinkType } from "@/contanst";
 import logo from "@/assets/images/logo.webp";
 import { getSvg } from "@/svgTypes";
@@ -14,8 +14,9 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { rootState } from "@/type";
 import { loginSign } from "@/store/Server";
 import editPng from "@/assets/images/edit.png";
-import { spawn } from "child_process";
+import { DatePicker } from "antd";
 import axios from "axios";
+const { RangePicker } = DatePicker;
 
 export default () => {
   const login = JSON.parse(localStorage.getItem("login") || "{}").id;
@@ -36,7 +37,6 @@ export default () => {
 
   const handleOut = () => {
     const data = JSON.parse(localStorage.getItem("login") || "");
-    console.log("===3", data);
     axios
       .post(`${defaultUrl}users/users/logout`, {
         ...data,
@@ -93,6 +93,7 @@ export default () => {
             </span>
           );
         })}
+        {}
         <Tooltip title='Feedback'>
           <img
             src={editPng}
@@ -108,6 +109,14 @@ export default () => {
             style={{ fontSize: 22, color: "#fff", marginTop: -7 }}
             onClick={() => {
               window.open("/docs");
+            }}
+          />
+        </Tooltip>
+        <Tooltip title='API Swagger'>
+          <ApiOutlined
+            style={{ fontSize: 22, color: "#fff", marginTop: -7 }}
+            onClick={() => {
+              window.open("/swagger/");
             }}
           />
         </Tooltip>
