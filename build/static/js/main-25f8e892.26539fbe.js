@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkssv_front=self.webpackChunkssv_front||[]).push([[4652],{34070:function(e,t,n){var s=n(1250),o=n(89668),r=n(58983),c=n(95048),u=n(59091),f=n(80184);s.createRoot(document.getElementById("root")).render((0,f.jsx)(c.zt,{store:u.Z,children:(0,f.jsx)(o.Z,{})})),(0,r.Z)()},69520:function(){}}]);
+//# sourceMappingURL=main-25f8e892.26539fbe.js.map

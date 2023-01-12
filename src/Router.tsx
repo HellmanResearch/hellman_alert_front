@@ -21,12 +21,6 @@ export default () => {
   const dispatch = useDispatch();
   const params = useParams();
   const location = useLocation();
-  console.log(
-    "=params==3",
-    params,
-    location,
-    location.pathname.includes("confirm")
-  );
   useEffect(() => {
     const handleAccountsChanged = (accounts: any, other: any) => {
       if (accounts.length === 0 || accounts[0] !== public_key) {

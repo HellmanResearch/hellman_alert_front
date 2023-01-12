@@ -18,7 +18,8 @@ function App() {
   const dispath = useDispatch();
 
   useEffect(() => {
-    if (JSON.parse(localStorage.getItem("login") || "")?.id) {
+    const data = localStorage.getItem("login");
+    if (data && JSON?.parse(data)?.id) {
       axios
         .get(`${defaultUrl}users/users/self`)
         .then((res) => {
